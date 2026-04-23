@@ -1,0 +1,45 @@
+<div class="pokedex-container">
+
+  <!-- Fondo -->
+  <div class="pokemon-bg"></div>
+
+  <!-- Contenedor principal -->
+  <div class="pokedex-panel animate-in">
+
+    <!-- HEADER -->
+    <div class="pokedex-header">
+      <h1 class="title">POKÉDEX</h1>
+
+      <!-- BUSCADOR -->
+      <input 
+        type="text"
+        placeholder="Buscar Pokémon..."
+        [(ngModel)]="search"
+        (input)="filtrar()"
+        class="search-input"
+      >
+    </div>
+
+    <!-- GRID -->
+    <div class="pokemon-grid">
+
+      <div 
+        class="pokemon-card"
+        *ngFor="let poke of pokemonsFiltrados"
+      >
+        <div class="card-inner">
+
+          <img [src]="poke.imagen" class="pokemon-img">
+
+          <div class="pokemon-info">
+            <span class="pokemon-id">#{{ poke.id }}</span>
+            <h3 class="pokemon-name">{{ poke.nombre }}</h3>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
