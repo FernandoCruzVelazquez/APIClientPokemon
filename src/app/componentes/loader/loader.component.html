@@ -1,0 +1,32 @@
+<div class="overlay-container" *ngIf="pokemonService.loading$ | async">
+  <div class="pokemon-bg"></div>
+
+  <div class="loader-card shadow-lg p-5 animate-in">
+    <div class="pokeball-container mb-4">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" 
+           class="pokeball-spinner" alt="loading">
+    </div>
+
+    <h1 class="text-pokemon-yellow mb-3">¡PREPÁRATE PARA LA AVENTURA!</h1>
+    
+    <div class="status-badge mb-4">
+       <span class="pulse-dot"></span>
+       <span class="text-white status-text">Sincronizando datos...</span>
+    </div>
+    
+    <div class="progress-wrapper">
+      <div class="progress custom-progress-container">
+        <div 
+          class="progress-bar progress-bar-striped progress-bar-animated bg-pokemon-yellow-solid" 
+          role="progressbar"
+          [style.width.%]="pokemonService.progress$ | async"
+          [style.height.%]="100"> <span class="progress-text fw-bold">{{ pokemonService.progress$ | async }}%</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hint-text mt-4">
+      <p class="text-light italic">"Hazte con todos en tu colección..."</p>
+    </div>
+  </div>
+</div>
