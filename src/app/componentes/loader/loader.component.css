@@ -125,3 +125,36 @@
   font-size: 1rem;
   letter-spacing: 0.5px;
 }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+}
+
+.pokemon-hp {
+  color: #ff0000; 
+  font-weight: bold;
+}
+
+.ability-box {
+  background: #fdf6d8; 
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 8px;
+  text-align: left;
+  font-size: 0.8rem;
+  color: #333;
+  min-height: 60px;
+}
+
+.movement-text {
+  margin-top: 5px;
+  border-top: 1px solid #ccc;
+  padding-top: 5px;
+}
+
+.pokemon-name {
+  text-transform: capitalize;
+}
