@@ -19,7 +19,7 @@ export class PokemonService {
 
     this.loading$.next(true);
 
-    const total = 150;
+    const total = 1025;
     let listaPokes: any[] = [];
 
     for (let i = 1; i <= total; i++) {
