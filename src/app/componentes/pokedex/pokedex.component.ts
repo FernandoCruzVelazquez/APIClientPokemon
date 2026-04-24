@@ -27,10 +27,27 @@ export class PokedexComponent implements OnInit {
   }
 
   filtrar(): void {
-    const texto = this.search.toLowerCase().trim();
+    // 1. Si no hay nada escrito, mostramos todos y salimos
+    if (!this.search || this.search.trim() === '') {
+      this.pokemonsFiltrados = [...this.pokemons];
+      return;
+    }
 
-    this.pokemonsFiltrados = this.pokemons.filter(p =>
-      p.nombre.toLowerCase().includes(texto)
-    );
+    // 2. Convertimos a minúsculas y separamos por espacios para permitir búsquedas múltiples
+    // Ejemplo: "Fuego 4" -> ["fuego", "4"]
+    const terminos = this.search.toLowerCase().trim().split(/\s+/);
+
+    this.pokemonsFiltrados = this.pokemons.filter(p => {
+      // 3. Verificamos que el Pokémon cumpla con CADA uno de los términos escritos
+      return terminos.every(termino => {
+        const cumpleNombre = p.nombre.toLowerCase().includes(termino);
+        const cumpleId = p.id.toString() === termino;
+        const cumpleTipoEsp = p.tipoEsp.toLowerCase().includes(termino);
+        const cumpleTipoEng = p.tipoEng.toLowerCase().includes(termino);
+
+        // Si el término coincide con cualquiera de estos campos, es una coincidencia
+        return cumpleNombre || cumpleId || cumpleTipoEsp || cumpleTipoEng;
+      });
+    });
   }
 }

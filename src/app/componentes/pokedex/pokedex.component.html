@@ -1,45 +1,73 @@
 <div class="pokedex-container">
-
-  <!-- Fondo -->
   <div class="pokemon-bg"></div>
 
-  <!-- Contenedor principal -->
   <div class="pokedex-panel animate-in">
 
-    <!-- HEADER -->
     <div class="pokedex-header">
       <h1 class="title">POKÉDEX</h1>
-
-      <!-- BUSCADOR -->
-      <input 
-        type="text"
-        placeholder="Buscar Pokémon..."
-        [(ngModel)]="search"
-        (input)="filtrar()"
-        class="search-input"
-      >
+      <div class="search-wrapper">
+        <input 
+          type="text"
+          placeholder="Ej: 25, Fuego, Pikachu o Fuego 25..."
+          [(ngModel)]="search"
+          (input)="filtrar()"
+          class="search-input"
+        >
+      </div>
     </div>
 
-    <!-- GRID -->
     <div class="pokemon-grid">
-
       <div 
-        class="pokemon-card"
-        *ngFor="let poke of pokemonsFiltrados"
+        class="pokemon-card" 
+        *ngFor="let poke of pokemonsFiltrados" 
+        [ngClass]="poke.tipoEng"
       >
-        <div class="card-inner">
+      <div class="card-inner" [ngClass]="'type-' + poke.tipoEng">
 
-          <img [src]="poke.imagen" class="pokemon-img">
+          <div class="card-top-bar">
+            <div class="name-id">
+              <span class="card-rarity">POKEMON</span>
+              <h3 class="pokemon-name">{{ poke.nombre }}</h3>
+            </div>
+            <span class="pokemon-id">#{{ poke.id }}</span>
+          </div>
+
+          <div class="hp-section">
+            <span class="hp-label">HP</span>
+            <span class="hp-value">{{ poke.hp }}</span>
+          </div>
+
+          <div class="img-container">
+            <img 
+              [src]="poke.imagen" 
+              class="pokemon-img" 
+              [alt]="poke.nombre"
+              loading="lazy"
+            >
+          </div>
 
           <div class="pokemon-info">
-            <span class="pokemon-id">#{{ poke.id }}</span>
-            <h3 class="pokemon-name">{{ poke.nombre }}</h3>
+            <div class="ability-section">
+              <div class="ability-header">
+                <span class="ability-symbol">⭐</span>
+                <p class="ability-name">Habilidad: {{ poke.habilidad | titlecase }}</p>
+              </div>
+              <div class="ability-divider"></div>
+              <p class="ability-desc">
+                Movimiento principal: <strong>{{ poke.ataque | titlecase }}</strong>
+              </p>
+            </div>
+          </div>
+
+          <div class="card-footer-tcg">
+            <div class="footer-decor"></div>
+            <span class="type-badge">
+              {{ poke.tipoEsp }}
+            </span>
           </div>
 
         </div>
       </div>
-
     </div>
-
   </div>
 </div>
