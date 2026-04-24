@@ -1,0 +1,46 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <h2>Entrenador Login </h2>
+
+    <!-- Mensajes -->
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="alert alert-success" *ngIf="logoutMessage">
+      {{ logoutMessage }}
+    </div>
+
+    <!-- Formulario -->
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+
+      <div class="mb-3 text-start">
+        <label>Usuario del entrenador</label>
+        <input
+          type="text"
+          class="form-control"
+          name="username"
+          [(ngModel)]="username"
+          required
+        />
+      </div>
+
+      <div class="mb-3 text-start">
+        <label>Contraseña</label>
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="password"
+          required
+        />
+      </div>
+
+      <button class="btn btn-pokemon w-100" type="submit">
+        ¡PokéLogin!
+      </button>
+    </form>
+
+  </div>
+</div>
