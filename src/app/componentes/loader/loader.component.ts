@@ -23,7 +23,7 @@ export class LoaderComponent implements OnInit {
 
     this.pokemonService.loading$.subscribe(loading => {
       if (!loading) {
-        this.router.navigate(['/pokedex']);
+        this.router.navigate(['/login']);
       }
     });
   }
