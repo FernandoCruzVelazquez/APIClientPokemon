@@ -6,4 +6,5 @@ import { PokedexComponent } from './componentes/pokedex/pokedex.component';
 export const routes: Routes = [
     { path: '', component: LoaderComponent },
     { path: 'pokedex', component: PokedexComponent }
+
 ];
