@@ -1,36 +1,52 @@
 <div class="overlay-container">
   <div class="pokemon-bg-login"></div>
 
-  <div class="loader-card shadow-lg p-5 animate-in">
+  <div class="pokedex-frame animate-in shadow-lg">
     
-    <div class="login-image-container mb-4">
-      <img src="../../../assets/logo.png" class="img-fluid rounded-4 border-pokemon" alt="Login Adventure">
+    <div class="pokedex-header">
+      <div class="main-light-container">
+        <div class="light-big-blue pulse-blue"></div>
+      </div>
+      <div class="small-lights">
+        <span class="light-small red"></span>
+        <span class="light-small yellow"></span>
+        <span class="light-small green"></span>
+      </div>
     </div>
 
-    <h2 class="text-pokemon-yellow mb-4">¡ENTRENADOR LOGIN!</h2>
+    <div class="pokedex-screen">
+      <div class="screen-glass">
+        <img src="assets/logo.svg" class="img-fluid logo-pokedex" alt="Login Adventure">
+      </div>
+      <div class="screen-decor">
+        <span></span><span></span>
+      </div>
+    </div>
+
+    <h2 class="title-pixel">¡ENTRENADOR LOGIN!</h2>
 
     <div class="alert alert-pokemon-danger" *ngIf="errorMessage">
       {{ errorMessage }}
     </div>
 
-    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
-      <div class="mb-4 text-start">
-        <label class="text-white fw-bold mb-2">USUARIO DEL ENTRENADOR</label>
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="mt-3">
+      <div class="mb-3 text-start">
+        <label class="label-pixel">USUARIO DEL ENTRENADOR</label>
         <input
           type="text"
-          class="form-control custom-input"
+          class="form-control pokedex-input"
           name="username"
           [(ngModel)]="username"
-          placeholder="Ingresa tu usuario"
+          placeholder="Nombre de usuario"
           required
         />
       </div>
 
       <div class="mb-4 text-start">
-        <label class="text-white fw-bold mb-2">CONTRASEÑA</label>
+        <label class="label-pixel">CONTRASEÑA</label>
         <input
           type="password"
-          class="form-control custom-input"
+          class="form-control pokedex-input"
           name="password"
           [(ngModel)]="password"
           placeholder="••••••••"
@@ -38,13 +54,10 @@
         />
       </div>
 
-      <button class="btn btn-pokemon-action w-100" type="submit">
+      <button class="btn btn-pokedex-action w-100" type="submit">
         ¡POKÉLOGIN!
       </button>
     </form>
 
-    <div class="hint-text mt-4">
-      <p class="text-light italic">"Hazte con todos en tu colección..."</p>
-    </div>
   </div>
 </div>
