@@ -3,11 +3,14 @@ import { LoaderComponent } from './componentes/loader/loader.component';
 import { PokedexComponent } from './componentes/pokedex/pokedex.component';
 import { LoginComponent } from './componentes/login/login.component';
 import { LayoutComponent } from './componentes/layout/layout.component';
+import { DetallePokemonComponent } from './componentes/detalle-pokemon/detalle-pokemon.component';
  
 export const routes: Routes = [
   { path: '', component: LoaderComponent },
  
   { path: 'login', component: LoginComponent },
+
+  { path: 'pokemon/:id', component: DetallePokemonComponent },
  
       { path: 'pokedex', component: PokedexComponent },
       {path: 'usuarios', component: UsuarioGetAllComponent},

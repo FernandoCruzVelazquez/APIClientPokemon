@@ -660,14 +660,70 @@
 
 
 .stats-btn {
-  background: #3c5aa6; 
-  color: white;        
-  border: 1px solid #ffcb05; 
-  padding: 5px 8px;
-  border-radius: 5px;
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px; /* Cambiamos a cuadrado redondeado para estilo moderno */
+  background: linear-gradient(135deg, #606c88 0%, #3f4c6b 100%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #ffcb05;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* El brillo que recorre el botón */
+.btn-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    transparent, 
+    rgba(255, 203, 5, 0.3), 
+    transparent 20%
+  );
+  animation: rotateGlow 4s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+@keyframes rotateGlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.stats-btn:hover {
+  transform: translateY(-5px) scale(1.1);
+  border-color: #ffcb05;
+  box-shadow: 0 8px 25px rgba(255, 203, 5, 0.4);
+  color: white;
+}
+
+.stats-btn:hover .btn-glow {
+  opacity: 1;
 }
 
 .stats-btn i {
-  font-size: 1.2rem; 
+  font-size: 1.3rem;
+  z-index: 1;
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+}
+
+.stats-btn:active {
+  transform: scale(0.9);
+}
+
+.action-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+  padding: 0 10px;
+  justify-content: space-between;
+  align-items: center;
 }

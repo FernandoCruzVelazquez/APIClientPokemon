@@ -18,7 +18,7 @@ export class PokedexComponent implements OnInit {
   search: string = '';
 
   paginaActual: number = 1;
-  pokemonPorPagina: number = 24; 
+  pokemonPorPagina: number = 12; 
 
   constructor(private pokemonService: PokemonService) {}
 

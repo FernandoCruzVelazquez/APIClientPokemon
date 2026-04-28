@@ -53,15 +53,14 @@
               </p>
             </div>
             
-            <!-- CONTENEDOR DE ACCIONES ACTUALIZADO -->
             <div class="action-container">
               <button class="save-btn" (click)="onGuardar(poke)">
                 <span class="btn-icon">🔘</span> 
                 GUARDAR
               </button>
 
-              <!-- Botón de detalles con icono de gráfica -->
               <button class="stats-btn" [routerLink]="['/pokemon', poke.id]">
+                <div class="btn-glow"></div>
                 <i class="bi bi-graph-up"></i>
               </button>
             </div>
