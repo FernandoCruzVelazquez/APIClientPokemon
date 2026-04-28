@@ -36,7 +36,6 @@ export class PokemonService {
           this.http.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
         );
 
-        // --- CAMBIO AQUÍ: Mapeamos todos los tipos ---
         const listaTipos = data.types.map((t: any) => ({
           esp: traduccionTipos[t.type.name] || t.type.name,
           eng: t.type.name
@@ -47,7 +46,7 @@ export class PokemonService {
           nombre: data.name,
           imagen: data.sprites.other['official-artwork'].front_default,
           hp: data.stats[0].base_stat,
-          tipos: listaTipos, // Guardamos el arreglo completo
+          tipos: listaTipos, 
           habilidad: (data.abilities[0]?.ability.name || 'N/A').replace(/-/g, ' '),
           ataque: (data.moves[0]?.move.name || 'N/A').replace(/-/g, ' ')
         });

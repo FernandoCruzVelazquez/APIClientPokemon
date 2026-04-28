@@ -1,17 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@800&display=swap');
 
 .pokedex-container {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  overflow-y: visible;
   font-family: 'Exo 2', sans-serif;
+  padding-bottom: 50px;
 }
 
 .pokemon-bg {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-image: url('../../../assets/fondo1.png');
   background-size: cover;
   background-position: center;
@@ -43,7 +46,7 @@
   border: none;
   font-weight: bold;
   width: 250px;
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .pokemon-grid {
@@ -57,13 +60,13 @@
 }
 
 .card-inner {
-  background: linear-gradient(145deg, #f0d85a, #f8cf28); /* Dorado base TCG */
+  background: linear-gradient(145deg, #f0d85a, #f8cf28);
   border: 10px solid #222;
   border-radius: 12px;
   padding: 12px;
   position: relative;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
 
@@ -71,7 +74,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  border-bottom: 2px solid rgba(0,0,0,0.1);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   padding-bottom: 4px;
 }
 
@@ -121,14 +124,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .pokemon-img {
   width: 140px;
   height: 140px;
   object-fit: contain;
-  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
   transition: transform 0.3s ease;
 }
 
@@ -137,7 +140,7 @@
   border-radius: 6px;
   padding: 8px;
   min-height: 85px;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .ability-header {
@@ -146,7 +149,9 @@
   gap: 5px;
 }
 
-.ability-symbol { font-size: 0.8rem; }
+.ability-symbol {
+  font-size: 0.8rem;
+}
 
 .ability-name {
   font-size: 0.75rem;
@@ -156,7 +161,7 @@
 
 .ability-divider {
   height: 1px;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   margin: 6px 0;
 }
 
@@ -175,9 +180,11 @@
 
 .footer-decor {
   position: absolute;
-  top: 50%; left: 0; right: 0;
+  top: 50%;
+  left: 0;
+  right: 0;
   height: 1px;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
   z-index: 0;
 }
 
@@ -207,7 +214,7 @@
 .card-inner {
   position: relative;
   overflow: hidden;
-  background: #f4f4f4; /* Fondo base estático */
+  background: #f4f4f4;
   z-index: 1;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -215,7 +222,10 @@
 .card-inner::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: linear-gradient(135deg, #f0d85a 0%, #c61b1b 50%, #f0d85a 100%);
   background-size: 200% 200%;
   opacity: 0;
@@ -237,8 +247,13 @@
 }
 
 @keyframes shine {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
 }
 
 .animate-in {
@@ -247,8 +262,13 @@
 
 
 @keyframes shine {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
 }
 
 @property --color-1 {
@@ -267,18 +287,18 @@
   position: relative;
   overflow: hidden;
   z-index: 1;
-  background: linear-gradient(145deg, #e6c107, #d4b32f); 
+  background: linear-gradient(145deg, #e6c107, #d4b32f);
   border: 10px solid #222;
   border-radius: 12px;
   padding: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
 }
 
 
 .card-inner:hover {
   transform: translateY(-12px) rotateX(6deg) rotateY(2deg);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 .card-inner:hover::before {
@@ -291,73 +311,149 @@
 }
 
 @keyframes shine {
-  0% { background-position: -100% -100%; }
-  100% { background-position: 100% 100%; }
+  0% {
+    background-position: -100% -100%;
+  }
+
+  100% {
+    background-position: 100% 100%;
+  }
 }
 
-.card-inner.type-fire { --type-color: #e62201; --type-bg: #ff9a8d; }
-.card-inner.type-water { --type-color: #2980ef; --type-bg: #a1c8ff; }
-.card-inner.type-grass { --type-color: #3fa129; --type-bg: #92e08a; }
-.card-inner.type-electric { --type-color: #fac000; --type-bg: #ffeb91; }
-.card-inner.type-ice { --type-color: #3fd8ff; --type-bg: #d1f6ff; }
-.card-inner.type-fighting { --type-color: #994025; --type-bg: #e0927d; }
-.card-inner.type-poison { --type-color: #9141cb; --type-bg: #d6a1ff; }
-.card-inner.type-ground { --type-color: #915121; --type-bg: #d6a683; }
-.card-inner.type-flying { --type-color: #81b9ef; --type-bg: #caddf7; }
-.card-inner.type-psychic { --type-color: #ef4179; --type-bg: #ffb1cb; }
-.card-inner.type-bug { --type-color: #91a119; --type-bg: #d6e08d; }
-.card-inner.type-rock { --type-color: #afa981; --type-bg: #e0d9b5; }
-.card-inner.type-ghost { --type-color: #704170; --type-bg: #c29bc2; }
-.card-inner.type-dragon { --type-color: #5060e1; --type-bg: #a1aff5; }
-.card-inner.type-dark { --type-color: #50413f; --type-bg: #a19391; }
-.card-inner.type-steel { --type-color: #60a1b8; --type-bg: #bcd6e0; }
-.card-inner.type-fairy { --type-color: #ef70ef; --type-bg: #f5bcf5; }
-.card-inner.type-normal { --type-color: #9fa19f; --type-bg: #d1d1d1; }
+.card-inner.type-fire {
+  --type-color: #e62201;
+  --type-bg: #ff9a8d;
+}
+
+.card-inner.type-water {
+  --type-color: #2980ef;
+  --type-bg: #a1c8ff;
+}
+
+.card-inner.type-grass {
+  --type-color: #3fa129;
+  --type-bg: #92e08a;
+}
+
+.card-inner.type-electric {
+  --type-color: #fac000;
+  --type-bg: #ffeb91;
+}
+
+.card-inner.type-ice {
+  --type-color: #3fd8ff;
+  --type-bg: #d1f6ff;
+}
+
+.card-inner.type-fighting {
+  --type-color: #994025;
+  --type-bg: #e0927d;
+}
+
+.card-inner.type-poison {
+  --type-color: #9141cb;
+  --type-bg: #d6a1ff;
+}
+
+.card-inner.type-ground {
+  --type-color: #915121;
+  --type-bg: #d6a683;
+}
+
+.card-inner.type-flying {
+  --type-color: #81b9ef;
+  --type-bg: #caddf7;
+}
+
+.card-inner.type-psychic {
+  --type-color: #ef4179;
+  --type-bg: #ffb1cb;
+}
+
+.card-inner.type-bug {
+  --type-color: #91a119;
+  --type-bg: #d6e08d;
+}
+
+.card-inner.type-rock {
+  --type-color: #afa981;
+  --type-bg: #e0d9b5;
+}
+
+.card-inner.type-ghost {
+  --type-color: #704170;
+  --type-bg: #c29bc2;
+}
+
+.card-inner.type-dragon {
+  --type-color: #5060e1;
+  --type-bg: #a1aff5;
+}
+
+.card-inner.type-dark {
+  --type-color: #50413f;
+  --type-bg: #a19391;
+}
+
+.card-inner.type-steel {
+  --type-color: #60a1b8;
+  --type-bg: #bcd6e0;
+}
+
+.card-inner.type-fairy {
+  --type-color: #ef70ef;
+  --type-bg: #f5bcf5;
+}
+
+.card-inner.type-normal {
+  --type-color: #9fa19f;
+  --type-bg: #d1d1d1;
+}
 
 .type-badge {
-  background: var(--type-color, #222); 
+  background: var(--type-color, #222);
   color: #fff;
   padding: 3px 12px;
   border-radius: 15px;
   font-size: 0.65rem;
   z-index: 1;
   text-transform: uppercase;
-  border: 1.5px solid #ffffff; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .img-container {
-  background: var(--type-bg, #fff); 
+  background: var(--type-bg, #fff);
   border: 4px solid var(--type-color, #888);
-  
-  height: 180px; 
+
+  height: 180px;
   margin: 8px 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible; 
+  overflow: visible;
   position: relative;
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .pokemon-img {
-  width: 170px;  
+  width: 170px;
   height: 170px;
   object-fit: contain;
-  filter: drop-shadow(2px 8px 10px rgba(0,0,0,0.4));
+  filter: drop-shadow(2px 8px 10px rgba(0, 0, 0, 0.4));
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 2; 
+  z-index: 2;
 }
 
 .card-inner:hover .pokemon-img {
-  transform: scale(1.25) translateY(-10px); 
-  filter: drop-shadow(2px 12px 15px rgba(0,0,0,0.5));
+  transform: scale(1.25) translateY(-10px);
+  filter: drop-shadow(2px 12px 15px rgba(0, 0, 0, 0.5));
 }
 
 .pokedex-header {
   display: flex;
-  flex-direction: column; 
-  align-items: center;    
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
   margin-bottom: 40px;
   width: 100%;
@@ -365,7 +461,7 @@
 
 .search-wrapper {
   width: 100%;
-  max-width: 500px; 
+  max-width: 500px;
   display: flex;
   justify-content: center;
 }
@@ -377,7 +473,7 @@
   border-radius: 50px;
   border: 4px solid #222;
   background: white;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   outline: none;
   transition: all 0.3s ease;
 }
@@ -394,15 +490,13 @@
   inset: 0;
   border-radius: 12px;
 
-  background: linear-gradient(
-    120deg,
-    transparent 20%,
-    rgba(255,255,255,0.6) 35%,
-    rgba(0,255,255,0.25) 45%,
-    rgba(255,0,255,0.25) 55%,
-    rgba(255,255,0,0.25) 65%,
-    transparent 80%
-  );
+  background: linear-gradient(120deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.6) 35%,
+      rgba(0, 255, 255, 0.25) 45%,
+      rgba(255, 0, 255, 0.25) 55%,
+      rgba(255, 255, 0, 0.25) 65%,
+      transparent 80%);
 
   opacity: 0;
   mix-blend-mode: overlay;
@@ -419,6 +513,7 @@
   0% {
     background-position: -150% 0;
   }
+
   100% {
     background-position: 150% 0;
   }
@@ -431,12 +526,10 @@
   left: -120%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255,255,255,0.8),
-    transparent
-  );
+  background: linear-gradient(120deg,
+      transparent,
+      rgba(255, 255, 255, 0.8),
+      transparent);
   transform: skewX(-25deg);
   pointer-events: none;
 }
