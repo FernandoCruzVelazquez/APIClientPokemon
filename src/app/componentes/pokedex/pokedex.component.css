@@ -596,3 +596,78 @@
   font-size: 1.4rem;
   color: #ffcb05;
 }
+
+
+
+.action-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.save-btn {
+  background: #3c5aa6; 
+  color: #ffcb05; 
+  border: 2px solid #ffcb05;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-family: 'Exo 2', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.save-btn:hover {
+  transform: scale(1.05);
+  background: #2a448a;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+
+.save-btn:active {
+  transform: scale(0.95);
+}
+
+.btn-icon {
+  font-size: 1rem;
+}
+
+.types-wrapper {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.type-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+.fire { background-color: #ff4422; }
+.water { background-color: #3399ff; }
+.grass { background-color: #77cc55; }
+.poison { background-color: #aa5599; }
+.flying { background-color: #8899ff; }
+
+
+.stats-btn {
+  background: #3c5aa6; 
+  color: white;        
+  border: 1px solid #ffcb05; 
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.stats-btn i {
+  font-size: 1.2rem; 
+}
