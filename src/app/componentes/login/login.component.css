@@ -1,4 +1,4 @@
-/* Contenedor principal que centra todo */
+/* Contenedor Principal */
 .overlay-container {
   position: fixed;
   top: 0; left: 0;
@@ -7,52 +7,141 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  font-family: 'Exo 2', sans-serif;
+  overflow: hidden;
 }
 
-/* Fondo personalizado */
+/* Fondo Pixel Art */
 .pokemon-bg-login {
   position: absolute;
   width: 100%; height: 100%;
-  background-image: url('../../../assets/login3.png'); 
+  background-image: url('../../../assets/login.jpg'); 
   background-size: cover;
   background-position: center;
   z-index: -1;
+  filter: brightness(0.7); /* Oscurece un poco para que resalte la Pokedex */
 }
 
-/* Ajuste de la imagen interna del login */
-.login-image-container img {
-  max-height: 180px;
-  border: 4px solid #222;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+/* Cuerpo de la Pokédex */
+.pokedex-frame {
+  background: #dc0a2d;
+  width: 100%;
+  max-width: 400px;
+  border: 6px solid #5e0514;
+  border-radius: 20px 20px 60px 20px;
+  padding: 25px;
+  position: relative;
+  box-shadow: 15px 15px 0px rgba(0, 0, 0, 0.4);
 }
 
-/* Estilo de los inputs para que no se vean blancos simples */
-.custom-input {
-  background-color: rgba(0, 0, 0, 0.7) !important;
-  border: 3px solid #222 !important;
-  border-radius: 15px !important;
-  color: #FFCB05 !important;
-  padding: 12px;
+/* Luces Superiores */
+.pokedex-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 15px;
 }
 
-.custom-input::placeholder {
-  color: rgba(255, 203, 5, 0.4);
+.light-big-blue {
+  width: 50px; height: 50px;
+  background: radial-gradient(circle, #00afff 30%, #0055ff 100%);
+  border: 4px solid white;
+  border-radius: 50%;
 }
 
-/* Botón Pokémon */
-.btn-pokemon-action {
-  background-color: #FFCB05;
-  color: #000;
-  border: 4px solid #111;
-  border-radius: 50px;
+.pulse-blue {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 175, 255, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(0, 175, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 175, 255, 0); }
+}
+
+.small-lights { display: flex; gap: 8px; margin-top: 5px; }
+.light-small { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #5e0514; }
+.red { background: #ff0000; }
+.yellow { background: #ffcc00; }
+.green { background: #00ff00; }
+
+/* Pantalla del Logo */
+.pokedex-screen {
+  background: #dedede;
+  border: 4px solid #555;
+  border-radius: 10px 10px 10px 40px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.screen-glass {
+  background: #0e0b0b; /* Fondo negro de pantalla apagada */
+  border-radius: 5px;
+  min-height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-pokedex {
+  max-height: 100px;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+/* Tipografía y Etiquetas */
+.title-pixel {
+  color: #ffcb05;
+  font-size: 1.4rem;
   font-weight: 800;
-  padding: 10px;
-  text-transform: uppercase;
-  box-shadow: 0 5px 0 #b38f00;
+  text-shadow: 3px 3px 0px #3c5aa6;
+  margin-bottom: 20px;
 }
 
-.btn-pokemon-action:hover {
+.label-pixel {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Inputs Estilo Terminal */
+.pokedex-input {
+  background-color: #f0f0f0 !important;
+  border: 3px solid #333 !important;
+  border-radius: 5px !important;
+  font-weight: bold;
+  color: #333 !important;
+}
+
+.pokedex-input:focus {
+  border-color: #3c5aa6 !important;
+  box-shadow: none;
+}
+
+/* Botón con Efecto de Presión */
+.btn-pokedex-action {
+  background-color: #ffcb05;
+  color: #3c5aa6;
+  border: none;
+  border-bottom: 6px solid #c7a008;
+  border-radius: 10px;
+  font-weight: 900;
+  font-size: 1.1rem;
+  padding: 12px;
+  transition: all 0.1s;
+}
+
+.btn-pokedex-action:hover {
   background-color: #ffe066;
-  transform: translateY(-2px);
+}
+
+.btn-pokedex-action:active {
+  border-bottom: 2px solid #c7a008;
+  transform: translateY(4px);
+}
+
+.footer-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  font-style: italic;
 }

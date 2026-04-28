@@ -8,7 +8,7 @@
       <div class="search-wrapper">
         <input 
           type="text"
-          placeholder="Ej: 25, Fuego, Pikachu o Fuego 25..."
+          placeholder="Ej: Pikachu, Fuego, 25..."
           [(ngModel)]="search"
           (input)="filtrar()"
           class="search-input"
@@ -16,17 +16,17 @@
       </div>
     </div>
 
+    <!-- Grid actualizado con pokemonsPaginados -->
     <div class="pokemon-grid">
       <div 
         class="pokemon-card" 
-        *ngFor="let poke of pokemonsFiltrados" 
+        *ngFor="let poke of pokemonsPaginados" 
         [ngClass]="poke.tipoEng"
       >
-      <div class="card-inner" [ngClass]="'type-' + poke.tipoEng">
-
+        <div class="card-inner" [ngClass]="'type-' + poke.tipoEng">
           <div class="card-top-bar">
             <div class="name-id">
-              <span class="card-rarity">POKEMON</span>
+              <span class="card-rarity">POKÉMON</span>
               <h3 class="pokemon-name">{{ poke.nombre }}</h3>
             </div>
             <span class="pokemon-id">#{{ poke.id }}</span>
@@ -38,12 +38,7 @@
           </div>
 
           <div class="img-container">
-            <img 
-              [src]="poke.imagen" 
-              class="pokemon-img" 
-              [alt]="poke.nombre"
-              loading="lazy"
-            >
+            <img [src]="poke.imagen" class="pokemon-img" [alt]="poke.nombre" loading="lazy">
           </div>
 
           <div class="pokemon-info">
@@ -54,20 +49,40 @@
               </div>
               <div class="ability-divider"></div>
               <p class="ability-desc">
-                Movimiento principal: <strong>{{ poke.ataque | titlecase }}</strong>
+                Movimiento: <strong>{{ poke.ataque | titlecase }}</strong>
               </p>
             </div>
           </div>
 
           <div class="card-footer-tcg">
             <div class="footer-decor"></div>
-            <span class="type-badge">
-              {{ poke.tipoEsp }}
-            </span>
+            <span class="type-badge">{{ poke.tipoEsp }}</span>
           </div>
-
         </div>
       </div>
     </div>
+
+    <div class="pagination-wrapper" *ngIf="totalPaginas > 1">
+      <button 
+        class="pagination-btn" 
+        (click)="cambiarPagina(paginaActual - 1)" 
+        [disabled]="paginaActual === 1">
+        ◀
+      </button>
+
+      <div class="pagination-info">
+        <span>ENTRENADOR, PÁGINA</span>
+        <strong class="current-page">{{ paginaActual }}</strong>
+        <span>DE {{ totalPaginas }}</span>
+      </div>
+
+      <button 
+        class="pagination-btn" 
+        (click)="cambiarPagina(paginaActual + 1)" 
+        [disabled]="paginaActual === totalPaginas">
+        ▶
+      </button>
+    </div>
+
   </div>
 </div>

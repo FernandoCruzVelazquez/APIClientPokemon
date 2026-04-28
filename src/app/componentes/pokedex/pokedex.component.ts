@@ -13,26 +13,45 @@ import { PokemonService } from '../../services/pokemon.service';
 export class PokedexComponent implements OnInit {
 
   pokemons: any[] = [];
-
   pokemonsFiltrados: any[] = [];
-
   search: string = '';
+
+  paginaActual: number = 1;
+  pokemonPorPagina: number = 12; 
 
   constructor(private pokemonService: PokemonService) {}
 
   ngOnInit(): void {
     this.pokemons = this.pokemonService.obtenerPokemons();
-
     this.pokemonsFiltrados = [...this.pokemons];
   }
 
+
+  get pokemonsPaginados() {
+    const inicio = (this.paginaActual - 1) * this.pokemonPorPagina;
+    const fin = inicio + this.pokemonPorPagina;
+    return this.pokemonsFiltrados.slice(inicio, fin);
+  }
+
+  get totalPaginas(): number {
+    return Math.ceil(this.pokemonsFiltrados.length / this.pokemonPorPagina);
+  }
+
+  cambiarPagina(nuevaPagina: number) {
+    if (nuevaPagina >= 1 && nuevaPagina <= this.totalPaginas) {
+      this.paginaActual = nuevaPagina;
+      window.scrollTo(0, 0); 
+    }
+  }
+
   filtrar(): void {
+    this.paginaActual = 1; 
+
     if (!this.search || this.search.trim() === '') {
       this.pokemonsFiltrados = [...this.pokemons];
       return;
     }
 
-  
     const terminos = this.search.toLowerCase().trim().split(/\s+/);
 
     this.pokemonsFiltrados = this.pokemons.filter(p => {
