@@ -16,14 +16,15 @@
       </div>
     </div>
 
-    <!-- Grid actualizado con pokemonsPaginados -->
     <div class="pokemon-grid">
       <div 
         class="pokemon-card" 
         *ngFor="let poke of pokemonsPaginados" 
-        [ngClass]="poke.tipoEng"
+        [ngClass]="poke.tipos[0].eng"
       >
-        <div class="card-inner" [ngClass]="'type-' + poke.tipoEng">
+        <!-- El color de la carta lo define el tipo principal (el primero) -->
+        <div class="card-inner" [ngClass]="'type-' + poke.tipos[0].eng">
+          
           <div class="card-top-bar">
             <div class="name-id">
               <span class="card-rarity">POKÉMON</span>
@@ -56,12 +57,22 @@
 
           <div class="card-footer-tcg">
             <div class="footer-decor"></div>
-            <span class="type-badge">{{ poke.tipoEsp }}</span>
+            <!-- Contenedor para múltiples tipos -->
+            <div class="types-wrapper">
+              <span 
+                *ngFor="let t of poke.tipos" 
+                class="type-badge" 
+                [ngClass]="t.eng"
+              >
+                {{ t.esp }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Paginación -->
     <div class="pagination-wrapper" *ngIf="totalPaginas > 1">
       <button 
         class="pagination-btn" 

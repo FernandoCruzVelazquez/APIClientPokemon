@@ -26,7 +26,6 @@ export class PokedexComponent implements OnInit {
     this.pokemonsFiltrados = [...this.pokemons];
   }
 
-
   get pokemonsPaginados() {
     const inicio = (this.paginaActual - 1) * this.pokemonPorPagina;
     const fin = inicio + this.pokemonPorPagina;
@@ -58,10 +57,14 @@ export class PokedexComponent implements OnInit {
       return terminos.every(termino => {
         const cumpleNombre = p.nombre.toLowerCase().includes(termino);
         const cumpleId = p.id.toString() === termino;
-        const cumpleTipoEsp = p.tipoEsp.toLowerCase().includes(termino);
-        const cumpleTipoEng = p.tipoEng.toLowerCase().includes(termino);
+        
+        // Ahora buscamos en el arreglo de tipos (español e inglés)
+        const cumpleTipo = p.tipos.some((t: any) => 
+          t.esp.toLowerCase().includes(termino) || 
+          t.eng.toLowerCase().includes(termino)
+        );
 
-        return cumpleNombre || cumpleId || cumpleTipoEsp || cumpleTipoEng;
+        return cumpleNombre || cumpleId || cumpleTipo;
       });
     });
   }

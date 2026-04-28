@@ -13,14 +13,12 @@ export class PokemonService {
 
   async cargarPokemonLocal() {
     const cachedData = localStorage.getItem(this.STORAGE_KEY);
-    
     if (cachedData) {
       this.loading$.next(false);
       return;
     }
 
     this.loading$.next(true);
-
     const total = 1025;
     let listaPokes: any[] = [];
 
@@ -38,15 +36,18 @@ export class PokemonService {
           this.http.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
         );
 
-        const tipoIngles = data.types[0].type.name;
+        // --- CAMBIO AQUÍ: Mapeamos todos los tipos ---
+        const listaTipos = data.types.map((t: any) => ({
+          esp: traduccionTipos[t.type.name] || t.type.name,
+          eng: t.type.name
+        }));
 
         listaPokes.push({
           id: data.id,
           nombre: data.name,
           imagen: data.sprites.other['official-artwork'].front_default,
           hp: data.stats[0].base_stat,
-          tipoEsp: traduccionTipos[tipoIngles] || tipoIngles, 
-          tipoEng: tipoIngles,
+          tipos: listaTipos, // Guardamos el arreglo completo
           habilidad: (data.abilities[0]?.ability.name || 'N/A').replace(/-/g, ' '),
           ataque: (data.moves[0]?.move.name || 'N/A').replace(/-/g, ' ')
         });
