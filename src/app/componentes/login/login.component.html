@@ -1,46 +1,50 @@
-<div class="login-container">
-  <div class="login-card">
+<div class="overlay-container">
+  <div class="pokemon-bg-login"></div>
 
-    <h2>Entrenador Login </h2>
+  <div class="loader-card shadow-lg p-5 animate-in">
+    
+    <div class="login-image-container mb-4">
+      <img src="../../../assets/logo.png" class="img-fluid rounded-4 border-pokemon" alt="Login Adventure">
+    </div>
 
-    <!-- Mensajes -->
-    <div class="alert alert-danger" *ngIf="errorMessage">
+    <h2 class="text-pokemon-yellow mb-4">¡ENTRENADOR LOGIN!</h2>
+
+    <div class="alert alert-pokemon-danger" *ngIf="errorMessage">
       {{ errorMessage }}
     </div>
 
-    <div class="alert alert-success" *ngIf="logoutMessage">
-      {{ logoutMessage }}
-    </div>
-
-    <!-- Formulario -->
     <form (ngSubmit)="onLogin()" #loginForm="ngForm">
-
-      <div class="mb-3 text-start">
-        <label>Usuario del entrenador</label>
+      <div class="mb-4 text-start">
+        <label class="text-white fw-bold mb-2">USUARIO DEL ENTRENADOR</label>
         <input
           type="text"
-          class="form-control"
+          class="form-control custom-input"
           name="username"
           [(ngModel)]="username"
+          placeholder="Ingresa tu usuario"
           required
         />
       </div>
 
-      <div class="mb-3 text-start">
-        <label>Contraseña</label>
+      <div class="mb-4 text-start">
+        <label class="text-white fw-bold mb-2">CONTRASEÑA</label>
         <input
           type="password"
-          class="form-control"
+          class="form-control custom-input"
           name="password"
           [(ngModel)]="password"
+          placeholder="••••••••"
           required
         />
       </div>
 
-      <button class="btn btn-pokemon w-100" type="submit">
-        ¡PokéLogin!
+      <button class="btn btn-pokemon-action w-100" type="submit">
+        ¡POKÉLOGIN!
       </button>
     </form>
 
+    <div class="hint-text mt-4">
+      <p class="text-light italic">"Hazte con todos en tu colección..."</p>
+    </div>
   </div>
 </div>

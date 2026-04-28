@@ -1,52 +1,58 @@
-body {
-  background: linear-gradient(135deg, #ffcb05, #3b4cca);
-}
-
-.login-container {
-  height: 100vh;
+/* Contenedor principal que centra todo */
+.overlay-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
+  z-index: 1000;
+  font-family: 'Exo 2', sans-serif;
 }
 
-.login-card {
-  background: white;
-  padding: 40px;
-  border-radius: 20px;
-  width: 100%;
-  max-width: 380px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  border: 4px solid #ffcb05;
+/* Fondo personalizado */
+.pokemon-bg-login {
+  position: absolute;
+  width: 100%; height: 100%;
+  background-image: url('../../../assets/login3.png'); 
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
 }
 
-h2 {
-  color: #3b4cca;
-  margin-bottom: 20px;
-  font-weight: bold;
+/* Ajuste de la imagen interna del login */
+.login-image-container img {
+  max-height: 180px;
+  border: 4px solid #222;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-.form-control {
-  border-radius: 10px;
-  border: 2px solid #ddd;
+/* Estilo de los inputs para que no se vean blancos simples */
+.custom-input {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  border: 3px solid #222 !important;
+  border-radius: 15px !important;
+  color: #FFCB05 !important;
+  padding: 12px;
 }
 
-.form-control:focus {
-  border-color: #ff0000;
-  box-shadow: none;
+.custom-input::placeholder {
+  color: rgba(255, 203, 5, 0.4);
 }
 
-.btn-pokemon {
-  background: #ff0000;
-  color: white;
-  font-weight: bold;
-  border-radius: 12px;
-  border: none;
-  transition: 0.3s;
+/* Botón Pokémon */
+.btn-pokemon-action {
+  background-color: #FFCB05;
+  color: #000;
+  border: 4px solid #111;
+  border-radius: 50px;
+  font-weight: 800;
+  padding: 10px;
+  text-transform: uppercase;
+  box-shadow: 0 5px 0 #b38f00;
 }
 
-.btn-pokemon:hover {
-  background: #cc0000;
-  transform: scale(1.05);
+.btn-pokemon-action:hover {
+  background-color: #ffe066;
+  transform: translateY(-2px);
 }
