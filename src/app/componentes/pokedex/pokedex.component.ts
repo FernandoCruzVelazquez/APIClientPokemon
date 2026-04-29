@@ -58,7 +58,6 @@ export class PokedexComponent implements OnInit {
         const cumpleNombre = p.nombre.toLowerCase().includes(termino);
         const cumpleId = p.id.toString() === termino;
         
-        // Ahora buscamos en el arreglo de tipos (español e inglés)
         const cumpleTipo = p.tipos.some((t: any) => 
           t.esp.toLowerCase().includes(termino) || 
           t.eng.toLowerCase().includes(termino)

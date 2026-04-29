@@ -1,0 +1,38 @@
+.navbar-custom {
+    background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #fff !important;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    color: #ddd !important;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #fff !important;
+    transform: translateY(-2px);
+}
+
+.user-box {
+    color: #fff;
+    margin-right: 15px;
+    font-weight: 500;
+}
+
+.logout-btn {
+    border-radius: 20px;
+    padding: 6px 15px;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #dc3545;
+    color: white;
+}

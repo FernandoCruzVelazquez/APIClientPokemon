@@ -1,0 +1,50 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            
+            <a class="navbar-brand" routerLink="/home">
+                <i class="bi bi-code-slash"></i> MiSistema
+            </a>
+
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        
+                        <a class="nav-link" routerLink="/pokedex" routerLinkActive="active">
+                            <i class="bi bi-house"></i> Pokedexx
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/features" routerLinkActive="active">
+                            <i class="bi bi-gear"></i> Features
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center">
+                    <div class="user-box">
+                        <i class="bi bi-person-circle"></i>
+                        Bienvenido
+                    </div>
+
+
+                    <button type="button" (click)="onLogout()" class="btn btn-outline-light logout-btn">
+                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="container mt-4">
+    <router-outlet></router-outlet>
+</main>
+
+<footer class="text-center mt-5 p-3 bg-dark text-light">
+    © Digis01 Soluciones Digitales
+</footer>

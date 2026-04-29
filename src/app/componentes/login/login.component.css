@@ -1,4 +1,4 @@
-/* Contenedor Principal */
+
 .overlay-container {
   position: fixed;
   top: 0; left: 0;
@@ -10,7 +10,6 @@
   overflow: hidden;
 }
 
-/* Fondo Pixel Art */
 .pokemon-bg-login {
   position: absolute;
   width: 100%; height: 100%;
@@ -18,10 +17,9 @@
   background-size: cover;
   background-position: center;
   z-index: -1;
-  filter: brightness(0.7); /* Oscurece un poco para que resalte la Pokedex */
+  filter: brightness(0.7); 
 }
 
-/* Cuerpo de la Pokédex */
 .pokedex-frame {
   background: #dc0a2d;
   width: 100%;
@@ -33,7 +31,6 @@
   box-shadow: 15px 15px 0px rgba(0, 0, 0, 0.4);
 }
 
-/* Luces Superiores */
 .pokedex-header {
   display: flex;
   align-items: flex-start;
@@ -64,7 +61,7 @@
 .yellow { background: #ffcc00; }
 .green { background: #00ff00; }
 
-/* Pantalla del Logo */
+
 .pokedex-screen {
   background: #dedede;
   border: 4px solid #555;
@@ -74,7 +71,7 @@
 }
 
 .screen-glass {
-  background: #0e0b0b; /* Fondo negro de pantalla apagada */
+  background: #0e0b0b;
   border-radius: 5px;
   min-height: 120px;
   display: flex;
@@ -87,7 +84,6 @@
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
 }
 
-/* Tipografía y Etiquetas */
 .title-pixel {
   color: #ffcb05;
   font-size: 1.4rem;
@@ -104,7 +100,6 @@
   text-transform: uppercase;
 }
 
-/* Inputs Estilo Terminal */
 .pokedex-input {
   background-color: #f0f0f0 !important;
   border: 3px solid #333 !important;
@@ -118,7 +113,6 @@
   box-shadow: none;
 }
 
-/* Botón con Efecto de Presión */
 .btn-pokedex-action {
   background-color: #ffcb05;
   color: #3c5aa6;
