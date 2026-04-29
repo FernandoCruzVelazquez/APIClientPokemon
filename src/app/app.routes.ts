@@ -3,6 +3,7 @@ import { LoaderComponent } from './componentes/loader/loader.component';
 import { PokedexComponent } from './componentes/pokedex/pokedex.component';
 import { LoginComponent } from './componentes/login/login.component';
 import { LayoutComponent } from './componentes/layout/layout.component';
+import { UsuarioGetAllComponent } from './componentes/usuario-get-all/usuario-get-all.component';
 
 export const routes: Routes = [
   { path: '', component: LoaderComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: 'pokedex', component: PokedexComponent },
+      {path: 'usuarios', component: UsuarioGetAllComponent},
     ]
   },
   //Si hay rutas que no existen los mandamos al login :p

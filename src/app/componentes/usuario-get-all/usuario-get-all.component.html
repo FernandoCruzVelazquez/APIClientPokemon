@@ -1,0 +1,81 @@
+<div class="usuario-container">
+    <div class="usuarios-bg"></div>
+
+    <div class="container contenido">
+
+        <div class="row mt-5 container">
+
+            <div class="col-12 col-sm-6">
+                <h1 class="title">USUARIOS</h1>
+            </div>
+
+        </div>
+
+        <div class="table-responsive mt-5">
+
+            <table class="table table-hover align-middle shadow-sm">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Información Personal</th>
+                        <th>Contacto</th>
+                        <th style="width:120px;">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let usuario of usuarios" [id]="'row_' + usuario.idusuario" class="table-warning">
+
+                        <!-- IMAGEN -->
+                        <td class="text-center">
+
+                            <img *ngIf="usuario.imagen != null" [src]="'data:image/jpeg;base64,' + usuario.imagen"
+                                class="rounded-circle border" style="width:80px; height:80px; object-fit:cover;" />
+
+                            <img *ngIf="usuario.imagen == null"
+                                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                class="rounded-circle border" style="width:80px; height:80px; object-fit:cover;" />
+
+                        </td>
+
+
+                        <!-- INFORMACION PERSONAL -->
+                        <td>
+                            <h6 class="mb-1 fw-bold text-primary">{{usuario.nombreusuario}} {{usuario.apellidopaterno}}
+                                {{usuario.apellidomaterno}}
+                            </h6>
+
+                            <span class="badge bg-secondary"> {{usuario.username}}</span>
+
+                            <div class="mt-2 small text-muted">
+                                <div><strong>Rol: </strong>
+                                    <span class="badge text-dark">{{usuario.rol.nombrerol}}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- CONTACTO -->
+                        <td class="small">
+                            <div><i class="bi bi-envelope"></i>
+                                <span> {{usuario.correo}}</span>
+                            </div>
+                        </td>
+
+
+                        <!-- ACCIONES -->
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a class="btn btn-sm btn-success">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <button (click)="eliminarUsuario(usuario.idusuario)" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
