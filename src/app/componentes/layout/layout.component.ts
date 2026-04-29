@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; // Importa OnInit
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-
 
 @Component({
   selector: 'app-layout',
@@ -9,16 +8,22 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
+export class LayoutComponent implements OnInit {
 
-export class LayoutComponent {
-
-  username: String = "Usuario";
+  username: string = 'Entrenador';
 
   constructor(private router: Router) {}
 
-  onLogout() {
-    console.log("Cerrando sesión...");
-    this.router.navigate(['/login']);
+  ngOnInit() {
+    const savedUser = localStorage.getItem('username');
+    if (savedUser) {
+      this.username = savedUser;
+    }
   }
 
+  onLogout() {
+    console.log("Cerrando sesión...");
+    localStorage.clear(); 
+    this.router.navigate(['/login']);
+  }
 }
