@@ -22,7 +22,6 @@
         *ngFor="let poke of pokemonsPaginados" 
         [ngClass]="poke.tipos[0].eng"
       >
-        <!-- El color de la carta lo define el tipo principal (el primero) -->
         <div class="card-inner" [ngClass]="'type-' + poke.tipos[0].eng">
           
           <div class="card-top-bar">
@@ -72,7 +71,7 @@
       </div>
     </div>
 
-    <!-- Paginación -->
+    
     <div class="pagination-wrapper" *ngIf="totalPaginas > 1">
       <button 
         class="pagination-btn" 

@@ -17,6 +17,6 @@ export const routes: Routes = [
       { path: 'pokedex', component: PokedexComponent },
     ]
   },
-
+  //Si hay rutas que no existen los mandamos al login :p
   { path: '**', redirectTo: 'login' }
 ];
