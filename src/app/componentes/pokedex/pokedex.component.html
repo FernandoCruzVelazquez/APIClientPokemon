@@ -52,11 +52,22 @@
                 Movimiento: <strong>{{ poke.ataque | titlecase }}</strong>
               </p>
             </div>
+            
+            <div class="action-container">
+              <button class="save-btn" (click)="onGuardar(poke)">
+                <span class="btn-icon">🔘</span> 
+                GUARDAR
+              </button>
+
+              <button class="stats-btn" [routerLink]="['/pokemon', poke.id]">
+                <div class="btn-glow"></div>
+                <i class="bi bi-graph-up"></i>
+              </button>
+            </div>
           </div>
 
           <div class="card-footer-tcg">
             <div class="footer-decor"></div>
-            <!-- Contenedor para múltiples tipos -->
             <div class="types-wrapper">
               <span 
                 *ngFor="let t of poke.tipos" 

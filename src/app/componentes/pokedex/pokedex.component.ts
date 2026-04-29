@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PokemonService } from '../../services/pokemon.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-pokedex',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './pokedex.component.html',
   styleUrls: ['./pokedex.component.css']
 })
@@ -66,5 +67,10 @@ export class PokedexComponent implements OnInit {
         return cumpleNombre || cumpleId || cumpleTipo;
       });
     });
+  }
+
+  onGuardar(pokemon: any) {
+    console.log('Guardando a:', pokemon.nombre);
+    
   }
 }

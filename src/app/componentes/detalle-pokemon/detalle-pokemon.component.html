@@ -1,0 +1,46 @@
+<div class="detail-container" *ngIf="pokemon" [ngClass]="pokemon.tipos[0].eng">
+  <div class="glass-card">
+    <button class="back-btn" routerLink="/pokedex">
+      <i class="bi bi-arrow-left"></i> Volver
+    </button>
+
+    <div class="detail-header">
+      <span class="detail-id">#{{ pokemon.id }}</span>
+      <h1 class="detail-name">{{ pokemon.nombre | uppercase }}</h1>
+    </div>
+
+    <div class="detail-content">
+      <div class="image-box">
+        <img [src]="pokemon.imagen" [alt]="pokemon.nombre">
+      </div>
+
+      <div class="stats-box">
+        <h3>ESTADÍSTICAS BASE</h3>
+        <div class="stat-row">
+          <span>HP</span>
+          <div class="bar-container">
+            <div class="bar" [style.width.%]="(pokemon.hp / 255) * 100"></div>
+          </div>
+          <span>{{ pokemon.hp }}</span>
+        </div>
+        
+        <div class="info-grid">
+          <div class="info-item">
+            <p class="label">Habilidad</p>
+            <p class="value">{{ pokemon.habilidad }}</p>
+          </div>
+          <div class="info-item">
+            <p class="label">Movimiento</p>
+            <p class="value">{{ pokemon.ataque }}</p>
+          </div>
+        </div>
+
+        <div class="types-row">
+          <span *ngFor="let t of pokemon.tipos" class="type-badge" [ngClass]="t.eng">
+            {{ t.esp }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
