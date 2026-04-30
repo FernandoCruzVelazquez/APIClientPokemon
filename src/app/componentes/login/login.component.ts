@@ -24,18 +24,19 @@ export class LoginComponent {
   ) {}
 
   onLogin() {
-  this.authService.login(this.username, this.password)
-    .subscribe({
-      next: (res: any) => {
-        console.log('LOGIN OK', res);
+    this.authService.login(this.username, this.password)
+      .subscribe({
+        next: (res: any) => {
+          console.log('LOGIN OK', res);
+          
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('username', this.username); 
 
-        localStorage.setItem('token', res.token);
-
-        this.router.navigate(['/pokedex'])
-      },
-      error: () => {
-        this.errorMessage = 'Error de login';
-      }
-    });
-}
+          this.router.navigate(['/pokedex']);
+        },
+        error: () => {
+          this.errorMessage = 'Error de login';
+        }
+      });
+  }
 }

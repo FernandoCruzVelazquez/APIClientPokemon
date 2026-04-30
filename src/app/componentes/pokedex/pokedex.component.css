@@ -597,8 +597,6 @@
   color: #ffcb05;
 }
 
-
-
 .action-container {
   display: flex;
   justify-content: center;
@@ -663,7 +661,8 @@
   position: relative;
   width: 42px;
   height: 42px;
-  border-radius: 12px; /* Cambiamos a cuadrado redondeado para estilo moderno */
+  border-radius: 12px;
+  border-radius: 12px; 
   background: linear-gradient(135deg, #606c88 0%, #3f4c6b 100%);
   border: 2px solid rgba(255, 255, 255, 0.3);
   color: #ffcb05;

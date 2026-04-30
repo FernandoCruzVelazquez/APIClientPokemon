@@ -22,6 +22,6 @@ export const routes: Routes = [
       {path: 'usuarios', component: UsuarioGetAllComponent},
     ]
   },
-
+  //Si hay rutas que no existen los mandamos al login por seguridad :p
   { path: '**', redirectTo: 'login' }
 ];

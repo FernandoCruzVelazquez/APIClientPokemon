@@ -71,6 +71,5 @@ export class PokedexComponent implements OnInit {
 
   onGuardar(pokemon: any) {
     console.log('Guardando a:', pokemon.nombre);
-    
   }
 }
