@@ -726,3 +726,65 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.filters-bar {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 15px 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 20px auto;
+  max-width: 900px; /* Ajusta según prefieras */
+}
+
+.filters-content {
+  display: flex;
+  flex-direction: row; /* Alineación horizontal */
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Todos los inputs miden lo mismo */
+}
+
+.filter-item label {
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+.filter-item input {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px 15px;
+  color: white;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.filter-item input:focus {
+  border-color: #ffcb05;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 10px rgba(255, 203, 5, 0.2);
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+  .filters-content {
+    flex-direction: column; /* Se apilan en pantallas pequeñas */
+    gap: 15px;
+  }
+  .filter-item {
+    width: 100%;
+  }
+}

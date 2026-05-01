@@ -167,7 +167,6 @@
   font-weight: bold; cursor: pointer; margin-bottom: 20px;
 }
 
-/* Header */
 .header-banner {
   text-align: center;
   margin-bottom: 30px;
@@ -180,14 +179,12 @@
 
 .id-number { color: #919191; }
 
-/* Grid principal */
 .content-grid {
   display: grid;
   grid-template-columns: 450px 1fr;
   gap: 30px;
 }
 
-/* Columna Izquierda */
 .featured-image {
   background-color: #f2f2f2;
   border-radius: 10px;
@@ -198,7 +195,6 @@
 
 .featured-image img { width: 300px; }
 
-/* Panel de Stats (Barras estilo oficial) */
 .base-stats-panel {
   background-color: #a4a4a4;
   border-radius: 10px;
@@ -237,7 +233,6 @@
 
 .stat-label { font-size: 0.7rem; margin-top: 5px; font-weight: bold; }
 
-/* Columna Derecha */
 .description { font-size: 1.1rem; margin-bottom: 20px; }
 
 .blue-info-box {
@@ -256,7 +251,6 @@
 
 .habilidad-link { color: white; text-decoration: none; }
 
-/* Badges */
 .badges-list { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
 
 .type-badge, .weak-badge {
@@ -266,8 +260,83 @@
   font-size: 0.9rem;
 }
 
-/* Colores de tipos (Ejemplos) */
 .fuego { background-color: #fd7d24; }
 .agua { background-color: #4592c4; }
 .roca { background-color: #a38c21; }
 .tierra { background-color: linear-gradient(180deg, #f7de3f 50%, #ab9842 50%); }
+
+.radar-chart-container {
+  margin-top: 30px;
+  background: rgba(0, 0, 0, 0.3); /* Fondo oscuro para que resalte el gráfico */
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.radar-chart-container h3 {
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  margin-bottom: 25px;
+  color: #ffcb05; /* Color Pokémon dorado */
+}
+
+svg {
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.2));
+}
+
+.chart-bg {
+  fill: rgba(255, 255, 255, 0.05);
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 1;
+  stroke-dasharray: 4; /* Líneas punteadas para un look más técnico */
+}
+
+.chart-poly {
+  fill: rgba(255, 203, 5, 0.4); /* Color base del polígono */
+  stroke: #ffcb05;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 8px rgba(255, 203, 5, 0.8)); /* Efecto neón */
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+text {
+  fill: rgba(255, 255, 255, 0.9);
+  font-size: 11px;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+/* Contenedor principal de estadísticas */
+.stats-flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px; /* Espacio entre barras y radar */
+  margin-top: 10px;
+}
+
+/* Sección de las barras (izquierda) */
+.bars-section {
+  flex: 1; /* Toma el espacio disponible */
+}
+
+/* Ajuste del radar (derecha) */
+.radar-chart-container {
+  flex: 0 0 auto; /* No se estira, mantiene su tamaño */
+  margin-top: 0; /* Quitamos el margin-top que tenías antes */
+  min-width: 280px; /* Asegura espacio suficiente para el SVG y textos */
+}
+
+/* Responsivo: Si la pantalla es pequeña, se ponen uno arriba del otro */
+@media (max-width: 992px) {
+  .stats-flex-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .bars-section {
+    width: 100%;
+  }
+}
+

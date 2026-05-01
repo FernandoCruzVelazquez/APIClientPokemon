@@ -5,14 +5,39 @@
 
     <div class="pokedex-header">
       <h1 class="title">POKÉDEX</h1>
-      <div class="search-wrapper">
-        <input 
-          type="text"
-          placeholder="Ej: Pikachu, Fuego, 25..."
-          [(ngModel)]="search"
-          (input)="filtrar()"
-          class="search-input"
-        >
+      
+      <div class="filters-bar">
+        <div class="filters-content">
+          <!-- Grupo Nombre -->
+          <div class="filter-item">
+            <label>Nombre</label>
+            <input 
+              type="text" 
+              [(ngModel)]="filtros.nombre" 
+              (input)="filtrar()" 
+              placeholder="Ej: Pikachu">
+          </div>
+
+          <!-- Grupo ID -->
+          <div class="filter-item">
+            <label>Número (#)</label>
+            <input 
+              type="number" 
+              [(ngModel)]="filtros.id" 
+              (input)="filtrar()" 
+              placeholder="Ej: 25">
+          </div>
+
+          <!-- Grupo Tipo -->
+          <div class="filter-item">
+            <label>Tipo</label>
+            <input 
+              type="text" 
+              [(ngModel)]="filtros.tipo" 
+              (input)="filtrar()" 
+              placeholder="Ej: Fuego">
+          </div>
+        </div>
       </div>
     </div>
 
@@ -34,7 +59,7 @@
 
           <div class="hp-section">
             <span class="hp-label">HP</span>
-            <span class="hp-value">{{ poke.hp }}</span>
+            <span class="hp-value">{{ poke.stats?.hp }}</span>
           </div>
 
           <div class="img-container">

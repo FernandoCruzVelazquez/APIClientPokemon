@@ -17,6 +17,12 @@ export class PokedexComponent implements OnInit {
   pokemonsFiltrados: any[] = [];
   search: string = '';
 
+  filtros = {
+    nombre: '',
+    id: '',
+    tipo: ''
+  };
+
   paginaActual: number = 1;
   pokemonPorPagina: number = 12; 
 
@@ -45,27 +51,23 @@ export class PokedexComponent implements OnInit {
   }
 
   filtrar(): void {
-    this.paginaActual = 1; 
-
-    if (!this.search || this.search.trim() === '') {
-      this.pokemonsFiltrados = [...this.pokemons];
-      return;
-    }
-
-    const terminos = this.search.toLowerCase().trim().split(/\s+/);
+    this.paginaActual = 1;
 
     this.pokemonsFiltrados = this.pokemons.filter(p => {
-      return terminos.every(termino => {
-        const cumpleNombre = p.nombre.toLowerCase().includes(termino);
-        const cumpleId = p.id.toString() === termino;
-        
-        const cumpleTipo = p.tipos.some((t: any) => 
-          t.esp.toLowerCase().includes(termino) || 
-          t.eng.toLowerCase().includes(termino)
-        );
+      const cumpleNombre = !this.filtros.nombre || 
+                          p.nombre.toLowerCase().includes(this.filtros.nombre.toLowerCase().trim());
 
-        return cumpleNombre || cumpleId || cumpleTipo;
-      });
+      
+      const searchId = this.filtros.id ? this.filtros.id.toString().trim() : '';
+      const cumpleId = !searchId || p.id.toString().includes(searchId);
+
+      const cumpleTipo = !this.filtros.tipo || 
+                        p.tipos.some((t: any) => 
+                          t.esp.toLowerCase().includes(this.filtros.tipo.toLowerCase().trim()) || 
+                          t.eng.toLowerCase().includes(this.filtros.tipo.toLowerCase().trim())
+                        );
+
+      return cumpleNombre && cumpleId && cumpleTipo;
     });
   }
 

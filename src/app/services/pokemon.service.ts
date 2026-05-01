@@ -45,7 +45,14 @@ export class PokemonService {
           id: data.id,
           nombre: data.name,
           imagen: data.sprites.other['official-artwork'].front_default,
-          hp: data.stats[0].base_stat,
+          stats: {
+            hp: data.stats[0].base_stat,
+            atk: data.stats[1].base_stat,
+            def: data.stats[2].base_stat,
+            spAtk: data.stats[3].base_stat,
+            spDef: data.stats[4].base_stat,
+            speed: data.stats[5].base_stat
+          },
           tipos: listaTipos, 
           habilidad: (data.abilities[0]?.ability.name || 'N/A').replace(/-/g, ' '),
           ataque: (data.moves[0]?.move.name || 'N/A').replace(/-/g, ' ')
