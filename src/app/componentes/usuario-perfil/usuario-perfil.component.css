@@ -1,0 +1,51 @@
+.usuarios-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url('../../../assets/fondo1.png'); 
+  background-size: cover;
+  background-position: center;
+
+  z-index: -1;
+}
+
+.pokedex-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 4px solid #3B4CCA;
+  border-radius: 15px;
+}
+
+.title-perfil {
+  color: #e4000f;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px black;
+}
+
+.profile-img-edit {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 5px solid #FFCB05;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.label-pokedex {
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+.input-pokedex {
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}
+
+.input-pokedex:focus {
+  border-color: #FFCB05;
+  box-shadow: 0 0 5px rgba(255, 203, 5, 0.5);
+}

@@ -18,8 +18,24 @@ export class UsuarioService {
         return this.http.get<ResultModel<UsuarioModel>>(this.url + "/usuarios");
     }
 
+    getById(idusuario: number): Observable<ResultModel<UsuarioModel>> {
+        return this.http.get<ResultModel<UsuarioModel>>(`${this.url + "/perfil"}/${idusuario}`);
+    }
+
     usuarioDelete(idusuario:number) : Observable<ResultModel<UsuarioModel>>{
         return this.http.delete<ResultModel<UsuarioModel>>(`${this.url}/deleteUsuario/${idusuario}`);
+    }
+
+    usuarioAdd(usuario: Partial<UsuarioModel>): Observable<ResultModel<UsuarioModel>> {
+    return this.http.post<ResultModel<UsuarioModel>>(this.url, usuario);
+    }
+
+    usuarioUpdate(usuario: UsuarioModel): Observable<ResultModel<UsuarioModel>> {
+        return this.http.put<ResultModel<UsuarioModel>>(`${this.url}/update`, usuario);
+    }
+
+    enviarBienvenida(correo: string): Observable<ResultModel<any>> {
+        return this.http.post<ResultModel<any>>(`${this.url}/bienvenida/${correo}`, {});
     }
 
 }

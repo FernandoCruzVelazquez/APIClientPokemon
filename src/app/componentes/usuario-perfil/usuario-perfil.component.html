@@ -1,0 +1,75 @@
+<div class="perfil-container">
+  <div class="usuarios-bg"></div>
+
+  <div class="container contenido pt-5">
+    <div class="card pokedex-card shadow-lg mx-auto" style="max-width: 800px;">
+      <div class="card-header text-center">
+        <h2 class="title-perfil">FICHA DE ENTRENADOR</h2>
+      </div>
+
+      <div class="card-body p-4">
+        <div class="row">
+          <div class="col-md-4 text-center border-end border-secondary">
+            <div class="image-preview-container mb-3">
+              <img [src]="imagePreview || (usuario.imagen ? 'data:image/jpeg;base64,' + usuario.imagen : 'https://cdn-icons-png.flaticon.com/512/287/287226.png')" 
+                   class="img-thumbnail rounded-circle profile-img-edit" />
+            </div>
+            
+            <label class="btn btn-outline-warning btn-sm w-100">
+              <i class="bi bi-camera-fill"></i> CAMBIAR FOTO
+              <input type="file" (change)="onFileSelected($event)" hidden accept="image/*">
+            </label>
+            <p class="text-muted small mt-2">Formatos: JPG, PNG. Máx 2MB</p>
+          </div>
+
+          <div class="col-md-8">
+            <form (ngSubmit)="updateUsuario()">
+              
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="label-pokedex">NOMBRE</label>
+                        <input type="text" class="form-control input-pokedex"
+                            [(ngModel)]="usuario.nombreusuario" name="nombre">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="label-pokedex">APELLIDO PATERNO</label>
+                        <input type="text" class="form-control input-pokedex"
+                            [(ngModel)]="usuario.apellidopaterno" name="apellidopaterno">
+                    </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="label-pokedex">APELLIDO MATERNO</label>
+                        <input type="text" class="form-control input-pokedex"
+                            [(ngModel)]="usuario.apellidomaterno" name="apellidomaterno">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="label-pokedex">USUARIO</label>
+                        <input type="text" class="form-control input-pokedex"
+                            [(ngModel)]="usuario.username" name="username">
+                    </div>
+                </div>
+
+              <div class="mb-3">
+                <label class="label-pokedex">CORREO ELECTRÓNICO</label>
+                <input type="email" class="form-control input-pokedex" [(ngModel)]="usuario.correo" name="correo">
+              </div>
+
+              <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-success btn-poke flex-grow-1">
+                  <i class="bi bi-save"></i> GUARDAR CAMBIOS
+                </button>
+                <button type="button" (click)="cancelar()" class="btn btn-secondary btn-poke">
+                  CANCELAR
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

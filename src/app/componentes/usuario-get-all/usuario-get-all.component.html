@@ -1,75 +1,82 @@
-<div class="usuario-container">
+<div class="usuarios-container">
     <div class="usuarios-bg"></div>
 
     <div class="container contenido">
-
-        <div class="row mt-5 container">
-
-            <div class="col-12 col-sm-6">
-                <h1 class="title">USUARIOS</h1>
+        <div class="row pt-5 mb-4 align-items-center">
+            <div class="col-12 text-center text-md-start">
+                <h1 class="title"><i class="bi bi-person-lines-fill"></i> REGISTRO DE ENTRENADORES</h1>
             </div>
-
         </div>
 
-        <div class="table-responsive mt-5">
-
-            <table class="table table-hover align-middle shadow-sm">
-                <thead class="table-dark text-center">
-                    <tr>
-                        <th>Imagen</th>
-                        <th>Información Personal</th>
-                        <th>Contacto</th>
-                        <th style="width:120px;">Acciones</th>
+        <div class="table-responsive px-2">
+            <table class="table table-pokedex align-middle">
+                <thead>
+                    <tr class="text-center">
+                        <th>PERFIL</th>
+                        <th>DATOS DEL ENTRENADOR</th>
+                        <th>CONTACTO</th>
+                        <th>ACCIONES</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr *ngFor="let usuario of usuarios" [id]="'row_' + usuario.idusuario" class="table-warning">
-
-                        <!-- IMAGEN -->
+                    <tr *ngFor="let usuario of usuarios" [id]="'row_' + usuario.idusuario" class="align-middle">
+                        
                         <td class="text-center">
+                            <img *ngIf="usuario.imagen" 
+                                [src]="'data:image/jpeg;base64,' + usuario.imagen"
+                                class="rounded-circle trainer-img" />
+                            
+                            <ng-container *ngIf="!usuario.imagen">
+                                
+                                <img *ngIf="usuario.idusuario % 2 === 0"
+                                    src="https://cdn-icons-png.flaticon.com/512/361/361998.png" 
+                                    class="rounded-circle trainer-img" 
+                                    alt="Entrenador Tipo A" />
 
-                            <img *ngIf="usuario.imagen != null" [src]="'data:image/jpeg;base64,' + usuario.imagen"
-                                class="rounded-circle border" style="width:80px; height:80px; object-fit:cover;" />
-
-                            <img *ngIf="usuario.imagen == null"
-                                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                                class="rounded-circle border" style="width:80px; height:80px; object-fit:cover;" />
-
+                                <img *ngIf="usuario.idusuario % 2 !== 0"
+                                    src="https://cdn-icons-png.flaticon.com/512/188/188926.png" 
+                                    class="rounded-circle trainer-img" 
+                                    alt="Entrenador Tipo B" />
+                                    
+                            </ng-container>
                         </td>
 
-
-                        <!-- INFORMACION PERSONAL -->
                         <td>
-                            <h6 class="mb-1 fw-bold text-primary">{{usuario.nombreusuario}} {{usuario.apellidopaterno}}
-                                {{usuario.apellidomaterno}}
-                            </h6>
+                            <div class="fw-bold fs-5" style="color: #2a75bb;"> 
+                                <i class="bi bi-shield-shaded me-1"></i> {{usuario.nombreusuario}} {{usuario.apellidopaterno}}
+                            </div>
+                            <div class="d-flex gap-2 mt-2">
+                                <span class="badge bg-primary badge-trainer">
+                                    <i class="bi bi-at"></i> {{usuario.username}}
+                                </span>
+                                <span class="badge bg-success badge-trainer">
+                                    <i class="bi bi-star-fill me-1"></i> {{usuario.rol.nombrerol}}
+                                </span>
+                            </div>
+                        </td>
 
-                            <span class="badge bg-secondary"> {{usuario.username}}</span>
-
-                            <div class="mt-2 small text-muted">
-                                <div><strong>Rol: </strong>
-                                    <span class="badge text-dark">{{usuario.rol.nombrerol}}</span>
+                        <td>
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="icon-circle bg-danger text-white me-2" style="width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
+                                    <i class="bi bi-envelope"></i>
                                 </div>
+                                <span class="text-dark fw-medium">{{usuario.correo}}</span>
+                            </div>
+                            <div class="text-muted ms-4 ps-1" style="font-size: 0.85rem;">
+                                <i class="bi bi-fingerprint"></i> ID: #00{{usuario.idusuario}}
                             </div>
                         </td>
 
-                        <!-- CONTACTO -->
-                        <td class="small">
-                            <div><i class="bi bi-envelope"></i>
-                                <span> {{usuario.correo}}</span>
-                            </div>
-                        </td>
-
-
-                        <!-- ACCIONES -->
                         <td class="text-center">
                             <div class="d-flex justify-content-center gap-2">
-                                <a class="btn btn-sm btn-success">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                <button (click)="eliminarUsuario(usuario.idusuario)" class="btn btn-sm btn-danger">
-                                    <i class="bi bi-trash-fill"></i>
+                                <button class="btn btn-sm btn-info btn-poke" title="Ver Perfil">
+                                    <i class="bi bi-search text-white"></i>
+                                </button>
+                                <button (click)="eliminarUsuario(usuario.idusuario)" 
+                                        class="btn btn-sm btn-danger btn-poke" 
+                                        title="Eliminar Registro">
+                                    <i class="bi bi-trash3-fill"></i>
                                 </button>
                             </div>
                         </td>

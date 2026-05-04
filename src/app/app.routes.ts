@@ -5,6 +5,8 @@ import { LoginComponent } from './componentes/login/login.component';
 import { LayoutComponent } from './componentes/layout/layout.component';
 import { DetallePokemonComponent } from './componentes/detalle-pokemon/detalle-pokemon.component';
 import { UsuarioGetAllComponent } from './componentes/usuario-get-all/usuario-get-all.component';
+import { UsuarioPerfilComponent } from './componentes/usuario-perfil/usuario-perfil.component';
+
 
 export const routes: Routes = [
   { path: '', component: LoaderComponent },
@@ -18,8 +20,10 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'pokedex', component: PokedexComponent },
+      {path: 'pokedex', component: PokedexComponent },
       {path: 'usuarios', component: UsuarioGetAllComponent},
+      {path: 'perfil', component: UsuarioPerfilComponent },
+      {path: 'perfil/:id', component: UsuarioPerfilComponent },
     ]
   },
   //Si hay rutas que no existen los mandamos al login por seguridad :p

@@ -1,7 +1,7 @@
 .usuarios-container {
   position: relative;
   min-height: 100vh;
-  font-family: 'Exo 2', sans-serif;
+  padding-bottom: 50px;
 }
 
 .usuarios-bg {
@@ -11,20 +11,114 @@
   width: 100vw;
   height: 100vh;
 
-  background-image: url('../../../assets/fondo1.png'); /* tu imagen */
+  background-image: url('../../../assets/fondo1.png'); 
   background-size: cover;
   background-position: center;
 
   z-index: -1;
 }
 
-.contenido {
+.title {
+  color: #FFCB05; 
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 4px 4px 0px #3B4CCA;
+  -webkit-text-stroke: 1px black;
+}
+
+.usuarios-container {
   position: relative;
-  z-index: 1;
+  min-height: 100vh;
+  padding-bottom: 50px;
 }
 
 .title {
-  color: #FFCB05;
-  font-size: 2.5rem;
-  text-shadow: 3px 3px #222;
+  color: #FFCB05; 
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 4px 4px 0px #3B4CCA;
+  -webkit-text-stroke: 1px black;
+}
+
+.table-pokedex {
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(10px); 
+    border: 2px solid #3B4CCA; 
+    border-radius: 20px !important;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.table-pokedex thead {
+    background: linear-gradient(90deg, #e4000f 0%, #ff1f2d 100%);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.table-pokedex tbody tr {
+    transition: background 0.3s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.table-pokedex tbody tr:hover {
+    background: rgba(59, 76, 202, 0.1) !important; 
+}
+
+.trainer-img {
+    width: 65px;
+    height: 65px;
+    border: 1px solid #FFCB05;
+    padding: 2px;
+    background: white;
+    transition: transform 0.3s ease;
+}
+
+.trainer-img:hover {
+    transform: rotate(5deg) scale(1.1);
+}
+
+.badge-trainer {
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 50px; /* Estilo píldora */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.badge-username {
+  background: #3B4CCA;
+  color: white;
+}
+
+.badge-rol {
+  background: #4CAF50;
+  color: white;
+  border: 1px solid #fff;
+}
+
+.btn-poke {
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.title {
+    color: #FFCB05;
+    font-size: 3rem;
+    text-shadow: 
+        3px 3px 0px #3B4CCA,
+        -1px -1px 0px #3B4CCA,  
+         1px -1px 0px #3B4CCA,
+        -1px  1px 0px #3B4CCA,
+         1px  1px 0px #3B4CCA;
+    animation: title-glow 2s infinite alternate;
+}
+
+@keyframes title-glow {
+    from { filter: drop-shadow(0 0 5px rgba(255, 203, 5, 0.4)); }
+    to { filter: drop-shadow(0 0 15px rgba(255, 203, 5, 0.8)); }
 }
