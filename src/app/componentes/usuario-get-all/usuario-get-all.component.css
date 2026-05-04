@@ -11,7 +11,7 @@
   width: 100vw;
   height: 100vh;
 
-  background-image: url('../../../assets/fondo1.png'); /* tu imagen */
+  background-image: url('../../../assets/fondo1.png');
   background-size: cover;
   background-position: center;
 

@@ -21,22 +21,21 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   onLogin() {
-    this.authService.login(this.username, this.password)
-      .subscribe({
-        next: (res: any) => {
-          console.log('LOGIN OK', res);
-          
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('username', this.username); 
+    this.authService.login(this.username, this.password).subscribe({
+      next: (res: any) => {
 
-          this.router.navigate(['/pokedex']);
-        },
-        error: () => {
-          this.errorMessage = 'Error de login';
-        }
-      });
+        console.log('LOGIN RESPONSE:', res);
+
+        this.authService.saveToken(res.Key);
+
+        this.router.navigate(['/pokedex']);
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
 }

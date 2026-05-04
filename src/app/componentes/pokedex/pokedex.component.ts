@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PokemonService } from '../../services/pokemon.service';
+import { FavoritoService } from '../../services/favorito.service';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -16,11 +17,16 @@ export class PokedexComponent implements OnInit {
   pokemons: any[] = [];
   pokemonsFiltrados: any[] = [];
   search: string = '';
+  idUsuario: number = 1;
+  loading: boolean = false;
 
   paginaActual: number = 1;
-  pokemonPorPagina: number = 12; 
+  pokemonPorPagina: number = 12;
 
-  constructor(private pokemonService: PokemonService) {}
+  constructor(
+    private pokemonService: PokemonService,
+    private favoritoService: FavoritoService
+  ) { }
 
   ngOnInit(): void {
     this.pokemons = this.pokemonService.obtenerPokemons();
@@ -40,12 +46,12 @@ export class PokedexComponent implements OnInit {
   cambiarPagina(nuevaPagina: number) {
     if (nuevaPagina >= 1 && nuevaPagina <= this.totalPaginas) {
       this.paginaActual = nuevaPagina;
-      window.scrollTo(0, 0); 
+      window.scrollTo(0, 0);
     }
   }
 
   filtrar(): void {
-    this.paginaActual = 1; 
+    this.paginaActual = 1;
 
     if (!this.search || this.search.trim() === '') {
       this.pokemonsFiltrados = [...this.pokemons];
@@ -58,9 +64,9 @@ export class PokedexComponent implements OnInit {
       return terminos.every(termino => {
         const cumpleNombre = p.nombre.toLowerCase().includes(termino);
         const cumpleId = p.id.toString() === termino;
-        
-        const cumpleTipo = p.tipos.some((t: any) => 
-          t.esp.toLowerCase().includes(termino) || 
+
+        const cumpleTipo = p.tipos.some((t: any) =>
+          t.esp.toLowerCase().includes(termino) ||
           t.eng.toLowerCase().includes(termino)
         );
 
@@ -70,6 +76,32 @@ export class PokedexComponent implements OnInit {
   }
 
   onGuardar(pokemon: any) {
-    console.log('Guardando a:', pokemon.nombre);
+
+    if (this.loading) return;
+
+    this.loading = true;
+
+    const dto = {
+      idUsuario: this.idUsuario,
+      idPokemon: pokemon.id,
+      nombre: pokemon.nombre,
+      imagen: pokemon.imagen
+    };
+
+    this.favoritoService.agregarFavorito(dto).subscribe({
+      next: (res) => {
+        this.loading = false;
+
+        if (res.correct) {
+          console.log('Guardado correctamente');
+        } else {
+          console.warn(res.errorMessage);
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Error al guardar', err);
+      }
+    });
   }
 }

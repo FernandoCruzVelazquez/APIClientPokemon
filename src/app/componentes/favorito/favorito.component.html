@@ -1,0 +1,17 @@
+<div class="container">
+    <h2 class="title">Mis Pokémon Favoritos</h2>
+
+    <div class="grid">
+        <div class="card" *ngFor="let fav of favoritos">
+
+            <img [src]="fav?.pokemon?.imagen" />
+
+            <h3>{{ fav?.pokemon?.nombrepokemon | titlecase }}</h3>
+
+            <button (click)="eliminar(fav.pokemon.idpokemon)">
+                Eliminar
+            </button>
+
+        </div>
+    </div>
+</div>
