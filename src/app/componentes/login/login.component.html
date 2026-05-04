@@ -2,7 +2,7 @@
   <div class="pokemon-bg-login"></div>
 
   <div class="pokedex-frame animate-in shadow-lg">
-    
+
     <div class="pokedex-header">
       <div class="main-light-container">
         <div class="light-big-blue pulse-blue"></div>
@@ -32,26 +32,16 @@
     <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="mt-3">
       <div class="mb-3 text-start">
         <label class="label-pixel">USUARIO DEL ENTRENADOR</label>
-        <input
-          type="text"
-          class="form-control pokedex-input"
-          name="username"
-          [(ngModel)]="username"
-          placeholder="Nombre de usuario"
-          required
-        />
+        <input type="text" class="form-control pokedex-input" name="username" [(ngModel)]="username"
+          placeholder="Nombre de usuario" required />
       </div>
 
       <div class="mb-4 text-start">
         <label class="label-pixel">CONTRASEÑA</label>
-        <input
-          type="password"
-          class="form-control pokedex-input"
-          name="password"
-          [(ngModel)]="password"
-          placeholder="••••••••"
-          required
-        />
+        <input type="password" class="form-control pokedex-input" name="password" [(ngModel)]="password"
+          placeholder="••••••••" required />
+
+        <a href="/register" class="btn btn-link pokedex-link">¿No tienes cuenta? Registrarse</a>
       </div>
 
       <button class="btn btn-pokedex-action w-100" type="submit">
