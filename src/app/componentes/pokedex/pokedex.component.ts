@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PokemonService } from '../../services/pokemon.service';
 import { RouterModule } from '@angular/router';
+import { FavoritoService } from '../../services/favorito.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pokedex',
@@ -16,6 +18,8 @@ export class PokedexComponent implements OnInit {
   pokemons: any[] = [];
   pokemonsFiltrados: any[] = [];
   search: string = '';
+  idUsuario: number = 0;
+  loading: boolean = false;
 
   filtros = {
     nombre: '',
@@ -24,13 +28,19 @@ export class PokedexComponent implements OnInit {
   };
 
   paginaActual: number = 1;
-  pokemonPorPagina: number = 12; 
+  pokemonPorPagina: number = 12;
 
-  constructor(private pokemonService: PokemonService) {}
+  constructor(
+    private pokemonService: PokemonService,
+    private favoritoService: FavoritoService
+  ) { }
 
   ngOnInit(): void {
     this.pokemons = this.pokemonService.obtenerPokemons();
     this.pokemonsFiltrados = [...this.pokemons];
+
+    const id = localStorage.getItem('idusuario');
+    this.idUsuario = id ? Number(id) : 0;
   }
 
   get pokemonsPaginados() {
@@ -46,7 +56,7 @@ export class PokedexComponent implements OnInit {
   cambiarPagina(nuevaPagina: number) {
     if (nuevaPagina >= 1 && nuevaPagina <= this.totalPaginas) {
       this.paginaActual = nuevaPagina;
-      window.scrollTo(0, 0); 
+      window.scrollTo(0, 0);
     }
   }
 
@@ -54,24 +64,75 @@ export class PokedexComponent implements OnInit {
     this.paginaActual = 1;
 
     this.pokemonsFiltrados = this.pokemons.filter(p => {
-      const cumpleNombre = !this.filtros.nombre || 
-                          p.nombre.toLowerCase().includes(this.filtros.nombre.toLowerCase().trim());
+      const cumpleNombre = !this.filtros.nombre ||
+        p.nombre.toLowerCase().includes(this.filtros.nombre.toLowerCase().trim());
 
-      
+
       const searchId = this.filtros.id ? this.filtros.id.toString().trim() : '';
       const cumpleId = !searchId || p.id.toString().includes(searchId);
 
-      const cumpleTipo = !this.filtros.tipo || 
-                        p.tipos.some((t: any) => 
-                          t.esp.toLowerCase().includes(this.filtros.tipo.toLowerCase().trim()) || 
-                          t.eng.toLowerCase().includes(this.filtros.tipo.toLowerCase().trim())
-                        );
+      const cumpleTipo = !this.filtros.tipo ||
+        p.tipos.some((t: any) =>
+          t.esp.toLowerCase().includes(this.filtros.tipo.toLowerCase().trim()) ||
+          t.eng.toLowerCase().includes(this.filtros.tipo.toLowerCase().trim())
+        );
 
       return cumpleNombre && cumpleId && cumpleTipo;
     });
   }
 
   onGuardar(pokemon: any) {
-    console.log('Guardando a:', pokemon.nombre);
+    if (this.loading) return;
+
+    if (!this.idUsuario) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Sesión requerida',
+        text: 'Debes iniciar sesión para guardar favoritos'
+      });
+      return;
+    }
+
+    this.loading = true;
+
+    const dto = {
+      idUsuario: this.idUsuario,
+      idPokemon: pokemon.id,
+      nombre: pokemon.nombre,
+      imagen: pokemon.imagen
+    };
+
+    this.favoritoService.agregarFavorito(dto).subscribe({
+      next: (res) => {
+        this.loading = false;
+
+        if (res.correct) {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Guardado!',
+            text: `${pokemon.nombre} fue agregado a favoritos`,
+            timer: 1500,
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'No se pudo guardar',
+            text: res.errorMessage || 'Ocurrió un problema'
+          });
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error del servidor',
+          text: 'Intenta nuevamente más tarde'
+        });
+
+        console.error('Error al guardar', err);
+      }
+    });
   }
 }

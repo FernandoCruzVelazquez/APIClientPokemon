@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { UsuarioService } from '../../services/usuario.service'; 
+import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
-import { UsuarioModel } from '../../models/UsuarioModel'; 
+import { UsuarioModel } from '../../models/UsuarioModel';
 
 declare var bootstrap: any;
 
@@ -30,21 +30,21 @@ export class LoginComponent {
   regApellidoM = '';
   regCorreo = '';
   regImagen = '';
-  regRolId = 1; 
+  regRolId = 1;
   registerError = '';
   registerSuccess = false;
   isRegistering = false;
 
   constructor(
     private authService: AuthService,
-    private usuarioService: UsuarioService, 
+    private usuarioService: UsuarioService,
     private router: Router
-  ) {}
+  ) { }
 
   openRegisterModal() {
     this.registerError = '';
     this.registerSuccess = false;
-    
+
     const modalElement = document.getElementById('registerModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
@@ -61,15 +61,17 @@ export class LoginComponent {
         next: (res: any) => {
           localStorage.setItem('token', res.token);
           localStorage.setItem('username', res.username);
-          localStorage.setItem('idusuario', res.idusuario.toString()); 
+          localStorage.setItem('idusuario', res.idusuario.toString());
+
+          this.authService.saveToken(res.token);
 
           this.isLoading = false;
           this.router.navigate(['/pokedex']);
         },
         error: (err) => {
           this.isLoading = false;
-          this.errorMessage = err.status === 401 || err.status === 403 
-            ? 'Credenciales incorrectas.' 
+          this.errorMessage = err.status === 401 || err.status === 403
+            ? 'Credenciales incorrectas.'
             : 'Error de conexión con el Servidor Pokémon.';
         }
       });
@@ -78,7 +80,7 @@ export class LoginComponent {
   onRegister() {
     if (this.regPassword !== this.regConfirmPassword) {
       this.registerError = '¡Las contraseñas no coinciden, Entrenador!';
-      return; 
+      return;
     }
 
     this.registerError = '';
@@ -98,28 +100,28 @@ export class LoginComponent {
     };
 
     this.usuarioService.usuarioAdd(nuevoUsuario).subscribe({
-        next: (res: any) => {
-            if (res.correct) {
-                const correoRecuperado = this.regCorreo;
+      next: (res: any) => {
+        if (res.correct) {
+          const correoRecuperado = this.regCorreo;
 
-                this.registerSuccess = true;
-                this.isRegistering = false;
-                this.resetForm(); 
+          this.registerSuccess = true;
+          this.isRegistering = false;
+          this.resetForm();
 
-                this.usuarioService.enviarBienvenida(correoRecuperado).subscribe({
-                    next: (mailRes) => console.log('Correo de bienvenida enviado:', mailRes.object),
-                    error: (mailErr) => console.error('Error al enviar correo:', mailErr)
-                });
+          this.usuarioService.enviarBienvenida(correoRecuperado).subscribe({
+            next: (mailRes) => console.log('Correo de bienvenida enviado:', mailRes.object),
+            error: (mailErr) => console.error('Error al enviar correo:', mailErr)
+          });
 
-            } else {
-                this.isRegistering = false;
-                this.registerError = res.errorMessage;
-            }
-        },
-        error: (err) => {
-            this.isRegistering = false;
-            this.registerError = 'Error en el servidor al registrar usuario';
+        } else {
+          this.isRegistering = false;
+          this.registerError = res.errorMessage;
         }
+      },
+      error: (err) => {
+        this.isRegistering = false;
+        this.registerError = 'Error en el servidor al registrar usuario';
+      }
     });
   }
 
@@ -133,5 +135,5 @@ export class LoginComponent {
     this.regConfirmPassword = '';
     this.regImagen = '';
   }
-  
+
 }
