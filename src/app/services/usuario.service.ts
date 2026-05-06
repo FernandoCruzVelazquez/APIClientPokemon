@@ -38,4 +38,12 @@ export class UsuarioService {
         return this.http.post<ResultModel<any>>(`${this.url}/bienvenida/${correo}`, {});
     }
 
+    enviarValidacion(correo: string): Observable<ResultModel<any>> {
+        return this.http.post<ResultModel<any>>(`${this.url}/enviar-validacion/${correo}`, {});
+    }
+
+    confirmarCodigo(correo: string, codigo: string): Observable<ResultModel<any>> {
+        return this.http.post<ResultModel<any>>(`${this.url}/confirmar-codigo`, { correo, codigo });
+    }
+
 }
