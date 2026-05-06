@@ -1,17 +1,61 @@
-<div class="container">
-    <h2 class="title">Mis Pokémon Favoritos</h2>
+<div class="pokedex-container">
+  <div class="pokemon-bg"></div>
 
-    <div class="grid">
-        <div class="card" *ngFor="let fav of favoritos">
-
-            <img [src]="fav?.pokemon?.imagen" />
-
-            <h3>{{ fav?.pokemon?.nombrepokemon | titlecase }}</h3>
-
-            <button (click)="eliminar(fav.pokemon.idpokemon)">
-                Eliminar
-            </button>
-
-        </div>
+  <div class="pokedex-panel animate-in">
+    <div class="pokedex-header">
+      <h1 class="title">MIS FAVORITOS</h1>
     </div>
+
+    <div class="pokemon-grid">
+      <!-- Iteramos sobre favoritos -->
+      <div class="pokemon-card" *ngFor="let fav of favoritos">
+        
+        <!-- Usamos el primer tipo para el color de la carta si está disponible, 
+             sino usará el amarillo por defecto -->
+        <div class="card-inner">
+          
+          <div class="card-top-bar">
+            <div class="name-id">
+              <span class="card-rarity">FAVORITO</span>
+              <h3 class="pokemon-name">{{ fav.pokemon.nombrepokemon | titlecase }}</h3>
+            </div>
+            <span class="pokemon-id">#{{ fav.pokemon.idpokemon }}</span>
+          </div>
+
+          <!-- Contenedor de Imagen estilo TCG -->
+          <div class="img-container">
+            <img [src]="fav.pokemon.imagen" class="pokemon-img" [alt]="fav.pokemon.nombrepokemon">
+          </div>
+
+          <div class="pokemon-info">
+             <!-- Puedes agregar descripción o dejar el espacio para botones -->
+             <div class="ability-section">
+                <p class="ability-desc" style="text-align: center; padding-top: 10px;">
+                  ¡Este Pokémon es uno de tus compañeros favoritos!
+                </p>
+             </div>
+            
+            <div class="action-container">
+              <!-- Botón Eliminar con estilo similar al de Guardar pero en rojo -->
+              <button class="delete-btn" (click)="eliminar(fav.pokemon.idpokemon)">
+                <span class="btn-icon">🗑️</span> 
+                ELIMINAR
+              </button>
+
+            </div>
+          </div>
+
+          <div class="card-footer-tcg">
+            <div class="footer-decor"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje si no hay favoritos -->
+    <div *ngIf="favoritos.length === 0" class="pagination-info" style="margin: 50px auto; width: fit-content;">
+      <span>AÚN NO TIENES POKÉMON FAVORITOS</span>
+    </div>
+
+  </div>
 </div>
