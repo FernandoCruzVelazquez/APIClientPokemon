@@ -78,6 +78,48 @@ export class LoginComponent {
   }
 
   onRegister() {
+
+    if (!this.regNombre || !this.regApellidoP || !this.regUsername || !this.regCorreo || !this.regPassword) {
+      this.registerError = '¡Todos los campos obligatorios deben llenarse!';
+      return;
+    }
+
+    const nombreRegex = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/;
+
+    if (!nombreRegex.test(this.regNombre)) {
+      this.registerError = 'Nombre inválido';
+      return;
+    }
+
+    if (!nombreRegex.test(this.regApellidoP)) {
+      this.registerError = 'Apellido paterno inválido';
+      return;
+    }
+
+    if (this.regApellidoM && !nombreRegex.test(this.regApellidoM)) {
+      this.registerError = 'Apellido materno inválido';
+      return;
+    }
+
+    const usernameRegex = /^[a-zA-Z0-9_]+$/;
+
+    if (!usernameRegex.test(this.regUsername)) {
+      this.registerError = 'El usuario solo puede contener letras, números y _';
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(this.regCorreo)) {
+      this.registerError = 'Correo electrónico inválido';
+      return;
+    }
+
+    if (this.regPassword.length < 6) {
+      this.registerError = 'La contraseña debe tener al menos 6 caracteres';
+      return;
+    }
+
     if (this.regPassword !== this.regConfirmPassword) {
       this.registerError = '¡Las contraseñas no coinciden, Entrenador!';
       return;
@@ -89,11 +131,11 @@ export class LoginComponent {
 
     const nuevoUsuario: UsuarioModel = {
       idusuario: 0,
-      nombreusuario: this.regNombre,
-      apellidopaterno: this.regApellidoP,
-      apellidomaterno: this.regApellidoM,
-      username: this.regUsername,
-      correo: this.regCorreo,
+      nombreusuario: this.regNombre.trim(),
+      apellidopaterno: this.regApellidoP.trim(),
+      apellidomaterno: this.regApellidoM?.trim() || '',
+      username: this.regUsername.trim(),
+      correo: this.regCorreo.trim(),
       password: this.regPassword,
       imagen: this.regImagen || 'default.png',
       rol: { idrol: this.regRolId } as any
@@ -120,7 +162,14 @@ export class LoginComponent {
       },
       error: (err) => {
         this.isRegistering = false;
-        this.registerError = 'Error en el servidor al registrar usuario';
+        if (err.error?.message?.includes('username')) {
+          this.registerError = 'El nombre de usuario ya existe';
+        } else if (err.error?.message?.includes('correo')) {
+          this.registerError = 'El correo ya está registrado';
+        } else {
+          this.registerError = 'Error en el servidor al registrar usuario';
+        }
+
       }
     });
   }
