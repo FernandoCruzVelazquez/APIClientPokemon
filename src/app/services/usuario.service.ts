@@ -9,12 +9,12 @@ import { ResultModel } from '../models/ResultModel';
 })
 
 export class UsuarioService {
-    private url : string = "http://localhost:8081/api/usuario";
+    private url: string = "http://localhost:8081/api/usuario";
 
     constructor(private http: HttpClient) { }
 
 
-    getAll() : Observable<ResultModel<UsuarioModel>>{
+    getAll(): Observable<ResultModel<UsuarioModel>> {
         return this.http.get<ResultModel<UsuarioModel>>(this.url + "/usuarios");
     }
 
@@ -22,12 +22,12 @@ export class UsuarioService {
         return this.http.get<ResultModel<UsuarioModel>>(`${this.url + "/perfil"}/${idusuario}`);
     }
 
-    usuarioDelete(idusuario:number) : Observable<ResultModel<UsuarioModel>>{
+    usuarioDelete(idusuario: number): Observable<ResultModel<UsuarioModel>> {
         return this.http.delete<ResultModel<UsuarioModel>>(`${this.url}/deleteUsuario/${idusuario}`);
     }
 
     usuarioAdd(usuario: Partial<UsuarioModel>): Observable<ResultModel<UsuarioModel>> {
-    return this.http.post<ResultModel<UsuarioModel>>(this.url, usuario);
+        return this.http.post<ResultModel<UsuarioModel>>(this.url, usuario);
     }
 
     usuarioUpdate(usuario: UsuarioModel): Observable<ResultModel<UsuarioModel>> {
