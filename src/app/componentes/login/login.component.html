@@ -62,6 +62,12 @@
         </button>
       </div>
 
+      <div class="text-center mt-2">
+        <button type="button" class="btn btn-link register-link p-0" (click)="openRecoverModal()" style="font-size: 0.8rem;">
+          ¿Olvidaste tu contraseña, Entrenador?
+        </button>
+      </div>
+
     </form>
   </div>
 </div>
@@ -196,6 +202,34 @@
 
       </div>
 
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="recoverModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content pokedex-modal-frame">
+      <div class="modal-header border-0">
+        <h5 class="modal-title title-pixel fs-5">RECUPERAR ACCESO</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div *ngIf="recoverStep === 1">
+          <label class="label-pixel">CORREO DE ENTRENADOR</label>
+          <input type="email" class="form-control pokedex-input mb-3" [(ngModel)]="recoverCorreo">
+          <button class="btn btn-pokedex-action w-100" (click)="enviarTokenRecuperacion()">ENVIAR CÓDIGO</button>
+        </div>
+
+        <div *ngIf="recoverStep === 2">
+          <p class="text-white-pixel mb-2">Ingresa el código enviado a tu correo:</p>
+          <input type="text" class="form-control pokedex-input mb-3" [(ngModel)]="recoverToken" placeholder="CÓDIGO 6 DÍGITOS">
+          
+          <label class="label-pixel">NUEVA CONTRASEÑA</label>
+          <input type="password" class="form-control pokedex-input mb-3" [(ngModel)]="recoverNewPassword">
+          
+          <button class="btn btn-pokedex-action w-100" (click)="validarYCambiarPassword()">ACTUALIZAR CONTRASEÑA</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

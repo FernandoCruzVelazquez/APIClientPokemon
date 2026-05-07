@@ -22,6 +22,7 @@ export class DetallePokemonComponent implements OnInit {
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
+    
     const todos = this.pokemonService.obtenerPokemons();
     this.pokemon = todos.find((p: any) => p.id === id);
 
@@ -39,11 +40,12 @@ export class DetallePokemonComponent implements OnInit {
     }
   }
 
+  
   getPolygonPoints(): string {
-    if (!this.pokemon) return "";
+    if (!this.pokemon || !this.pokemon.stats) return "";
     
     const stats = this.pokemon.stats;
-    const maxValue = 200; 
+    const maxValue = 200;
     const size = 100;    
     const center = 100;
     
@@ -61,8 +63,9 @@ export class DetallePokemonComponent implements OnInit {
     return points.join(" ");
   }
 
+  
   getChartColor(): string {
-    if (!this.pokemon || !this.pokemon.tipos.length) return 'rgba(255, 203, 5, 0.6)';
+    if (!this.pokemon || !this.pokemon.tipos?.length) return 'rgba(255, 203, 5, 0.6)';
     
     const type = this.pokemon.tipos[0].eng;
     const colors: any = {

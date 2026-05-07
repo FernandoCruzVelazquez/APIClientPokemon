@@ -42,8 +42,20 @@ export class UsuarioService {
         return this.http.post<ResultModel<any>>(`${this.url}/enviar-validacion/${correo}`, {});
     }
 
+    enviarValidacionPASS(correo: string): Observable<ResultModel<any>> {
+        return this.http.post<ResultModel<any>>(`${this.url}/enviar-validacionPASS/${correo}`, {});
+    }
+
     confirmarCodigo(correo: string, codigo: string): Observable<ResultModel<any>> {
         return this.http.post<ResultModel<any>>(`${this.url}/confirmar-codigo`, { correo, codigo });
+    }
+
+    confirmarCodigoPASS(correo: string, codigo: string): Observable<ResultModel<any>> {
+        return this.http.post<ResultModel<any>>(`${this.url}/confirmar-codigo-pass`, { correo, codigo });
+    }
+
+    actualizarPassword(correo: string, password: string): Observable<ResultModel<any>> {
+        return this.http.put<ResultModel<any>>(`${this.url}/updatePassword`, { correo, password });
     }
 
 }
