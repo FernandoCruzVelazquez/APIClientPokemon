@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./usuario-perfil.component.css']
 })
 export class UsuarioPerfilComponent implements OnInit {
-  
+
   usuario: any = {
     idusuario: 0,
     nombreusuario: '',
@@ -33,7 +33,7 @@ export class UsuarioPerfilComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    
+
     if (id) {
       this.cargarDatos(Number(id));
     } else {
@@ -42,7 +42,7 @@ export class UsuarioPerfilComponent implements OnInit {
         this.cargarDatos(userLogueado.idusuario);
       } else {
         console.error('No hay sesión activa ni ID en ruta');
-        this.router.navigate(['/login']); 
+        this.router.navigate(['/login']);
       }
     }
   }
@@ -65,12 +65,12 @@ export class UsuarioPerfilComponent implements OnInit {
 
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
-    
+
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result as string;
-        
+
         const base64String = this.imagePreview.split(',')[1];
         this.usuario.imagen = base64String;
       };
@@ -79,20 +79,70 @@ export class UsuarioPerfilComponent implements OnInit {
   }
 
   updateUsuario(): void {
+
+    const nombreRegex = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/;
+    const usernameRegex = /^[a-zA-Z0-9_]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!this.usuario.nombreusuario?.trim()) {
+      alert('El nombre es obligatorio');
+      return;
+    }
+
+    if (!nombreRegex.test(this.usuario.nombreusuario)) {
+      alert('El nombre solo puede contener letras y espacios');
+      return;
+    }
+
+    if (!this.usuario.apellidopaterno?.trim()) {
+      alert('El apellido paterno es obligatorio');
+      return;
+    }
+
+    if (!nombreRegex.test(this.usuario.apellidopaterno)) {
+      alert('El apellido paterno solo puede contener letras y espacios');
+      return;
+    }
+
+    if (this.usuario.apellidomaterno && !nombreRegex.test(this.usuario.apellidomaterno)) {
+      alert('El apellido materno solo puede contener letras y espacios');
+      return;
+    }
+
+    if (!usernameRegex.test(this.usuario.username)) {
+      alert('El nombre de usuario solo puede contener letras, números y guiones bajos');
+      return;
+    }
+
+    if (!emailRegex.test(this.usuario.correo)) {
+      alert('El correo electrónico no es válido');
+      return;
+    }
+
     this.isLoading = true;
     this.usuarioService.usuarioUpdate(this.usuario).subscribe({
-      next: (res: any) => { 
+      next: (res: any) => {
         if (res.correct) {
           alert('¡Ficha de Entrenador actualizada con éxito!');
-          this.router.navigate(['/usuarios']); 
+          this.router.navigate(['/usuarios']);
         } else {
-          alert('Error al actualizar: ' + res.message); 
+          alert('Error al actualizar: ' + res.message);
         }
         this.isLoading = false;
       },
       error: (err) => {
         console.error('Error en el servidor:', err);
-        alert('Hubo un fallo en la conexión con el Centro Pokémon.');
+
+        if (err.error?.message?.includes('username')) {
+          alert('El nombre de usuario ya existe');
+        }
+        else if (err.error?.message?.includes('correo')) {
+          alert('El correo ya está registrado');
+        }
+        else {
+          alert('Hubo un fallo en la conexión con el Centro Pokémon.');
+        }
+
         this.isLoading = false;
       }
     });

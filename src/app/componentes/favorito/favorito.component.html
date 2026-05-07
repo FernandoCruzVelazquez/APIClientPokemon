@@ -7,11 +7,8 @@
     </div>
 
     <div class="pokemon-grid">
-      <!-- Iteramos sobre favoritos -->
       <div class="pokemon-card" *ngFor="let fav of favoritos">
         
-        <!-- Usamos el primer tipo para el color de la carta si está disponible, 
-             sino usará el amarillo por defecto -->
         <div class="card-inner">
           
           <div class="card-top-bar">
@@ -22,13 +19,11 @@
             <span class="pokemon-id">#{{ fav.pokemon.idpokemon }}</span>
           </div>
 
-          <!-- Contenedor de Imagen estilo TCG -->
           <div class="img-container">
             <img [src]="fav.pokemon.imagen" class="pokemon-img" [alt]="fav.pokemon.nombrepokemon">
           </div>
 
           <div class="pokemon-info">
-             <!-- Puedes agregar descripción o dejar el espacio para botones -->
              <div class="ability-section">
                 <p class="ability-desc" style="text-align: center; padding-top: 10px;">
                   ¡Este Pokémon es uno de tus compañeros favoritos!
@@ -36,7 +31,6 @@
              </div>
             
             <div class="action-container">
-              <!-- Botón Eliminar con estilo similar al de Guardar pero en rojo -->
               <button class="delete-btn" (click)="eliminar(fav.pokemon.idpokemon)">
                 <span class="btn-icon">🗑️</span> 
                 ELIMINAR
@@ -52,7 +46,6 @@
       </div>
     </div>
 
-    <!-- Mensaje si no hay favoritos -->
     <div *ngIf="favoritos.length === 0" class="pagination-info" style="margin: 50px auto; width: fit-content;">
       <span>AÚN NO TIENES POKÉMON FAVORITOS</span>
     </div>
