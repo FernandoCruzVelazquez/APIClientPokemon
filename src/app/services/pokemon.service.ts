@@ -7,9 +7,9 @@ export class PokemonService {
 
   public progress$ = new BehaviorSubject<number>(0);
   public loading$ = new BehaviorSubject<boolean>(false);
-  private readonly STORAGE_KEY = 'pokedex_local_perpetual_v2'; 
+  private readonly STORAGE_KEY = 'pokedex_local_perpetual_v2';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   async cargarPokemonLocal() {
     const cachedData = localStorage.getItem(this.STORAGE_KEY);
@@ -36,6 +36,20 @@ export class PokemonService {
           this.http.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
         );
 
+        let sonidoBase64 = null;
+        const urlSonido = data.cries?.latest || data.cries?.legacy;
+
+        if (urlSonido) {
+          try {
+            const audioBlob = await lastValueFrom(
+              this.http.get(urlSonido, { responseType: 'blob' })
+            );
+            sonidoBase64 = await this.convertirBlobToBase64(audioBlob);
+          } catch (e) {
+            console.warn(`No se pudo descargar el audio de ${data.name}`);
+          }
+        }
+
         const listaTipos = data.types.map((t: any) => ({
           esp: traduccionTipos[t.type.name] || t.type.name,
           eng: t.type.name
@@ -45,6 +59,7 @@ export class PokemonService {
           id: data.id,
           nombre: data.name,
           imagen: data.sprites.other['official-artwork'].front_default,
+          sonido: sonidoBase64, 
           stats: {
             hp: data.stats[0].base_stat,
             atk: data.stats[1].base_stat,
@@ -53,7 +68,7 @@ export class PokemonService {
             spDef: data.stats[4].base_stat,
             speed: data.stats[5].base_stat
           },
-          tipos: listaTipos, 
+          tipos: listaTipos,
           habilidad: (data.abilities[0]?.ability.name || 'N/A').replace(/-/g, ' '),
           ataque: (data.moves[0]?.move.name || 'N/A').replace(/-/g, ' ')
         });
@@ -62,12 +77,21 @@ export class PokemonService {
       }
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(listaPokes));
-      
+
     } catch (error) {
       console.error("Error al cargar la PokeAPI:", error);
     } finally {
       this.loading$.next(false);
     }
+  }
+
+  private convertirBlobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   }
 
   obtenerPokemons() {

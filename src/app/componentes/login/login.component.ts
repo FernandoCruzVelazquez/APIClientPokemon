@@ -137,8 +137,8 @@ export class LoginComponent {
       username: this.regUsername.trim(),
       correo: this.regCorreo.trim(),
       password: this.regPassword,
-      imagen: this.regImagen || 'default.png',
-      rol: { idrol: this.regRolId } as any
+      imagen: this.regImagen || '',
+      rol: { idrol: this.regRolId } as any 
     };
 
     this.usuarioService.usuarioAdd(nuevoUsuario).subscribe({

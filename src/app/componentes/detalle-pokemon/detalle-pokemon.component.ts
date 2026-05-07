@@ -12,6 +12,8 @@ import { PokemonService } from '../../services/pokemon.service';
 })
 export class DetallePokemonComponent implements OnInit {
   pokemon: any;
+  
+  audioGrito: HTMLAudioElement | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,6 +24,19 @@ export class DetallePokemonComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     const todos = this.pokemonService.obtenerPokemons();
     this.pokemon = todos.find((p: any) => p.id === id);
+
+    if (this.pokemon?.sonido) {
+      this.audioGrito = new Audio(this.pokemon.sonido);
+      this.audioGrito.volume = 0.5;
+      this.audioGrito.load(); 
+    }
+  }
+
+  reproducirGrito(): void {
+    if (this.audioGrito) {
+      this.audioGrito.currentTime = 0; 
+      this.audioGrito.play().catch(err => console.error("Error al reproducir audio:", err));
+    }
   }
 
   getPolygonPoints(): string {
@@ -46,8 +61,9 @@ export class DetallePokemonComponent implements OnInit {
     return points.join(" ");
   }
 
-  
   getChartColor(): string {
+    if (!this.pokemon || !this.pokemon.tipos.length) return 'rgba(255, 203, 5, 0.6)';
+    
     const type = this.pokemon.tipos[0].eng;
     const colors: any = {
       fire: 'rgba(240, 128, 48, 0.6)',
@@ -57,5 +73,4 @@ export class DetallePokemonComponent implements OnInit {
     };
     return colors[type] || 'rgba(255, 203, 5, 0.6)';
   }
-
 }

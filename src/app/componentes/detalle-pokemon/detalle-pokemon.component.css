@@ -267,7 +267,7 @@
 
 .radar-chart-container {
   margin-top: 30px;
-  background: rgba(0, 0, 0, 0.3); /* Fondo oscuro para que resalte el gráfico */
+  background: rgba(0, 0, 0, 0.3); 
   padding: 20px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -278,7 +278,7 @@
   font-size: 0.9rem;
   letter-spacing: 2px;
   margin-bottom: 25px;
-  color: #ffcb05; /* Color Pokémon dorado */
+  color: #ffcb05; 
 }
 
 svg {
@@ -289,14 +289,14 @@ svg {
   fill: rgba(255, 255, 255, 0.05);
   stroke: rgba(255, 255, 255, 0.2);
   stroke-width: 1;
-  stroke-dasharray: 4; /* Líneas punteadas para un look más técnico */
+  stroke-dasharray: 4; 
 }
 
 .chart-poly {
-  fill: rgba(255, 203, 5, 0.4); /* Color base del polígono */
+  fill: rgba(255, 203, 5, 0.4); 
   stroke: #ffcb05;
   stroke-width: 3;
-  filter: drop-shadow(0 0 8px rgba(255, 203, 5, 0.8)); /* Efecto neón */
+  filter: drop-shadow(0 0 8px rgba(255, 203, 5, 0.8)); 
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -307,28 +307,24 @@ text {
   font-weight: 600;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
-/* Contenedor principal de estadísticas */
 .stats-flex-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 30px; /* Espacio entre barras y radar */
+  gap: 30px; 
   margin-top: 10px;
 }
 
-/* Sección de las barras (izquierda) */
 .bars-section {
-  flex: 1; /* Toma el espacio disponible */
+  flex: 1; 
 }
 
-/* Ajuste del radar (derecha) */
 .radar-chart-container {
-  flex: 0 0 auto; /* No se estira, mantiene su tamaño */
-  margin-top: 0; /* Quitamos el margin-top que tenías antes */
-  min-width: 280px; /* Asegura espacio suficiente para el SVG y textos */
+  flex: 0 0 auto; 
+  margin-top: 0; 
+  min-width: 280px; 
 }
 
-/* Responsivo: Si la pantalla es pequeña, se ponen uno arriba del otro */
 @media (max-width: 992px) {
   .stats-flex-container {
     flex-direction: column;
@@ -340,3 +336,49 @@ text {
   }
 }
 
+.image-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-audio-float {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-audio-float:hover {
+  transform: scale(1.1) rotate(5deg);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+}
+
+.btn-audio-float:active {
+  transform: scale(0.9);
+}
+
+.btn-audio-float i {
+  animation: audio-pulse 2s infinite;
+}
+
+@keyframes audio-pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+  100% { opacity: 0.7; }
+}

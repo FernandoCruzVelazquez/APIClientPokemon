@@ -11,8 +11,17 @@
     </div>
 
     <div class="detail-content">
+
+      <audio #audioPlayer [src]="pokemon.sonido" preload="auto"></audio>
+
       <div class="image-box">
         <img [src]="pokemon.imagen" [alt]="pokemon.nombre">
+        
+        <button *ngIf="pokemon.sonido" 
+                (click)="reproducirGrito()" 
+                class="btn-audio-float">
+          <i class="bi bi-volume-up-fill"></i>
+        </button>
       </div>
 
       <div class="stats-box">
@@ -20,7 +29,6 @@
         <div class="stat-row">
           <span>HP</span>
           <div class="bar-container">
-            <!-- Verifica si es pokemon.hp o pokemon.stats.hp -->
             <div class="bar" [style.width.%]="(pokemon.stats?.hp / 255) * 100"></div>
           </div>
           <span>{{ pokemon.stats?.hp }}</span>

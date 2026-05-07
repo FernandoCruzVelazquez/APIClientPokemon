@@ -675,7 +675,6 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
-/* El brillo que recorre el botón */
 .btn-glow {
   position: absolute;
   top: -50%;
@@ -734,12 +733,12 @@
   padding: 15px 25px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   margin: 20px auto;
-  max-width: 900px; /* Ajusta según prefieras */
+  max-width: 900px; 
 }
 
 .filters-content {
   display: flex;
-  flex-direction: row; /* Alineación horizontal */
+  flex-direction: row; 
   justify-content: space-between;
   align-items: center;
   gap: 20px;
@@ -748,7 +747,7 @@
 .filter-item {
   display: flex;
   flex-direction: column;
-  flex: 1; /* Todos los inputs miden lo mismo */
+  flex: 1; 
 }
 
 .filter-item label {
@@ -778,10 +777,9 @@
   box-shadow: 0 0 10px rgba(255, 203, 5, 0.2);
 }
 
-/* Responsivo para móviles */
 @media (max-width: 768px) {
   .filters-content {
-    flex-direction: column; /* Se apilan en pantallas pequeñas */
+    flex-direction: column; 
     gap: 15px;
   }
   .filter-item {
