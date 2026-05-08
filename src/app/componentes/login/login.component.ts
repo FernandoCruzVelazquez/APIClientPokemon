@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
 import { UsuarioModel } from '../../models/UsuarioModel';
+import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
 
@@ -34,6 +35,12 @@ export class LoginComponent {
   registerError = '';
   registerSuccess = false;
   isRegistering = false;
+
+
+  recoverCorreo = '';
+  recoverToken = '';
+  recoverNewPassword = '';
+  recoverStep = 1; // 1: Pedir correo, 2: Pedir token y nueva pass
 
   constructor(
     private authService: AuthService,
@@ -183,6 +190,72 @@ export class LoginComponent {
     this.regPassword = '';
     this.regConfirmPassword = '';
     this.regImagen = '';
+  }
+
+  openRecoverModal() {
+    this.recoverStep = 1;
+    this.recoverCorreo = '';
+    const modalElement = document.getElementById('recoverModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  enviarTokenRecuperacion() {
+    if (!this.recoverCorreo) return;
+
+    this.usuarioService.enviarValidacionPASS(this.recoverCorreo).subscribe({
+      next: (res) => {
+        if (res.correct) {
+          this.recoverStep = 2;
+          Swal.fire({
+            title: '¡Código Enviado!',
+            text: 'Revisa tu correo de Entrenador.',
+            icon: 'info',
+            didOpen: () => {
+              const container = Swal.getContainer();
+              if (container) {
+                container.style.zIndex = '9999';
+              }
+            }
+          });
+        }
+      },
+      error: () => {
+        Swal.fire({
+          title: 'Error',
+          text: 'No pudimos enviar el código.',
+          icon: 'error',
+          didOpen: () => {
+            const container = Swal.getContainer();
+            if (container) {
+              container.style.zIndex = '9999';
+            }
+          }
+        });
+      }
+    });
+  }
+
+  validarYCambiarPassword() {
+    this.usuarioService.confirmarCodigo(this.recoverCorreo, this.recoverToken).subscribe({
+      next: (resToken) => {
+        if (resToken.correct) {
+          
+          this.usuarioService.actualizarPassword(this.recoverCorreo, this.recoverNewPassword).subscribe({
+            next: (resPass) => {
+              if (resPass.correct) {
+                Swal.fire('¡Éxito!', 'Tu contraseña ha sido actualizada.', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('recoverModal')).hide();
+              }
+            }
+          });
+        } else {
+          Swal.fire('Error', 'Código de verificación incorrecto.', 'error');
+        }
+      }
+    });
   }
 
 }

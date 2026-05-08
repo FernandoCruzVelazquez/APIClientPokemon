@@ -36,19 +36,7 @@ export class PokemonService {
           this.http.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
         );
 
-        let sonidoBase64 = null;
-        const urlSonido = data.cries?.latest || data.cries?.legacy;
-
-        if (urlSonido) {
-          try {
-            const audioBlob = await lastValueFrom(
-              this.http.get(urlSonido, { responseType: 'blob' })
-            );
-            sonidoBase64 = await this.convertirBlobToBase64(audioBlob);
-          } catch (e) {
-            console.warn(`No se pudo descargar el audio de ${data.name}`);
-          }
-        }
+        const urlSonido = data.cries?.latest || data.cries?.legacy || null;
 
         const listaTipos = data.types.map((t: any) => ({
           esp: traduccionTipos[t.type.name] || t.type.name,
@@ -59,7 +47,7 @@ export class PokemonService {
           id: data.id,
           nombre: data.name,
           imagen: data.sprites.other['official-artwork'].front_default,
-          sonido: sonidoBase64, 
+          sonido: urlSonido, 
           stats: {
             hp: data.stats[0].base_stat,
             atk: data.stats[1].base_stat,
@@ -83,15 +71,6 @@ export class PokemonService {
     } finally {
       this.loading$.next(false);
     }
-  }
-
-  private convertirBlobToBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
   }
 
   obtenerPokemons() {

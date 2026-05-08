@@ -77,8 +77,4 @@ export class UsuarioGetAllComponent implements OnInit {
       }
     });
   }
-
-
-
-
 }

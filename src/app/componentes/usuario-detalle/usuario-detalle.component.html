@@ -1,0 +1,161 @@
+<div class="perfil-container-unificado">
+  <div class="usuarios-bg"></div>
+
+  <div class="container-fluid contenido pt-4 px-4">
+    <div class="row g-4">
+      
+      <div class="col-lg-6">
+        <div class="card pokedex-card shadow-lg h-100 animate-in">
+          <div class="card-header text-center">
+            <h2 class="title-perfil">FICHA DE ENTRENADOR</h2>
+          </div>
+
+          <div class="card-body p-4">
+            <div class="row">
+              <div class="col-md-4 text-center border-end-md border-secondary-subtle">
+                <div class="image-preview-container mb-3">
+                  <img
+                    [src]="imagePreview || (usuario.imagen ? 'data:image/jpeg;base64,' + usuario.imagen : 'https://cdn-icons-png.flaticon.com/512/287/287226.png')"
+                    class="img-thumbnail rounded-circle profile-img-edit" />
+                </div>
+
+                <label class="btn btn-outline-warning btn-sm w-100">
+                  <i class="bi bi-camera-fill"></i> CAMBIAR FOTO
+                  <input type="file" (change)="onFileSelected($event)" hidden accept="image/*">
+                </label>
+                <p class="text-muted small mt-2">Formatos: JPG, PNG. Máx 2MB</p>
+              </div>
+
+              <div class="col-md-8">
+                <form (ngSubmit)="updateUsuario()" #perfilForm="ngForm">
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="label-pokedex">NOMBRE</label>
+                      <input type="text" class="form-control input-pokedex" [(ngModel)]="usuario.nombreusuario"
+                        name="nombre" required maxlength="100" pattern="^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$" #nombreModel="ngModel">
+                      <div *ngIf="nombreModel.invalid && nombreModel.touched" class="text-danger small">
+                        Nombre inválido
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label class="label-pokedex">APELLIDO PATERNO</label>
+                      <input type="text" class="form-control input-pokedex" [(ngModel)]="usuario.apellidopaterno"
+                        name="apellidopaterno" required maxlength="50" pattern="^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$"
+                        #apellidoPModel="ngModel">
+                      <div *ngIf="apellidoPModel.invalid && apellidoPModel.touched" class="text-danger small">
+                        Apellido paterno inválido
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="label-pokedex">APELLIDO MATERNO</label>
+                      <input type="text" class="form-control input-pokedex" [(ngModel)]="usuario.apellidomaterno"
+                        name="apellidomaterno" maxlength="50" pattern="^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$" #apellidoMModel="ngModel">
+                      <div *ngIf="apellidoMModel.invalid && apellidoMModel.touched" class="text-danger small">
+                        Apellido materno inválido
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label class="label-pokedex">USUARIO</label>
+                      <input type="text" class="form-control input-pokedex" [(ngModel)]="usuario.username" name="username"
+                        required maxlength="50" pattern="^[a-zA-Z0-9_]+$" #usernameModel="ngModel">
+                      <div *ngIf="usernameModel.invalid && usernameModel.touched" class="text-danger small">
+                        Nombre de usuario inválido
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="label-pokedex">CORREO ELECTRÓNICO</label>
+                    <input type="email" class="form-control input-pokedex" [(ngModel)]="usuario.correo" name="correo"
+                      required maxlength="60" email #correoModel="ngModel">
+                    <div *ngIf="correoModel.invalid && correoModel.touched" class="text-danger small">
+                      Correo electrónico inválido
+                    </div>
+                  </div>
+
+                  <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-success btn-poke flex-grow-1" [disabled]="perfilForm.invalid || isLoadingPerfil">
+                      <i class="bi bi-save"></i> <span *ngIf="!isLoadingPerfil">GUARDAR CAMBIOS</span>
+                      <span *ngIf="isLoadingPerfil">GUARDANDO...</span>
+                    </button>
+                    <button type="button" (click)="regresar()" class="btn btn-secondary btn-poke">
+                      REGRESAR
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="pokedex-panel animate-in h-100 d-flex flex-column" style="min-height: 500px;">
+          
+          <div class="pokedex-header">
+            <h1 class="title">COMPAÑEROS FAVORITOS</h1>
+            <p class="subtitle text-center text-warning" style="font-family: 'Press Start 2P', monospace; font-size: 0.75rem;">
+              EQUIPO DE: {{ usuario.nombreusuario | uppercase }}
+            </p>
+          </div>
+
+          <div class="pokemon-grid flex-grow-1 overflow-auto px-2" style="max-height: 550px;">
+            <div class="pokemon-card" *ngFor="let fav of favoritos">
+              <div class="card-inner">
+                
+                <div class="card-top-bar">
+                  <div class="name-id">
+                    <span class="card-rarity">FAVORITO</span>
+                    <h3 class="pokemon-name">{{ fav.pokemon.nombrepokemon | titlecase }}</h3>
+                  </div>
+                  <span class="pokemon-id">#{{ fav.pokemon.idpokemon }}</span>
+                </div>
+
+                <div class="img-container">
+                  <img [src]="fav.pokemon.imagen" class="pokemon-img" [alt]="fav.pokemon.nombrepokemon">
+                </div>
+
+                <div class="pokemon-info">
+                  <div class="ability-section">
+                    <p class="ability-desc" style="text-align: center; padding-top: 10px;">
+                      ¡Este Pokémon es uno de tus compañeros favoritos!
+                    </p>
+                  </div>
+                  
+                  <div class="action-container">
+                    <button class="delete-btn" (click)="eliminarFavorito(fav.pokemon.idpokemon)">
+                      <span class="btn-icon">🗑️</span> 
+                      ELIMINAR
+                    </button>
+                  </div>
+                </div>
+
+                <div class="card-footer-tcg">
+                  <div class="footer-decor"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="favoritos.length === 0 && !isLoadingFavoritos" class="pagination-info my-auto text-center">
+            <span>AÚN NO TIENE POKÉMON FAVORITOS</span>
+          </div>
+
+          <div *ngIf="isLoadingFavoritos" class="text-center my-auto">
+            <div class="spinner-border text-warning" role="status">
+              <span class="visually-hidden">Cargando compañeros...</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

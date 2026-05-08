@@ -7,6 +7,7 @@ import { DetallePokemonComponent } from './componentes/detalle-pokemon/detalle-p
 import { UsuarioGetAllComponent } from './componentes/usuario-get-all/usuario-get-all.component';
 import { UsuarioPerfilComponent } from './componentes/usuario-perfil/usuario-perfil.component';
 import { FavoritoComponent } from './componentes/favorito/favorito.component';
+import { UsuarioDetalleComponent } from './componentes/usuario-detalle/usuario-detalle.component';
 
 
 export const routes: Routes = [
@@ -26,6 +27,7 @@ export const routes: Routes = [
       {path: 'perfil', component: UsuarioPerfilComponent },
       {path: 'perfil/:id', component: UsuarioPerfilComponent },
       {path: 'favoritos', component: FavoritoComponent},
+      {path: 'perfil-detalle/:id', component: UsuarioDetalleComponent}
     ]
   },
   //Si hay rutas que no existen los mandamos al login por seguridad :p

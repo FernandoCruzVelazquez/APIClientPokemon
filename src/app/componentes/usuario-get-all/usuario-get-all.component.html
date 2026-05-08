@@ -21,30 +21,28 @@
 
                 <tbody>
                     <tr *ngFor="let usuario of usuarios" [id]="'row_' + usuario.idusuario" class="align-middle">
-                        
+
                         <td class="text-center">
-                            <img *ngIf="usuario.imagen" 
-                                [src]="'data:image/jpeg;base64,' + usuario.imagen"
+                            <img *ngIf="usuario.imagen" [src]="'data:image/jpeg;base64,' + usuario.imagen"
                                 class="rounded-circle trainer-img" />
-                            
+
                             <ng-container *ngIf="!usuario.imagen">
-                                
+
                                 <img *ngIf="usuario.idusuario % 2 === 0"
-                                    src="https://cdn-icons-png.flaticon.com/512/361/361998.png" 
-                                    class="rounded-circle trainer-img" 
-                                    alt="Entrenador Tipo A" />
+                                    src="https://cdn-icons-png.flaticon.com/512/361/361998.png"
+                                    class="rounded-circle trainer-img" alt="Entrenador Tipo A" />
 
                                 <img *ngIf="usuario.idusuario % 2 !== 0"
-                                    src="https://cdn-icons-png.flaticon.com/512/188/188926.png" 
-                                    class="rounded-circle trainer-img" 
-                                    alt="Entrenador Tipo B" />
-                                    
+                                    src="https://cdn-icons-png.flaticon.com/512/188/188926.png"
+                                    class="rounded-circle trainer-img" alt="Entrenador Tipo B" />
+
                             </ng-container>
                         </td>
 
                         <td>
-                            <div class="fw-bold fs-5" style="color: #2a75bb;"> 
-                                <i class="bi bi-shield-shaded me-1"></i> {{usuario.nombreusuario}} {{usuario.apellidopaterno}}
+                            <div class="fw-bold fs-5" style="color: #2a75bb;">
+                                <i class="bi bi-shield-shaded me-1"></i> {{usuario.nombreusuario}}
+                                {{usuario.apellidopaterno}}
                             </div>
                             <div class="d-flex gap-2 mt-2">
                                 <span class="badge bg-primary badge-trainer">
@@ -58,7 +56,8 @@
 
                         <td>
                             <div class="d-flex align-items-center mb-1">
-                                <div class="icon-circle bg-danger text-white me-2" style="width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
+                                <div class="icon-circle bg-danger text-white me-2"
+                                    style="width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
                                     <i class="bi bi-envelope"></i>
                                 </div>
                                 <span class="text-dark fw-medium">{{usuario.correo}}</span>
@@ -70,12 +69,12 @@
 
                         <td class="text-center">
                             <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-sm btn-info btn-poke" title="Ver Perfil">
+                                <button [routerLink]="['/perfil-detalle', usuario.idusuario]"
+                                    class="btn btn-sm btn-info btn-poke" title="Ver Perfil y Favoritos">
                                     <i class="bi bi-search text-white"></i>
                                 </button>
-                                <button (click)="eliminarUsuario(usuario.idusuario)" 
-                                        class="btn btn-sm btn-danger btn-poke" 
-                                        title="Eliminar Registro">
+                                <button (click)="eliminarUsuario(usuario.idusuario)"
+                                    class="btn btn-sm btn-danger btn-poke" title="Eliminar Registro">
                                     <i class="bi bi-trash3-fill"></i>
                                 </button>
                             </div>
