@@ -36,6 +36,10 @@ export class PokemonService {
           this.http.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
         );
 
+        const speciesData: any = await lastValueFrom(this.http.get(data.species.url));
+
+        const categoriaEsp = speciesData.genera.find((g: any) => g.language.name === 'es')?.genus || 'Desconocido';
+
         const urlSonido = data.cries?.latest || data.cries?.legacy || null;
 
         const listaTipos = data.types.map((t: any) => ({
@@ -58,7 +62,11 @@ export class PokemonService {
           },
           tipos: listaTipos,
           habilidad: (data.abilities[0]?.ability.name || 'N/A').replace(/-/g, ' '),
-          ataque: (data.moves[0]?.move.name || 'N/A').replace(/-/g, ' ')
+          ataque: (data.moves[0]?.move.name || 'N/A').replace(/-/g, ' '),
+          altura: data.height / 10, 
+          peso: data.weight / 10,   
+          categoria: categoriaEsp,
+          genero: speciesData.gender_rate
         });
 
         this.progress$.next(Math.round((i / total) * 100));
