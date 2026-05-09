@@ -15,7 +15,6 @@ export const routes: Routes = [
  
   { path: 'login', component: LoginComponent },
 
-  { path: 'pokemon/:id', component: DetallePokemonComponent },
  
   // Lo que va dentro del path de layout es lo que se muestra debajo del layout
   {
@@ -27,7 +26,8 @@ export const routes: Routes = [
       {path: 'perfil', component: UsuarioPerfilComponent },
       {path: 'perfil/:id', component: UsuarioPerfilComponent },
       {path: 'favoritos', component: FavoritoComponent},
-      {path: 'perfil-detalle/:id', component: UsuarioDetalleComponent}
+      {path: 'perfil-detalle/:id', component: UsuarioDetalleComponent},
+      {path: 'pokemon/:id', component: DetallePokemonComponent }
     ]
   },
   //Si hay rutas que no existen los mandamos al login por seguridad :p
