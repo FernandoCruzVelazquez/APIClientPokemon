@@ -10,4 +10,5 @@ export interface UsuarioModel{
     password : string;
     imagen : string;
     rol :RolModel;
+    activacion :number;
 }

@@ -58,4 +58,8 @@ export class UsuarioService {
         return this.http.put<ResultModel<any>>(`${this.url}/updatePassword`, { correo, password });
     }
 
+    updateEstatus(correo: string, estatus: boolean): Observable<ResultModel<any>> {
+        return this.http.put<ResultModel<any>>(`${this.url}/cambiar-estatus`, { correo, estatus });
+    }
+
 }

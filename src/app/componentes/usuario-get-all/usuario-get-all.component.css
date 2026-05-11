@@ -122,3 +122,27 @@
     from { filter: drop-shadow(0 0 5px rgba(255, 203, 5, 0.4)); }
     to { filter: drop-shadow(0 0 15px rgba(255, 203, 5, 0.8)); }
 }
+
+.search-group {
+    border-radius: 25px;
+    overflow: hidden;
+    border: 2px solid #2a75bb; /* Azul Pokemon */
+}
+
+.search-group .form-control:focus {
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.input-group-text {
+    border: none;
+}
+
+.btn-primary {
+    background-color: #2a75bb;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #3c5aa6;
+}

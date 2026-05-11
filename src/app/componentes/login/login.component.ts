@@ -40,7 +40,7 @@ export class LoginComponent {
   recoverCorreo = '';
   recoverToken = '';
   recoverNewPassword = '';
-  recoverStep = 1; // 1: Pedir correo, 2: Pedir token y nueva pass
+  recoverStep = 1;
 
   constructor(
     private authService: AuthService,
@@ -145,7 +145,8 @@ export class LoginComponent {
       correo: this.regCorreo.trim(),
       password: this.regPassword,
       imagen: this.regImagen || '',
-      rol: { idrol: this.regRolId } as any 
+      rol: { idrol: this.regRolId } as any,
+      activacion: 1
     };
 
     this.usuarioService.usuarioAdd(nuevoUsuario).subscribe({

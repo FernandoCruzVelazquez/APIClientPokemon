@@ -8,10 +8,36 @@
             </div>
         </div>
 
+        <div class="card shadow-sm border-0 mb-4 p-3 bg-light">
+            <div class="row g-2">
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold">ID</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="#00" 
+                           [(ngModel)]="filtros.id" (input)="filtrarUsuarios()">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold">Nombre</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ej: Ash" 
+                           [(ngModel)]="filtros.nombre" (input)="filtrarUsuarios()">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small fw-bold">Apellido</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ej: Ketchum" 
+                           [(ngModel)]="filtros.apellido" (input)="filtrarUsuarios()">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold">Rol</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Ej: Entrenador" 
+                           [(ngModel)]="filtros.rol" (input)="filtrarUsuarios()">
+                </div>
+            </div>
+        </div>
+
         <div class="table-responsive px-2">
             <table class="table table-pokedex align-middle">
                 <thead>
                     <tr class="text-center">
+                        <th>ESTADO</th>
                         <th>PERFIL</th>
                         <th>DATOS DEL ENTRENADOR</th>
                         <th>CONTACTO</th>
@@ -20,14 +46,25 @@
                 </thead>
 
                 <tbody>
-                    <tr *ngFor="let usuario of usuarios" [id]="'row_' + usuario.idusuario" class="align-middle">
+                    <tr *ngFor="let usuario of usuariosFiltrados" [id]="'row_' + usuario.idusuario" 
+                        class="align-middle transition-all" [ngClass]="{'usuario-inactivo': !usuario.activacion}">
+
+                        <td class="text-center">
+                            <div class="form-check form-switch d-inline-block">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                       [checked]="usuario.activacion"
+                                       (change)="toggleEstatus(usuario)">
+                            </div>
+                            <div class="small fw-bold mt-1" [ngClass]="usuario.activacion ? 'text-success' : 'text-danger'">
+                                {{ usuario.activacion ? 'ACTIVO' : 'INACTIVO' }}
+                            </div>
+                        </td>
 
                         <td class="text-center">
                             <img *ngIf="usuario.imagen" [src]="'data:image/jpeg;base64,' + usuario.imagen"
-                                class="rounded-circle trainer-img" />
+                                 class="rounded-circle trainer-img" />
 
                             <ng-container *ngIf="!usuario.imagen">
-
                                 <img *ngIf="usuario.idusuario % 2 === 0"
                                     src="https://cdn-icons-png.flaticon.com/512/361/361998.png"
                                     class="rounded-circle trainer-img" alt="Entrenador Tipo A" />
@@ -35,7 +72,6 @@
                                 <img *ngIf="usuario.idusuario % 2 !== 0"
                                     src="https://cdn-icons-png.flaticon.com/512/188/188926.png"
                                     class="rounded-circle trainer-img" alt="Entrenador Tipo B" />
-
                             </ng-container>
                         </td>
 
@@ -56,8 +92,8 @@
 
                         <td>
                             <div class="d-flex align-items-center mb-1">
-                                <div class="icon-circle bg-danger text-white me-2"
-                                    style="width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
+                                <div class="icon-circle bg-danger text-white me-2 d-flex align-items-center justify-content-center"
+                                     style="width: 25px; height: 25px; border-radius: 50%; font-size: 0.8rem;">
                                     <i class="bi bi-envelope"></i>
                                 </div>
                                 <span class="text-dark fw-medium">{{usuario.correo}}</span>
