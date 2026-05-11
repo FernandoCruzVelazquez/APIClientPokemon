@@ -69,6 +69,7 @@ export class LoginComponent {
           localStorage.setItem('token', res.token);
           localStorage.setItem('username', res.username);
           localStorage.setItem('idusuario', res.idusuario.toString());
+          localStorage.setItem('rol', res.rol);
 
           this.authService.saveToken(res.token);
 
