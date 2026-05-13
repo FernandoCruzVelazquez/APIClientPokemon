@@ -49,3 +49,21 @@
   border-color: #FFCB05;
   box-shadow: 0 0 5px rgba(255, 203, 5, 0.5);
 }
+
+.input-pokedex {
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.label-pokedex {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.bg-light {
+    background-color: rgba(0, 0, 0, 0.03) !important;
+    border-style: dashed !important;
+}

@@ -62,4 +62,9 @@ export class UsuarioService {
         return this.http.put<ResultModel<any>>(`${this.url}/cambiar-estatus`, { correo, estatus });
     }
 
+    resetPassword(correo: string, nuevaPass: string): Observable<ResultModel<any>> {
+        const body = { correo: correo, password: nuevaPass };
+        return this.http.put<ResultModel<any>>(`${this.url}/reset-password`, body);
+    }
+
 }
