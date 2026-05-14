@@ -17,8 +17,7 @@
 
               <div class="image-preview-container d-inline-block position-relative">
 
-                <img
-                  [src]="usuario.imagen 
+                <img [src]="usuario.imagen 
                     ? 'data:image/jpeg;base64,' + usuario.imagen 
                     : 'https://cdn-icons-png.flaticon.com/512/287/287226.png'"
                   class="img-thumbnail rounded-circle profile-img-edit" />
@@ -36,20 +35,14 @@
 
                 <div class="col-md-6 mb-3">
                   <label class="label-pokedex">NOMBRE</label>
-                  <input
-                    type="text"
-                    class="form-control input-pokedex readonly-input"
-                    [value]="usuario.nombreusuario"
+                  <input type="text" class="form-control input-pokedex readonly-input" [value]="usuario.nombreusuario"
                     readonly>
                 </div>
 
                 <div class="col-md-6 mb-3">
 
                   <label class="label-pokedex">USUARIO</label>
-                  <input
-                    type="text"
-                    class="form-control input-pokedex readonly-input"
-                    [value]="usuario.username"
+                  <input type="text" class="form-control input-pokedex readonly-input" [value]="usuario.username"
                     readonly>
                 </div>
 
@@ -62,10 +55,7 @@
                   <label class="label-pokedex">
                     APELLIDO PATERNO
                   </label>
-                  <input
-                    type="text"
-                    class="form-control input-pokedex readonly-input"
-                    [value]="usuario.apellidopaterno"
+                  <input type="text" class="form-control input-pokedex readonly-input" [value]="usuario.apellidopaterno"
                     readonly>
                 </div>
 
@@ -74,10 +64,7 @@
                   <label class="label-pokedex">
                     APELLIDO MATERNO
                   </label>
-                  <input
-                    type="text"
-                    class="form-control input-pokedex readonly-input"
-                    [value]="usuario.apellidomaterno"
+                  <input type="text" class="form-control input-pokedex readonly-input" [value]="usuario.apellidomaterno"
                     readonly>
                 </div>
 
@@ -88,17 +75,16 @@
                 <label class="label-pokedex">
                   CORREO ELECTRÓNICO
                 </label>
-                <input
-                  type="email"
-                  class="form-control input-pokedex readonly-input"
-                  [value]="usuario.correo"
-                  readonly>
+                <input type="email" class="form-control input-pokedex readonly-input" [value]="usuario.correo" readonly>
               </div>
 
               <div class="trainer-badge">
                 <span class="badge-label">
                   ENTRENADOR ACTIVO
                 </span>
+                <button type="button" class="btn btn-danger btn-poke">
+                  Desactivar cuenta
+                </button>
               </div>
 
             </div>
@@ -123,9 +109,7 @@
 
           </div>
 
-          <div
-            *ngIf="isLoadingFavoritos"
-            class="loader-container">
+          <div *ngIf="isLoadingFavoritos" class="loader-container">
 
             <div class="pokeball-loader">
 
@@ -141,9 +125,7 @@
 
           </div>
 
-          <div
-            class="pokemon-grid-scroll flex-grow-1"
-            *ngIf="!isLoadingFavoritos">
+          <div class="pokemon-grid-scroll flex-grow-1" *ngIf="!isLoadingFavoritos">
 
             <div class="row row-cols-1 row-cols-xl-2 g-4 justify-content-center">
 
@@ -175,10 +157,7 @@
 
                     <div class="img-container">
 
-                      <img
-                        [src]="fav.pokemon.imagen"
-                        class="pokemon-img"
-                        [alt]="fav.pokemon.nombrepokemon">
+                      <img [src]="fav.pokemon.imagen" class="pokemon-img" [alt]="fav.pokemon.nombrepokemon">
 
                     </div>
 
@@ -200,9 +179,7 @@
                 </div>
               </div>
             </div>
-            <div
-              *ngIf="favoritos.length === 0"
-              class="empty-state">
+            <div *ngIf="favoritos.length === 0" class="empty-state">
 
               <span>
                 AÚN NO TIENE POKÉMON FAVORITOS

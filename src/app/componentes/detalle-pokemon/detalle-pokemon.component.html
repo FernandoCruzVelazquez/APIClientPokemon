@@ -21,15 +21,9 @@
 
         <div class="image-box">
 
-          <img
-            [src]="pokemon.imagen"
-            [alt]="pokemon.nombre"
-          >
+          <img [src]="pokemon.imagen" [alt]="pokemon.nombre">
 
-          <button
-            *ngIf="pokemon.sonido"
-            (click)="reproducirGrito()"
-            class="btn-audio-float">
+          <button *ngIf="pokemon.sonido" (click)="reproducirGrito()" class="btn-audio-float">
 
             <i class="bi bi-volume-up-fill"></i>
 
@@ -39,10 +33,7 @@
 
         <div class="types-row">
 
-          <span
-            *ngFor="let t of pokemon.tipos"
-            class="type-badge"
-            [ngClass]="t.eng">
+          <span *ngFor="let t of pokemon.tipos" class="type-badge" [ngClass]="t.eng">
 
             {{ t.esp }}
 
@@ -50,7 +41,15 @@
 
         </div>
 
+        <div class="action-container">
+          <button class="save-btn" (click)="onGuardar(pokemon)">
+            <span class="btn-icon">🔘</span>
+            GUARDAR
+          </button>
+        </div>
+
       </div>
+
 
       <!-- DERECHA -->
       <div class="data-panel-premium">
@@ -77,19 +76,13 @@
 
             <div class="gender-icons">
 
-              <i
-                *ngIf="pokemon.genero !== 8 && pokemon.genero !== -1"
-                class="bi bi-gender-male">
+              <i *ngIf="pokemon.genero !== 8 && pokemon.genero !== -1" class="bi bi-gender-male">
               </i>
 
-              <i
-                *ngIf="pokemon.genero !== 0 && pokemon.genero !== -1"
-                class="bi bi-gender-female">
+              <i *ngIf="pokemon.genero !== 0 && pokemon.genero !== -1" class="bi bi-gender-female">
               </i>
 
-              <span
-                *ngIf="pokemon.genero === -1"
-                class="no-gender">
+              <span *ngIf="pokemon.genero === -1" class="no-gender">
 
                 Desconocido
 
@@ -111,9 +104,7 @@
             <span class="stat-label">HP</span>
 
             <div class="bar-container">
-              <div
-                class="bar hp-bar"
-                [style.width.%]="(pokemon.stats?.hp / 255) * 100">
+              <div class="bar hp-bar" [style.width.%]="(pokemon.stats?.hp / 255) * 100">
               </div>
             </div>
 
@@ -127,9 +118,7 @@
             <span class="stat-label">ATK</span>
 
             <div class="bar-container">
-              <div
-                class="bar atk-bar"
-                [style.width.%]="(pokemon.stats?.atk / 255) * 100">
+              <div class="bar atk-bar" [style.width.%]="(pokemon.stats?.atk / 255) * 100">
               </div>
             </div>
 
@@ -144,9 +133,7 @@
             <span class="stat-label">DEF</span>
 
             <div class="bar-container">
-              <div
-                class="bar def-bar"
-                [style.width.%]="(pokemon.stats?.def / 255) * 100">
+              <div class="bar def-bar" [style.width.%]="(pokemon.stats?.def / 255) * 100">
               </div>
             </div>
 
@@ -182,19 +169,11 @@
 
           <div class="radar-chart-mini">
 
-            <svg
-              width="160"
-              height="160"
-              viewBox="0 0 200 200"
-              style="overflow: visible;">
+            <svg width="160" height="160" viewBox="0 0 200 200" style="overflow: visible;">
 
-              <polygon
-                points="100,0 186,50 186,150 100,200 14,150 14,50"
-                class="chart-bg" />
+              <polygon points="100,0 186,50 186,150 100,200 14,150 14,50" class="chart-bg" />
 
-              <polygon
-                points="100,50 143,75 143,125 100,150 57,125 57,75"
-                class="chart-bg-inner" />
+              <polygon points="100,50 143,75 143,125 100,150 57,125 57,75" class="chart-bg-inner" />
 
               <line x1="100" y1="100" x2="100" y2="0" class="chart-line" />
               <line x1="100" y1="100" x2="186" y2="50" class="chart-line" />
@@ -203,57 +182,35 @@
               <line x1="100" y1="100" x2="14" y2="150" class="chart-line" />
               <line x1="100" y1="100" x2="14" y2="50" class="chart-line" />
 
-              <polygon
-                [attr.points]="getPolygonPoints()"
-                class="chart-poly-premium" />
+              <polygon [attr.points]="getPolygonPoints()" class="chart-poly-premium" />
 
-              <text
-                x="100"
-                y="-15"
-                text-anchor="middle"
-                class="radar-text">
+              <text x="100" y="-15" text-anchor="middle" class="radar-text">
                 HP
               </text>
 
-              <text
-                x="205"
-                y="55"
-                class="radar-text">
+              <text x="205" y="55" class="radar-text">
                 ATK
               </text>
 
-              <text
-                x="205"
-                y="155"
-                class="radar-text">
+              <text x="205" y="155" class="radar-text">
                 DEF
               </text>
 
-              <text
-                x="100"
-                y="225"
-                text-anchor="middle"
-                class="radar-text">
+              <text x="100" y="225" text-anchor="middle" class="radar-text">
                 SPD
               </text>
 
-              <text
-                x="-45"
-                y="155"
-                class="radar-text">
+              <text x="-45" y="155" class="radar-text">
                 S.DEF
               </text>
 
-              <text
-                x="-45"
-                y="55"
-                class="radar-text">
+              <text x="-45" y="55" class="radar-text">
                 S.ATK
               </text>
 
             </svg>
           </div>
-          
+
         </div>
       </div>
     </div>

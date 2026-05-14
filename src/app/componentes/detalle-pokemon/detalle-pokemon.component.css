@@ -475,3 +475,26 @@
   background: #ffcb05;
   color: #222;
 }
+
+.action-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.save-btn{
+  background: #3c5aa6;
+  color: #ffcb05;
+  border: 2px solid #ffcb05;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-family: 'Exo 2', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}

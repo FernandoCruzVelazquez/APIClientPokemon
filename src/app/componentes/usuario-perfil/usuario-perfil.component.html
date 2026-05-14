@@ -21,6 +21,11 @@
               <input type="file" (change)="onFileSelected($event)" hidden accept="image/*">
             </label>
             <p class="text-muted small mt-2">Formatos: JPG, PNG. Máx 2MB</p>
+
+            <button type="button" (click)="desactivar()" class="btn btn-danger btn-poke">
+              Desactivar cuenta
+            </button>
+
           </div>
 
           <div class="col-md-8">
@@ -60,7 +65,7 @@
                 <div class="col-md-6 mb-3">
                   <label class="label-pokedex">USUARIO</label>
                   <input type="text" class="form-control input-pokedex" [(ngModel)]="usuario.username" name="username"
-                   required maxlength="50" pattern="^[a-zA-Z0-9_]+$" #usernameModel="ngModel">
+                    required maxlength="50" pattern="^[a-zA-Z0-9_]+$" #usernameModel="ngModel">
                   <div *ngIf="usernameModel.invalid && usernameModel.touched" class="text-danger">
                     Nombre de usuario inválido, solo letras y numeros
                   </div>
@@ -70,14 +75,15 @@
               <div class="mb-3">
                 <label class="label-pokedex">CORREO ELECTRÓNICO</label>
                 <input type="email" class="form-control input-pokedex" [(ngModel)]="usuario.correo" name="correo"
-                 required maxlength="60" email #correoModel="ngModel">
+                  required maxlength="60" email #correoModel="ngModel">
                 <div *ngIf="correoModel.invalid && correoModel.touched" class="text-danger">
                   Correo electrónico inválido
                 </div>
               </div>
 
               <div class="d-flex gap-2 mt-4">
-                <button type="submit" class="btn btn-success btn-poke flex-grow-1" [disabled]="perfilForm.invalid || isLoading">
+                <button type="submit" class="btn btn-success btn-poke flex-grow-1"
+                  [disabled]="perfilForm.invalid || isLoading">
                   <i class="bi bi-save"></i> GUARDAR CAMBIOS
                 </button>
                 <button type="button" (click)="cancelar()" class="btn btn-secondary btn-poke">

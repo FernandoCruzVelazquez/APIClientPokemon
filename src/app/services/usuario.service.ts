@@ -13,7 +13,6 @@ export class UsuarioService {
 
     constructor(private http: HttpClient) { }
 
-
     getAll(): Observable<ResultModel<UsuarioModel>> {
         return this.http.get<ResultModel<UsuarioModel>>(this.url + "/usuarios");
     }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
-import { UsuarioModel } from '../../models/UsuarioModel';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-usuario-perfil',
@@ -76,6 +76,52 @@ export class UsuarioPerfilComponent implements OnInit {
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  desactivar(): void {
+    if (!this.usuario.correo) {
+      Swal.fire('Error', 'No se encontró el correo del entrenador.', 'error');
+      return;
+    }
+
+    Swal.fire({
+      title: '¿Desactivar Ficha de Entrenador?',
+      text: `Estás a punto de desactivar la cuenta asociada a: ${this.usuario.correo}. El entrenador no podrá iniciar sesión.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, desactivar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+
+        this.usuarioService.updateEstatus(this.usuario.correo, false).subscribe({
+          next: (res: any) => {
+            if (res.correct) {
+              Swal.fire({
+                title: '¡Cuenta Desactivada!',
+                text: 'La cuenta ha sido congelada y se ha enviado un correo de notificación.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6'
+              }).then(() => {
+                this.router.navigate(['/usuarios']);
+              });
+            } else {
+              Swal.fire('Error', res.errorMessage || 'No se pudo desactivar la cuenta.', 'error');
+            }
+            this.isLoading = false;
+          },
+          error: (err) => {
+            console.error('Error al cambiar estatus:', err);
+            Swal.fire('Fallo de conexión', 'Hubo un problema al comunicarse con el Centro Pokémon.', 'error');
+            this.isLoading = false;
+          }
+        });
+      }
+    });
   }
 
   updateUsuario(): void {
