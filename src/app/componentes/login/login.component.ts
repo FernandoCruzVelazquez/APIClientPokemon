@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -16,31 +16,20 @@ declare var bootstrap: any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
 
   username = '';
   password = '';
   errorMessage = '';
   isLoading = false;
 
-  regUsername = '';
-  regPassword = '';
-  regConfirmPassword = '';
-  regNombre = '';
-  regApellidoP = '';
-  regApellidoM = '';
-  regCorreo = '';
-  regImagen = '';
-  regRolId = 1;
-  registerError = '';
-  registerSuccess = false;
-  isRegistering = false;
+  regUsername = ''; regPassword = ''; regConfirmPassword = ''; regNombre = '';
+  regApellidoP = ''; regApellidoM = ''; regCorreo = ''; regImagen = '';
+  regRolId = 1; registerError = ''; registerSuccess = false; isRegistering = false;
+  
+  recoverCorreo = ''; recoverToken = ''; recoverNewPassword = ''; recoverStep = 1;
 
-
-  recoverCorreo = '';
-  recoverToken = '';
-  recoverNewPassword = '';
-  recoverStep = 1;
+  intervaloVerificacion: any;
 
   constructor(
     private authService: AuthService,
@@ -48,93 +37,115 @@ export class LoginComponent {
     private router: Router
   ) { }
 
-  openRegisterModal() {
-    this.registerError = '';
-    this.registerSuccess = false;
-
-    const modalElement = document.getElementById('registerModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
+  ngOnDestroy(): void {
+    this.detenerHiloVerificacion();
   }
+
 
   onLogin() {
     this.errorMessage = '';
     this.isLoading = true;
 
-    this.authService.login(this.username, this.password)
-      .subscribe({
-        next: (res: any) => {
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('username', res.username);
-          localStorage.setItem('idusuario', res.idusuario.toString());
-          localStorage.setItem('rol', res.rol);
+    this.authService.login(this.username, this.password).subscribe({
+      next: (res: any) => {
+  
+        this.authService.saveToken(res.token);
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('username', res.username);
+        localStorage.setItem('idusuario', res.idusuario.toString());
 
-          this.authService.saveToken(res.token);
+        const idUsuario = res.idusuario;
+        
+        this.usuarioService.getById(idUsuario).subscribe({
+          next: (userRes: any) => {
+            const usuario = userRes.object;
+            
+            if (usuario && usuario.activacion === 0) { 
+              
+              this.isLoading = false;
+              this.mostrarModalEsperaVerificacion(usuario.idusuario, usuario.correo, res);
+            } else {
+              this.completarLogin(res);
+            }
+          },
+          error: (err) => {
+            console.error("Error al consultar perfil:", err);
+            this.isLoading = false;
+            this.errorMessage = 'Error al verificar el estado del entrenador.';
+          }
+        });
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.status === 401 || err.status === 403
+          ? 'Credenciales incorrectas del Entrenador.'
+          : 'Error de conexión con el Servidor Pokémon.';
+      }
+    });
+  }
 
-          this.isLoading = false;
-          this.router.navigate(['/pokedex']);
-        },
-        error: (err) => {
-          this.isLoading = false;
-          this.errorMessage = err.status === 401 || err.status === 403
-            ? 'Credenciales incorrectas.'
-            : 'Error de conexión con el Servidor Pokémon.';
-        }
-      });
+  completarLogin(res: any) {
+    localStorage.setItem('token', res.token);
+    localStorage.setItem('username', res.username);
+    localStorage.setItem('idusuario', res.idusuario.toString());
+    localStorage.setItem('rol', res.rol);
+    this.authService.saveToken(res.token);
+    this.isLoading = false;
+    this.router.navigate(['/pokedex']);
+  }
+
+  mostrarModalEsperaVerificacion(id: number, correo: string, loginData: any) {
+    Swal.fire({
+      title: '¡ALTO AHÍ, ENTRENADOR!',
+      html: `
+        <div class="pokedex-waiting-content">
+          <p>Tu cuenta aún no está activa. Hemos enviado un correo a: <br><strong>${correo}</strong></p>
+          <div class="poke-loader"></div>
+          <p class="mt-3" style="font-size: 0.8rem;">Haz clic en el botón de validación en tu correo.<br><strong>Esta pantalla se cerrará sola al detectar la activación.</strong></p>
+        </div>
+      `,
+      icon: 'warning',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        this.intervaloVerificacion = setInterval(() => {
+          this.usuarioService.getById(id).subscribe((res: any) => {
+            if (res.object && res.object.estado === 1) {
+              this.detenerHiloVerificacion();
+              Swal.close();
+              Swal.fire({
+                title: '¡CUENTA ACTIVADA!',
+                text: 'Bienvenido al mundo Pokémon.',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+              }).then(() => {
+                this.completarLogin(loginData);
+              });
+            }
+          });
+        }, 3000);
+      },
+      willClose: () => {
+        this.detenerHiloVerificacion();
+      }
+    });
+  }
+
+  detenerHiloVerificacion() {
+    if (this.intervaloVerificacion) {
+      clearInterval(this.intervaloVerificacion);
+    }
   }
 
   onRegister() {
-
     if (!this.regNombre || !this.regApellidoP || !this.regUsername || !this.regCorreo || !this.regPassword) {
       this.registerError = '¡Todos los campos obligatorios deben llenarse!';
       return;
     }
 
-    const nombreRegex = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/;
-
-    if (!nombreRegex.test(this.regNombre)) {
-      this.registerError = 'Nombre inválido';
-      return;
-    }
-
-    if (!nombreRegex.test(this.regApellidoP)) {
-      this.registerError = 'Apellido paterno inválido';
-      return;
-    }
-
-    if (this.regApellidoM && !nombreRegex.test(this.regApellidoM)) {
-      this.registerError = 'Apellido materno inválido';
-      return;
-    }
-
-    const usernameRegex = /^[a-zA-Z0-9_]+$/;
-
-    if (!usernameRegex.test(this.regUsername)) {
-      this.registerError = 'El usuario solo puede contener letras, números y _';
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(this.regCorreo)) {
-      this.registerError = 'Correo electrónico inválido';
-      return;
-    }
-
-    if (this.regPassword.length < 6) {
-      this.registerError = 'La contraseña debe tener al menos 6 caracteres';
-      return;
-    }
-
-    if (this.regPassword !== this.regConfirmPassword) {
-      this.registerError = '¡Las contraseñas no coinciden, Entrenador!';
-      return;
-    }
-
     this.registerError = '';
-    this.registerSuccess = false;
     this.isRegistering = true;
 
     const nuevoUsuario: UsuarioModel = {
@@ -153,90 +164,43 @@ export class LoginComponent {
     this.usuarioService.usuarioAdd(nuevoUsuario).subscribe({
       next: (res: any) => {
         if (res.correct) {
-          const correoRecuperado = this.regCorreo;
-
           this.registerSuccess = true;
           this.isRegistering = false;
           this.resetForm();
-
-          this.usuarioService.enviarBienvenida(correoRecuperado).subscribe({
-            next: (mailRes) => console.log('Correo de bienvenida enviado:', mailRes.object),
-            error: (mailErr) => console.error('Error al enviar correo:', mailErr)
-          });
-
+          this.usuarioService.enviarBienvenida(nuevoUsuario.correo).subscribe();
         } else {
           this.isRegistering = false;
           this.registerError = res.errorMessage;
         }
       },
-      error: (err) => {
-        this.isRegistering = false;
-        if (err.error?.message?.includes('username')) {
-          this.registerError = 'El nombre de usuario ya existe';
-        } else if (err.error?.message?.includes('correo')) {
-          this.registerError = 'El correo ya está registrado';
-        } else {
-          this.registerError = 'Error en el servidor al registrar usuario';
-        }
-
-      }
+      error: () => { this.isRegistering = false; this.registerError = 'Error de servidor'; }
     });
   }
 
+  openRegisterModal() {
+    this.registerError = '';
+    this.registerSuccess = false;
+    const modalElement = document.getElementById('registerModal');
+    if (modalElement) new bootstrap.Modal(modalElement).show();
+  }
+
   resetForm() {
-    this.regNombre = '';
-    this.regApellidoP = '';
-    this.regApellidoM = '';
-    this.regUsername = '';
-    this.regCorreo = '';
-    this.regPassword = '';
-    this.regConfirmPassword = '';
-    this.regImagen = '';
+    this.regNombre = ''; this.regApellidoP = ''; this.regApellidoM = '';
+    this.regUsername = ''; this.regCorreo = ''; this.regPassword = '';
+    this.regConfirmPassword = ''; this.regImagen = '';
   }
 
   openRecoverModal() {
     this.recoverStep = 1;
     this.recoverCorreo = '';
     const modalElement = document.getElementById('recoverModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
+    if (modalElement) new bootstrap.Modal(modalElement).show();
   }
 
   enviarTokenRecuperacion() {
     if (!this.recoverCorreo) return;
-
     this.usuarioService.enviarValidacionPASS(this.recoverCorreo).subscribe({
-      next: (res) => {
-        if (res.correct) {
-          this.recoverStep = 2;
-          Swal.fire({
-            title: '¡Código Enviado!',
-            text: 'Revisa tu correo de Entrenador.',
-            icon: 'info',
-            didOpen: () => {
-              const container = Swal.getContainer();
-              if (container) {
-                container.style.zIndex = '9999';
-              }
-            }
-          });
-        }
-      },
-      error: () => {
-        Swal.fire({
-          title: 'Error',
-          text: 'No pudimos enviar el código.',
-          icon: 'error',
-          didOpen: () => {
-            const container = Swal.getContainer();
-            if (container) {
-              container.style.zIndex = '9999';
-            }
-          }
-        });
-      }
+      next: (res) => { if (res.correct) this.recoverStep = 2; }
     });
   }
 
@@ -244,20 +208,16 @@ export class LoginComponent {
     this.usuarioService.confirmarCodigo(this.recoverCorreo, this.recoverToken).subscribe({
       next: (resToken) => {
         if (resToken.correct) {
-          
           this.usuarioService.actualizarPassword(this.recoverCorreo, this.recoverNewPassword).subscribe({
             next: (resPass) => {
               if (resPass.correct) {
-                Swal.fire('¡Éxito!', 'Tu contraseña ha sido actualizada.', 'success');
+                Swal.fire('¡Éxito!', 'Contraseña actualizada.', 'success');
                 bootstrap.Modal.getInstance(document.getElementById('recoverModal')).hide();
               }
             }
           });
-        } else {
-          Swal.fire('Error', 'Código de verificación incorrecto.', 'error');
         }
       }
     });
   }
-
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2'; 
 
 @Component({
   selector: 'app-usuario-perfil',
@@ -40,7 +41,6 @@ export class UsuarioPerfilComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-
     if (id) {
       this.cargarDatos(Number(id));
     } else {
@@ -48,7 +48,6 @@ export class UsuarioPerfilComponent implements OnInit {
       if (idLocal) {
         this.cargarDatos(Number(idLocal));
       } else {
-        console.error('No hay sesión activa ni ID en ruta');
         this.router.navigate(['/login']);
       }
     }
@@ -68,7 +67,7 @@ export class UsuarioPerfilComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error al cargar datos:', err);
+        Swal.fire('Error', 'No se pudieron cargar los datos del entrenador', 'error');
         this.isLoading = false;
       }
     });
@@ -98,30 +97,26 @@ export class UsuarioPerfilComponent implements OnInit {
   updateUsuario(): void {
     if (!this.validarFormularioGeneral()) return;
 
-    this.isLoading = true;
-
     if (this.showPasswordSection) {
-      if (!this.validarSeccionPassword()) {
-        this.isLoading = false;
-        return;
-      }
+      if (!this.validarSeccionPassword()) return;
 
+      this.isLoading = true;
       this.usuarioService.resetPassword(this.usuario.correo, this.newPassword).subscribe({
         next: (res: any) => {
           if (res.correct) {
             this.enviarDatosPerfil();
           } else {
-            alert('Error al actualizar contraseña: ' + res.errorMessage);
+            Swal.fire('Error', 'No se pudo actualizar la contraseña: ' + res.errorMessage, 'error');
             this.isLoading = false;
           }
         },
-        error: (err) => {
-          console.error('Error en resetPassword:', err);
-          alert('Error de conexión al cambiar la contraseña.');
+        error: () => {
+          Swal.fire('Error de conexión', 'No se pudo contactar con el Centro Pokémon (servidor)', 'error');
           this.isLoading = false;
         }
       });
     } else {
+      this.isLoading = true;
       this.enviarDatosPerfil();
     }
   }
@@ -132,10 +127,16 @@ export class UsuarioPerfilComponent implements OnInit {
     this.usuarioService.usuarioUpdate(datosLimpios).subscribe({
       next: (res: any) => {
         if (res.correct) {
-          alert('¡Ficha de Entrenador actualizada con éxito!');
-          this.router.navigate(['/usuarios']);
+          Swal.fire({
+            title: '¡Éxito!',
+            text: '¡Ficha de Entrenador actualizada con éxito!',
+            icon: 'success',
+            confirmButtonColor: '#3085d6'
+          }).then(() => {
+            this.router.navigate(['/usuarios']);
+          });
         } else {
-          alert('Error al actualizar perfil: ' + (res.message || res.errorMessage));
+          Swal.fire('Error', res.message || res.errorMessage, 'error');
         }
         this.isLoading = false;
       },
@@ -146,41 +147,64 @@ export class UsuarioPerfilComponent implements OnInit {
     });
   }
 
-
   private validarFormularioGeneral(): boolean {
     const nombreRegex = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/;
     const usernameRegex = /^[a-zA-Z0-9_]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!nombreRegex.test(this.usuario.nombreusuario)) { alert('Nombre inválido'); return false; }
-    if (!usernameRegex.test(this.usuario.username)) { alert('Username inválido'); return false; }
-    if (!emailRegex.test(this.usuario.correo)) { alert('Correo electrónico inválido'); return false; }
+    if (!nombreRegex.test(this.usuario.nombreusuario)) { 
+      this.toastError('El nombre contiene caracteres no permitidos'); 
+      return false; 
+    }
+    if (!usernameRegex.test(this.usuario.username)) { 
+      this.toastError('El username solo permite letras, números y guiones bajos'); 
+      return false; 
+    }
+    if (!emailRegex.test(this.usuario.correo)) { 
+      this.toastError('Formato de correo electrónico no válido'); 
+      return false; 
+    }
     
     return true;
   }
 
   private validarSeccionPassword(): boolean {
     if (!this.currentPassword) {
-      alert('Debes ingresar tu contraseña actual para validar');
+      this.toastError('Debes ingresar tu contraseña actual');
       return false;
     }
     if (this.newPassword.length < 6) {
-      alert('La nueva contraseña debe tener al menos 6 caracteres');
+      this.toastError('La nueva contraseña es demasiado corta (mínimo 6)');
       return false;
     }
     if (this.newPassword !== this.confirmNewPassword) {
-      alert('Las nuevas contraseñas no coinciden');
+      this.toastError('Las nuevas contraseñas no coinciden');
       return false;
     }
     return true;
   }
 
+  private toastError(mensaje: string) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Dato inválido',
+      text: mensaje,
+      timer: 3000,
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false
+    });
+  }
+
   private manejarErroresHttp(err: any): void {
-    console.error('Error en el servidor:', err);
     const msg = err.error?.message || '';
-    if (msg.includes('username')) alert('El nombre de usuario ya existe');
-    else if (msg.includes('correo')) alert('El correo ya está registrado');
-    else alert('Hubo un fallo en la conexión con el servidor.');
+    if (msg.includes('username')) {
+      Swal.fire('Username ocupado', 'Este nombre de usuario ya pertenece a otro entrenador', 'warning');
+    } else if (msg.includes('correo')) {
+      Swal.fire('Correo registrado', 'Este email ya está en uso', 'warning');
+    } else {
+      Swal.fire('Fallo de conexión', 'Hubo un error al comunicar con el servidor.', 'error');
+    }
   }
 
   cancelar(): void {

@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 
-
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8081/auth';
+  private readonly IP = '192.167.0.65';
+  private readonly PORT = '8081';
+
+  private get apiUrl(): string {
+    return `http://${this.IP}:${this.PORT}/auth`;
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -29,7 +33,12 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return '';
 
-    const decoded: any = jwtDecode(token);
-    return decoded.sub;
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.sub;
+    } catch (error) {
+      console.error("Error decodificando el token:", error);
+      return '';
+    }
   }
 }
