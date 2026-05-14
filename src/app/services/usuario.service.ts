@@ -7,58 +7,66 @@ import { ResultModel } from '../models/ResultModel';
 @Injectable({
     providedIn: "root",
 })
-
 export class UsuarioService {
-    private url: string = "http://localhost:8081/api/usuario";
+
+    private readonly IP = '192.167.0.65';
+    private readonly PORT = '8081';
+    
+    private get baseUrl(): string {
+        return `http://${this.IP}:${this.PORT}/api/usuario`;
+    }
 
     constructor(private http: HttpClient) { }
 
     getAll(): Observable<ResultModel<UsuarioModel>> {
-        return this.http.get<ResultModel<UsuarioModel>>(this.url + "/usuarios");
+        return this.http.get<ResultModel<UsuarioModel>>(`${this.baseUrl}/usuarios`);
     }
 
     getById(idusuario: number): Observable<ResultModel<UsuarioModel>> {
-        return this.http.get<ResultModel<UsuarioModel>>(`${this.url + "/perfil"}/${idusuario}`);
+        return this.http.get<ResultModel<UsuarioModel>>(`${this.baseUrl}/perfil/${idusuario}`);
     }
 
     usuarioDelete(idusuario: number): Observable<ResultModel<UsuarioModel>> {
-        return this.http.delete<ResultModel<UsuarioModel>>(`${this.url}/deleteUsuario/${idusuario}`);
+        return this.http.delete<ResultModel<UsuarioModel>>(`${this.baseUrl}/deleteUsuario/${idusuario}`);
     }
 
     usuarioAdd(usuario: Partial<UsuarioModel>): Observable<ResultModel<UsuarioModel>> {
-        return this.http.post<ResultModel<UsuarioModel>>(this.url, usuario);
+        return this.http.post<ResultModel<UsuarioModel>>(this.baseUrl, usuario);
     }
 
     usuarioUpdate(usuario: UsuarioModel): Observable<ResultModel<UsuarioModel>> {
-        return this.http.put<ResultModel<UsuarioModel>>(`${this.url}/update`, usuario);
+        return this.http.put<ResultModel<UsuarioModel>>(`${this.baseUrl}/update`, usuario);
     }
 
     enviarBienvenida(correo: string): Observable<ResultModel<any>> {
-        return this.http.post<ResultModel<any>>(`${this.url}/bienvenida/${correo}`, {});
+        return this.http.post<ResultModel<any>>(`${this.baseUrl}/bienvenida/${correo}`, {});
     }
 
     enviarValidacion(correo: string): Observable<ResultModel<any>> {
-        return this.http.post<ResultModel<any>>(`${this.url}/enviar-validacion/${correo}`, {});
+        return this.http.post<ResultModel<any>>(`${this.baseUrl}/enviar-validacion/${correo}`, {});
     }
 
     enviarValidacionPASS(correo: string): Observable<ResultModel<any>> {
-        return this.http.post<ResultModel<any>>(`${this.url}/enviar-validacionPASS/${correo}`, {});
+        return this.http.post<ResultModel<any>>(`${this.baseUrl}/enviar-validacionPASS/${correo}`, {});
     }
 
     confirmarCodigo(correo: string, codigo: string): Observable<ResultModel<any>> {
-        return this.http.post<ResultModel<any>>(`${this.url}/confirmar-codigo`, { correo, codigo });
+        return this.http.post<ResultModel<any>>(`${this.baseUrl}/confirmar-codigo`, { correo, codigo });
     }
 
     confirmarCodigoPASS(correo: string, codigo: string): Observable<ResultModel<any>> {
-        return this.http.post<ResultModel<any>>(`${this.url}/confirmar-codigo-pass`, { correo, codigo });
+        return this.http.post<ResultModel<any>>(`${this.baseUrl}/confirmar-codigo-pass`, { correo, codigo });
     }
 
     actualizarPassword(correo: string, password: string): Observable<ResultModel<any>> {
-        return this.http.put<ResultModel<any>>(`${this.url}/updatePassword`, { correo, password });
+        return this.http.put<ResultModel<any>>(`${this.baseUrl}/updatePassword`, { correo, password });
     }
 
     updateEstatus(correo: string, estatus: boolean): Observable<ResultModel<any>> {
-        return this.http.put<ResultModel<any>>(`${this.url}/cambiar-estatus`, { correo, estatus });
+        return this.http.put<ResultModel<any>>(`${this.baseUrl}/cambiar-estatus`, { correo, estatus });
     }
 
+    resetPassword(correo: string, nuevaPass: string): Observable<ResultModel<any>> {
+        return this.http.put<ResultModel<any>>(`${this.baseUrl}/reset-password`, { correo, password: nuevaPass });
+    }
 }

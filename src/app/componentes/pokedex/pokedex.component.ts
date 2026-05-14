@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PokemonService } from '../../services/pokemon.service';
-import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router'; 
 
 import { RouterModule } from '@angular/router';
@@ -36,7 +35,6 @@ export class PokedexComponent implements OnInit {
   constructor(
     private pokemonService: PokemonService,
     private favoritoService: FavoritoService,
-    private UsuarioService: UsuarioService,
     private router: Router
   ) { }
 
@@ -46,21 +44,6 @@ export class PokedexComponent implements OnInit {
 
       const id = localStorage.getItem('idusuario');
       this.idUsuario = id ? Number(id) : 0;
-
-      if (this.idUsuario) {
-          this.verificarEstadoUsuario();
-      }
-  }
-
-  verificarEstadoUsuario() {
-      this.UsuarioService.getById(this.idUsuario).subscribe({
-          next: (res) => {
-              const usuario = res.object as any;
-              if (usuario && usuario.estado === 0) {
-                  this.mostrarModalVerificacion(usuario.correo);
-              }
-          }
-      });
   }
 
   get pokemonsPaginados() {
@@ -86,7 +69,6 @@ export class PokedexComponent implements OnInit {
     this.pokemonsFiltrados = this.pokemons.filter(p => {
       const cumpleNombre = !this.filtros.nombre ||
         p.nombre.toLowerCase().includes(this.filtros.nombre.toLowerCase().trim());
-
 
       const searchId = this.filtros.id ? this.filtros.id.toString().trim() : '';
       const cumpleId = !searchId || p.id.toString().includes(searchId);
@@ -154,55 +136,5 @@ export class PokedexComponent implements OnInit {
         console.error('Error al guardar', err);
       }
     });
-  }
-
-  async mostrarModalVerificacion(correo: string) {
-    const result = await Swal.fire({
-      title: 'Verificación Obligatoria',
-      text: `Para acceder a la Pokedex debes activar tu cuenta. Enviamos un código a: ${correo}`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Enviar código',
-      cancelButtonText: 'Ahora no', 
-      allowOutsideClick: false, 
-      allowEscapeKey: false    
-    });
-
-    if (result.isConfirmed) {
-      this.UsuarioService.enviarValidacion(correo).subscribe({
-        next: async (res) => {
-          if (res.correct) {
-            const { value: codigo } = await Swal.fire({
-              title: 'Ingresa tu código',
-              input: 'text',
-              inputLabel: 'Código de 6 dígitos',
-              showCancelButton: true,
-              cancelButtonText: 'Cancelar',
-              allowOutsideClick: false,
-              inputAttributes: { maxlength: "6" }
-            });
-
-            if (codigo) {
-              this.UsuarioService.confirmarCodigo(correo, codigo).subscribe({
-                next: (resVal) => {
-                  if (resVal.correct) {
-                    Swal.fire('¡Activado!', 'Ya puedes usar la Pokedex.', 'success');
-                  } else {
-                    Swal.fire('Error', 'Código inválido', 'error').then(() => {
-                      this.mostrarModalVerificacion(correo); 
-                    });
-                  }
-                }
-              });
-            } else {
-              this.mostrarModalVerificacion(correo);
-            }
-          }
-        }
-      });
-    } else if (result.isDismissed) {
-      localStorage.clear(); 
-      this.router.navigate(['/login']); 
-    }
   }
 }

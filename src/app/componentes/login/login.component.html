@@ -67,7 +67,6 @@
           ¿Olvidaste tu contraseña entrenador?
         </button>
       </div>
-
     </form>
   </div>
 </div>
@@ -82,14 +81,9 @@
       </div>
 
       <div class="modal-body">
-
         <div class="register-logo-container">
           <div class="logo-screen-inner">
             <img src="assets/logo.svg" class="img-fluid logo-registro" alt="Registro Entrenador">
-          </div>
-          <div class="screen-lights">
-            <span class="dot-light"></span>
-            <span class="dot-light"></span>
           </div>
         </div>
 
@@ -103,105 +97,56 @@
         <div class="alert-pokedex-success mb-3" *ngIf="registerSuccess">
           <div class="alert-content">
             <span class="alert-title">¡REGISTRO EXITOSO!</span>
-            <span class="alert-text">Ya puedes iniciar sesión.</span>
+            <span class="alert-text">Por favor, revisa tu correo para activar tu cuenta.</span>
           </div>
         </div>
 
-        <form (ngSubmit)="onRegister()" #registerForm="ngForm">
-
+        <form (ngSubmit)="onRegister()" #registerForm="ngForm" *ngIf="!registerSuccess">
           <div class="row">
-
-
             <div class="col-md-6 mb-3 text-start">
               <label class="label-pixel">NOMBRE</label>
-              <input type="text" class="form-control pokedex-input" name="regNombre" [(ngModel)]="regNombre" required
-                maxlength="100" pattern="^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$" #nombreModel="ngModel" />
-              <div *ngIf="nombreModel.invalid && nombreModel.touched" class="text-danger-pixel">
-                Nombre inválido
-              </div>
+              <input type="text" class="form-control pokedex-input" name="regNombre" [(ngModel)]="regNombre" required #nombreModel="ngModel" />
             </div>
-
-
             <div class="col-md-6 mb-3 text-start">
-              <label class="label-pixel">APELLIDO PATERNO</label>
-              <input type="text" class="form-control pokedex-input" name="regApellidoP" [(ngModel)]="regApellidoP"
-                required maxlength="50" pattern="^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$" #apellidoPModel="ngModel" />
-              <div *ngIf="apellidoPModel.invalid && apellidoPModel.touched" class="text-danger-pixel">
-                Apellido paterno inválido
-              </div>
+              <label class="label-pixel">APE. PATERNO</label>
+              <input type="text" class="form-control pokedex-input" name="regApellidoP" [(ngModel)]="regApellidoP" required />
             </div>
           </div>
 
           <div class="row">
             <div class="col-md-6 mb-3 text-start">
-              <label class="label-pixel">APELLIDO MATERNO</label>
-              <input type="text" class="form-control pokedex-input" name="regApellidoM" [(ngModel)]="regApellidoM"
-                maxlength="50" pattern="^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$" #apellidoMModel="ngModel" />
-              <div *ngIf="apellidoMModel.invalid && apellidoMModel.touched" class="text-danger-pixel">
-                Apellido materno inválido
-              </div>
+              <label class="label-pixel">APE. MATERNO</label>
+              <input type="text" class="form-control pokedex-input" name="regApellidoM" [(ngModel)]="regApellidoM" />
             </div>
             <div class="col-md-6 mb-3 text-start">
               <label class="label-pixel">USUARIO</label>
-              <input type="text" class="form-control pokedex-input" name="regUsername" [(ngModel)]="regUsername"
-                required />
+              <input type="text" class="form-control pokedex-input" name="regUsername" [(ngModel)]="regUsername" required />
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-12 mb-3 text-start">
-              <label class="label-pixel">CORREO ELECTRÓNICO</label>
-              <input type="email" class="form-control pokedex-input" name="regCorreo" [(ngModel)]="regCorreo" required
-                maxlength="60" email #correoModel="ngModel" />
-              <div *ngIf="correoModel.invalid && correoModel.touched" class="text-danger-pixel">
-                Correo electrónico inválido
-              </div>
-            </div>
+          <div class="mb-3 text-start">
+            <label class="label-pixel">CORREO ELECTRÓNICO</label>
+            <input type="email" class="form-control pokedex-input" name="regCorreo" [(ngModel)]="regCorreo" required email />
           </div>
 
           <div class="row">
-
             <div class="col-md-6 mb-3 text-start">
               <label class="label-pixel">CONTRASEÑA</label>
-              <input type="password" class="form-control pokedex-input" name="regPassword" [(ngModel)]="regPassword"
-                required minlength="6" #passwordModel="ngModel" />
-              <div *ngIf="passwordModel.invalid && passwordModel.touched" class="text-danger-pixel">
-                La contraseña debe tener al menos 6 caracteres
-              </div>
+              <input type="password" class="form-control pokedex-input" name="regPassword" [(ngModel)]="regPassword" required minlength="6" />
             </div>
-
             <div class="col-md-6 mb-3 text-start">
               <label class="label-pixel">CONFIRMAR</label>
-              <input type="password" class="form-control pokedex-input" name="regConfirmPassword"
-                [(ngModel)]="regConfirmPassword" required
-                [ngClass]="{'input-error': regPassword !== regConfirmPassword && regConfirmPassword.length > 0}" />
+              <input type="password" class="form-control pokedex-input" name="regConfirmPassword" [(ngModel)]="regConfirmPassword" required />
             </div>
           </div>
 
-          <div class="row" *ngIf="regConfirmPassword.length > 0">
-            <div class="col-12 text-center mb-3">
-              <div class="password-status-text">
-                <span *ngIf="regPassword === regConfirmPassword" class="text-success-pixel">¡COINCIDEN!</span>
-                <span *ngIf="regPassword !== regConfirmPassword" class="text-danger-pixel">¡NO COINCIDEN!</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-2">
-            <div class="col-12">
-              <button class="btn btn-pokedex-action w-100" type="submit"
-                [disabled]="isRegistering || registerForm.invalid || regPassword !== regConfirmPassword">
-                <span *ngIf="isRegistering" class="spinner-border spinner-border-sm poke-spinner me-2"></span>
-                {{ isRegistering ? 'REGISTRANDO...' : '¡DAR DE ALTA ENTRENADOR!' }}
-              </button>
-            </div>
-          </div>
-
+          <button class="btn btn-pokedex-action w-100 mt-2" type="submit" 
+            [disabled]="isRegistering || registerForm.invalid || regPassword !== regConfirmPassword">
+            <span *ngIf="isRegistering" class="spinner-border spinner-border-sm poke-spinner me-2"></span>
+            {{ isRegistering ? 'REGISTRANDO...' : '¡DAR DE ALTA ENTRENADOR!' }}
+          </button>
         </form>
-
-
       </div>
-
     </div>
   </div>
 </div>
@@ -216,16 +161,16 @@
       <div class="modal-body text-center">
         <div *ngIf="recoverStep === 1">
           <label class="label-pixel">CORREO DE ENTRENADOR</label>
-          <input type="email" class="form-control pokedex-input mb-3" [(ngModel)]="recoverCorreo">
+          <input type="email" class="form-control pokedex-input mb-3" name="recoverCorreo" [(ngModel)]="recoverCorreo">
           <button class="btn btn-pokedex-action w-100" (click)="enviarTokenRecuperacion()">ENVIAR CÓDIGO</button>
         </div>
 
         <div *ngIf="recoverStep === 2">
           <p class="text-white-pixel mb-2">Ingresa el código enviado a tu correo:</p>
-          <input type="text" class="form-control pokedex-input mb-3" [(ngModel)]="recoverToken" placeholder="CÓDIGO 6 DÍGITOS">
+          <input type="text" class="form-control pokedex-input mb-3" name="recoverToken" [(ngModel)]="recoverToken" placeholder="CÓDIGO">
           
           <label class="label-pixel">NUEVA CONTRASEÑA</label>
-          <input type="password" class="form-control pokedex-input mb-3" [(ngModel)]="recoverNewPassword">
+          <input type="password" class="form-control pokedex-input mb-3" name="recoverNewPassword" [(ngModel)]="recoverNewPassword">
           
           <button class="btn btn-pokedex-action w-100" (click)="validarYCambiarPassword()">ACTUALIZAR CONTRASEÑA</button>
         </div>

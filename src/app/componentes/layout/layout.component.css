@@ -293,3 +293,54 @@
     pointer-events: none;
     z-index: 2;
 }
+
+.user-badge {
+    position: relative;
+    overflow: hidden;
+    animation: terminal-glow 3s ease-in-out infinite;
+}
+
+@keyframes terminal-glow {
+    0%, 100% { box-shadow: inset 0 0 10px #000, 0 0 5px rgba(0, 255, 65, 0.2); }
+    50% { box-shadow: inset 0 0 10px #000, 0 0 15px rgba(0, 255, 65, 0.6); }
+}
+
+.user-badge i {
+    animation: blink 2s steps(2) infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.poke-logo i {
+    display: inline-block;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.navbar-brand:hover i {
+    transform: rotate(360deg) scale(1.2);
+    color: white;
+    text-shadow: 0 0 15px var(--poke-yellow);
+}
+
+@keyframes shine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.footer-line {
+    background-size: 200% auto;
+    animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.footer-line {
+    background-size: 200% auto;
+    animation: shine 4s linear infinite;
+}
