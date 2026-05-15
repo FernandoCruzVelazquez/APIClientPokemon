@@ -9,7 +9,7 @@ import { ResultModel } from '../models/ResultModel';
 })
 export class UsuarioService {
 
-    private readonly IP = '192.167.0.65';
+    private readonly IP = '192.167.0.79';
     private readonly PORT = '8081';
     
     private get baseUrl(): string {
