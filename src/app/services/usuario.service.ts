@@ -9,7 +9,7 @@ import { ResultModel } from '../models/ResultModel';
 })
 export class UsuarioService {
 
-    private readonly IP = '192.167.0.65';
+    private readonly IP = 'localhost';
     private readonly PORT = '8081';
     
     private get baseUrl(): string {
@@ -42,10 +42,6 @@ export class UsuarioService {
         return this.http.post<ResultModel<any>>(`${this.baseUrl}/bienvenida/${correo}`, {});
     }
 
-    enviarValidacion(correo: string): Observable<ResultModel<any>> {
-        return this.http.post<ResultModel<any>>(`${this.baseUrl}/enviar-validacion/${correo}`, {});
-    }
-
     enviarValidacionPASS(correo: string): Observable<ResultModel<any>> {
         return this.http.post<ResultModel<any>>(`${this.baseUrl}/enviar-validacionPASS/${correo}`, {});
     }
@@ -69,4 +65,9 @@ export class UsuarioService {
     resetPassword(correo: string, nuevaPass: string): Observable<ResultModel<any>> {
         return this.http.put<ResultModel<any>>(`${this.baseUrl}/reset-password`, { correo, password: nuevaPass });
     }
+
+    enviarValidacion(correo: string): Observable<ResultModel<any>> {
+        return this.http.post<ResultModel<any>>(`${this.baseUrl}/enviar-enlace-validacion/${correo}`, {});
+    }
+
 }

@@ -46,11 +46,11 @@
             [disabled]="loading || esFavorito" (click)="onGuardar(pokemon)">
 
             <span class="btn-icon">
-              {{ esFavorito ? '✅' : (loading ? '⏳' : '🔘') }}
+              {{ esFavorito ? '' : (loading ? '⏳' : '🔘') }}
             </span>
 
             <span>
-              {{ esFavorito ? 'EN TU COLECCIÓN' : (loading ? 'GUARDANDO...' : 'GUARDAR') }}
+              {{ esFavorito ? 'GUARDADO' : (loading ? 'GUARDANDO...' : 'GUARDAR') }}
             </span>
           </button>
         </div>

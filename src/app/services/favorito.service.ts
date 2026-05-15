@@ -8,7 +8,7 @@ import { ResultModel } from '../models/ResultModel';
 })
 export class FavoritoService {
 
-  private readonly IP = '192.167.0.65';
+  private readonly IP = 'localhost';
   private readonly PORT = '8081';
 
   private get apiUrl(): string {

@@ -5,48 +5,32 @@
 
     <div class="pokedex-header">
       <h1 class="title">POKÉDEX</h1>
-      
+
       <div class="filters-bar">
         <div class="filters-content">
 
           <div class="filter-item">
             <label>Nombre</label>
-            <input 
-              type="text" 
-              [(ngModel)]="filtros.nombre" 
-              (input)="filtrar()" 
-              placeholder="Ej: Pikachu">
+            <input type="text" [(ngModel)]="filtros.nombre" (input)="filtrar()" placeholder="Ej: Pikachu">
           </div>
 
           <div class="filter-item">
             <label>Número (#)</label>
-            <input 
-              type="number" 
-              [(ngModel)]="filtros.id" 
-              (input)="filtrar()" 
-              placeholder="Ej: 25">
+            <input type="number" [(ngModel)]="filtros.id" (input)="filtrar()" placeholder="Ej: 25">
           </div>
 
           <div class="filter-item">
             <label>Tipo</label>
-            <input 
-              type="text" 
-              [(ngModel)]="filtros.tipo" 
-              (input)="filtrar()" 
-              placeholder="Ej: Fuego">
+            <input type="text" [(ngModel)]="filtros.tipo" (input)="filtrar()" placeholder="Ej: Fuego">
           </div>
         </div>
       </div>
     </div>
 
     <div class="pokemon-grid">
-      <div 
-        class="pokemon-card" 
-        *ngFor="let poke of pokemonsPaginados" 
-        [ngClass]="poke.tipos[0].eng"
-      >
+      <div class="pokemon-card" *ngFor="let poke of pokemonsPaginados" [ngClass]="poke.tipos[0].eng">
         <div class="card-inner" [ngClass]="'type-' + poke.tipos[0].eng">
-          
+
           <div class="card-top-bar">
             <div class="name-id">
               <span class="card-rarity">POKÉMON</span>
@@ -75,11 +59,18 @@
                 Movimiento: <strong>{{ poke.ataque | titlecase }}</strong>
               </p>
             </div>
-            
+
             <div class="action-container">
-              <button class="save-btn" (click)="onGuardar(poke)">
-                <span class="btn-icon">🔘</span> 
-                GUARDAR
+              <button class="save-btn" [class.btn-saved]="esFavorito(poke.id)" [class.btn-loading]="isLoading(poke.id)"
+                [disabled]="isLoading(poke.id) || esFavorito(poke.id)" (click)="onGuardar(poke)">
+
+                <span class="btn-icon">
+                  {{ esFavorito(poke.id) ? '' : (isLoading(poke.id) ? '⏳' : '🔘') }}
+                </span>
+
+                <span>
+                  {{ esFavorito(poke.id) ? 'GUARDADO' : (isLoading(poke.id) ? 'GUARDANDO...' : 'GUARDAR') }}
+                </span>
               </button>
 
               <button class="stats-btn" [routerLink]="['/pokemon', poke.id]">
@@ -92,11 +83,7 @@
           <div class="card-footer-tcg">
             <div class="footer-decor"></div>
             <div class="types-wrapper">
-              <span 
-                *ngFor="let t of poke.tipos" 
-                class="type-badge" 
-                [ngClass]="t.eng"
-              >
+              <span *ngFor="let t of poke.tipos" class="type-badge" [ngClass]="t.eng">
                 {{ t.esp }}
               </span>
             </div>
@@ -105,12 +92,9 @@
       </div>
     </div>
 
-    
+
     <div class="pagination-wrapper" *ngIf="totalPaginas > 1">
-      <button 
-        class="pagination-btn" 
-        (click)="cambiarPagina(paginaActual - 1)" 
-        [disabled]="paginaActual === 1">
+      <button class="pagination-btn" (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">
         ◀
       </button>
 
@@ -120,9 +104,7 @@
         <span>DE {{ totalPaginas }}</span>
       </div>
 
-      <button 
-        class="pagination-btn" 
-        (click)="cambiarPagina(paginaActual + 1)" 
+      <button class="pagination-btn" (click)="cambiarPagina(paginaActual + 1)"
         [disabled]="paginaActual === totalPaginas">
         ▶
       </button>

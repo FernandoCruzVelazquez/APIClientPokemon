@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PokemonService } from '../../services/pokemon.service';
-import { Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { RouterModule } from '@angular/router';
 import { FavoritoService } from '../../services/favorito.service';
@@ -21,7 +21,8 @@ export class PokedexComponent implements OnInit {
   pokemonsFiltrados: any[] = [];
   search: string = '';
   idUsuario: number = 0;
-  loading: boolean = false;
+  idsFavoritos: Set<number> = new Set();
+  pokemonLoaded: { [key: number]: boolean } = {};
 
   filtros = {
     nombre: '',
@@ -35,15 +36,52 @@ export class PokedexComponent implements OnInit {
   constructor(
     private pokemonService: PokemonService,
     private favoritoService: FavoritoService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-      this.pokemons = this.pokemonService.obtenerPokemons();
-      this.pokemonsFiltrados = [...this.pokemons];
+    this.pokemons = this.pokemonService.obtenerPokemons();
 
-      const id = localStorage.getItem('idusuario');
-      this.idUsuario = id ? Number(id) : 0;
+    if (!this.pokemons || this.pokemons.length === 0) {
+      console.log('Pokedex vacía, redirigiendo al loader...');
+      this.router.navigate(['/']);
+      return;
+    }
+
+    this.pokemonsFiltrados = [...this.pokemons];
+
+    const id = localStorage.getItem('idusuario');
+    const userStored = localStorage.getItem('username');
+    this.idUsuario = id ? Number(id) : 0;
+
+    if (userStored) {
+      this.cargarFavoritos(userStored);
+    }
+  }
+
+  cargarFavoritos(username: string): void {
+    this.favoritoService.getMisFavoritos(username).subscribe({
+      next: (res) => {
+        if (res.correct && res.objects) {
+          this.idsFavoritos.clear();
+          res.objects.forEach((fav: any) => {
+            if (fav.pokemon && fav.pokemon.idpokemon) {
+              this.idsFavoritos.add(fav.pokemon.idpokemon);
+            }
+          });
+        }
+      },
+      error: (err) => console.error('Error al verificar favoritos', err)
+    });
+  }
+
+  esFavorito(idPokemon: any): boolean {
+    return this.idsFavoritos.has(idPokemon);
+  }
+
+  isLoading(idPokemon: any): boolean {
+    return !!this.pokemonLoaded[idPokemon];
   }
 
   get pokemonsPaginados() {
@@ -84,7 +122,7 @@ export class PokedexComponent implements OnInit {
   }
 
   onGuardar(pokemon: any) {
-    if (this.loading) return;
+    if (this.isLoading(pokemon.id) || this.esFavorito(pokemon.id)) return;
 
     if (!this.idUsuario) {
       Swal.fire({
@@ -95,7 +133,7 @@ export class PokedexComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
+    this.pokemonLoaded[pokemon.id] = true;
 
     const dto = {
       idUsuario: this.idUsuario,
@@ -106,9 +144,10 @@ export class PokedexComponent implements OnInit {
 
     this.favoritoService.agregarFavorito(dto).subscribe({
       next: (res) => {
-        this.loading = false;
+        this.pokemonLoaded[pokemon.id] = false;
 
         if (res.correct) {
+          this.idsFavoritos.add(pokemon.id);
           Swal.fire({
             icon: 'success',
             title: '¡Guardado!',
@@ -125,7 +164,7 @@ export class PokedexComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.loading = false;
+        this.pokemonLoaded[pokemon.id] = false;
 
         Swal.fire({
           icon: 'error',

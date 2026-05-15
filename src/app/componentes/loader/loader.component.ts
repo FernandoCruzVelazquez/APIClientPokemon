@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PokemonService } from '../../services/pokemon.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter, first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-loader',
@@ -10,7 +12,9 @@ import { Router } from '@angular/router';
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.css']
 })
-export class LoaderComponent implements OnInit {
+export class LoaderComponent implements OnInit, OnDestroy {
+  
+  private loadingSub?: Subscription;
 
   constructor(
     public pokemonService: PokemonService,
@@ -18,13 +22,29 @@ export class LoaderComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-
     await this.pokemonService.cargarPokemonLocal();
 
-    this.pokemonService.loading$.subscribe(loading => {
-      if (!loading) {
-        this.router.navigate(['/login']);
-      }
-    });
+
+    this.loadingSub = this.pokemonService.loading$
+      .pipe(filter(loading => !loading), first())
+      .subscribe(() => {
+        this.verificarRedireccion();
+      });
+  }
+
+  private verificarRedireccion() {
+    const urlActual = this.router.url;
+    
+    if (urlActual === '/' || urlActual === '/loader') {
+      this.router.navigate(['/login']);
+    } else {
+      console.log('Loader finalizado en ruta secundaria, no se requiere redirección.');
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.loadingSub) {
+      this.loadingSub.unsubscribe();
+    }
   }
 }
