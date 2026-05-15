@@ -29,6 +29,9 @@ export class LoginComponent implements OnDestroy {
   
   recoverCorreo = ''; recoverToken = ''; recoverNewPassword = ''; recoverStep = 1;
 
+  showPasswordLogin = false;
+  showPasswordRegister = false;
+
   intervaloVerificacion: any;
   cuentaActivadaExitosamente = false;
 
@@ -158,10 +161,16 @@ export class LoginComponent implements OnDestroy {
   }
 
   onRegister() {
-    if (!this.regNombre || !this.regApellidoP || !this.regUsername || !this.regCorreo || !this.regPassword) {
-      this.registerError = '¡Todos los campos obligatorios deben llenarse!';
+    if (!this.regNombre.trim() || !this.regApellidoP.trim() || !this.regUsername.trim() || !this.regCorreo.trim() || !this.regPassword) {
+      this.registerError = '¡Todos los campos con (*) son completamente requeridos!';
       return;
     }
+
+    if (this.regPassword !== this.regConfirmPassword) {
+      this.registerError = '¡Las contraseñas de entrenamiento no coinciden!';
+      return;
+    }
+
     this.registerError = '';
     this.isRegistering = true;
 
@@ -180,17 +189,19 @@ export class LoginComponent implements OnDestroy {
 
     this.usuarioService.usuarioAdd(nuevoUsuario).subscribe({
       next: (res: any) => {
+        this.isRegistering = false;
         if (res.correct) {
           this.registerSuccess = true;
-          this.isRegistering = false;
           this.resetForm();
           this.usuarioService.enviarBienvenida(nuevoUsuario.correo).subscribe();
         } else {
-          this.isRegistering = false;
-          this.registerError = res.errorMessage;
+          this.registerError = res.errorMessage || 'Error en el servidor de la Liga Pokémon.';
         }
       },
-      error: () => { this.isRegistering = false; this.registerError = 'Error de servidor'; }
+      error: () => { 
+        this.isRegistering = false; 
+        this.registerError = 'Se perdió la conexión con el servidor central.'; 
+      }
     });
   }
 
@@ -237,6 +248,14 @@ export class LoginComponent implements OnDestroy {
         }
       }
     });
+  }
+
+  togglePasswordLogin() {
+    this.showPasswordLogin = !this.showPasswordLogin;
+  }
+
+  togglePasswordRegister() {
+    this.showPasswordRegister = !this.showPasswordRegister;
   }
 
 }

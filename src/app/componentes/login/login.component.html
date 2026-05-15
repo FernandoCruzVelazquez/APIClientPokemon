@@ -39,16 +39,29 @@
       <div class="mb-3 text-start">
         <label class="label-pixel">USUARIO DEL ENTRENADOR</label>
         <input type="text" class="form-control pokedex-input" name="username" [(ngModel)]="username"
-          placeholder="Nombre de usuario" required />
+          placeholder="Nombre de usuario" required #loginUser="ngModel" />
+        <div class="pixel-error-text" *ngIf="loginUser.invalid && loginUser.touched">
+          <span>¡Identificación requerida!</span>
+        </div>
       </div>
 
       <div class="mb-4 text-start">
         <label class="label-pixel">CONTRASEÑA</label>
-        <input type="password" class="form-control pokedex-input" name="password" [(ngModel)]="password"
-          placeholder="••••••••" required />
+        <div class="password-container">
+          <input [type]="showPasswordLogin ? 'text' : 'password'" 
+                class="form-control pokedex-input" 
+                name="password" 
+                [(ngModel)]="password"
+                placeholder="••••••••" 
+                required />
+          
+          <button type="button" class="btn-view-password" (click)="togglePasswordLogin()">
+            <i class="bi" [ngClass]="showPasswordLogin ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+          </button>
+        </div>
       </div>
 
-      <button class="btn btn-pokedex-action w-100" type="submit" [disabled]="isLoading">
+      <button class="btn btn-pokedex-action w-100" type="submit" [disabled]="isLoading || loginForm.invalid">
         <span *ngIf="isLoading" class="d-flex align-items-center justify-content-center gap-2">
           <span class="spinner-border spinner-border-sm poke-spinner" role="status" aria-hidden="true"></span>
           ¡VALIDANDO DATOS...!
@@ -104,12 +117,22 @@
         <form (ngSubmit)="onRegister()" #registerForm="ngForm" *ngIf="!registerSuccess">
           <div class="row">
             <div class="col-md-6 mb-3 text-start">
-              <label class="label-pixel">NOMBRE</label>
-              <input type="text" class="form-control pokedex-input" name="regNombre" [(ngModel)]="regNombre" required #nombreModel="ngModel" />
+              <label class="label-pixel">NOMBRE *</label>
+              <input type="text" class="form-control pokedex-input" name="regNombre" [(ngModel)]="regNombre" 
+                    required minlength="3" #nombre="ngModel" />
+              <div class="pixel-error-text" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                <span *ngIf="nombre.errors?.['required']">¡Campo obligatorio!</span>
+                <span *ngIf="nombre.errors?.['minlength']">Mínimo 3 letras.</span>
+              </div>
             </div>
+            
             <div class="col-md-6 mb-3 text-start">
-              <label class="label-pixel">APE. PATERNO</label>
-              <input type="text" class="form-control pokedex-input" name="regApellidoP" [(ngModel)]="regApellidoP" required />
+              <label class="label-pixel">APE. PATERNO *</label>
+              <input type="text" class="form-control pokedex-input" name="regApellidoP" [(ngModel)]="regApellidoP" 
+                    required #apellidoP="ngModel" />
+              <div class="pixel-error-text" *ngIf="apellidoP.invalid && (apellidoP.dirty || apellidoP.touched)">
+                <span>¡El apellido es obligatorio!</span>
+              </div>
             </div>
           </div>
 
@@ -118,25 +141,62 @@
               <label class="label-pixel">APE. MATERNO</label>
               <input type="text" class="form-control pokedex-input" name="regApellidoM" [(ngModel)]="regApellidoM" />
             </div>
+            
             <div class="col-md-6 mb-3 text-start">
-              <label class="label-pixel">USUARIO</label>
-              <input type="text" class="form-control pokedex-input" name="regUsername" [(ngModel)]="regUsername" required />
+              <label class="label-pixel">USUARIO *</label>
+              <input type="text" class="form-control pokedex-input" name="regUsername" [(ngModel)]="regUsername" 
+                    required minlength="4" #uName="ngModel" />
+              <div class="pixel-error-text" *ngIf="uName.invalid && (uName.dirty || uName.touched)">
+                <span *ngIf="uName.errors?.['required']">¡El ID de usuario es obligatorio!</span>
+                <span *ngIf="uName.errors?.['minlength']">Usa al menos 4 caracteres.</span>
+              </div>
             </div>
           </div>
 
           <div class="mb-3 text-start">
-            <label class="label-pixel">CORREO ELECTRÓNICO</label>
-            <input type="email" class="form-control pokedex-input" name="regCorreo" [(ngModel)]="regCorreo" required email />
+            <label class="label-pixel">CORREO ELECTRÓNICO *</label>
+            <input type="email" class="form-control pokedex-input" name="regCorreo" [(ngModel)]="regCorreo" 
+                  required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #correo="ngModel" />
+            <div class="pixel-error-text" *ngIf="correo.invalid && (correo.dirty || correo.touched)">
+              <span *ngIf="correo.errors?.['required']">Falta el correo de contacto.</span>
+              <span *ngIf="correo.errors?.['pattern']">La dirección de la Pokédex es inválida.</span>
+            </div>
           </div>
 
           <div class="row">
             <div class="col-md-6 mb-3 text-start">
-              <label class="label-pixel">CONTRASEÑA</label>
-              <input type="password" class="form-control pokedex-input" name="regPassword" [(ngModel)]="regPassword" required minlength="6" />
+              <label class="label-pixel">CONTRASEÑA *</label>
+              <div class="password-container">
+                <input [type]="showPasswordRegister ? 'text' : 'password'" 
+                      class="form-control pokedex-input" 
+                      name="regPassword" 
+                      [(ngModel)]="regPassword" 
+                      required minlength="6" #pass="ngModel" />
+                
+                <button type="button" class="btn-view-password" (click)="togglePasswordRegister()">
+                  <i class="bi" [ngClass]="showPasswordRegister ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+                </button>
+              </div>
+              
+              <div class="pixel-error-text" *ngIf="pass.invalid && (pass.dirty || pass.touched)">
+                <span *ngIf="pass.errors?.['required']">¡CLAVE OBLIGATORIA!</span>
+                <span *ngIf="pass.errors?.['minlength']">¡MÍNIMO 6 CARACTERES!</span>
+              </div>
             </div>
+
             <div class="col-md-6 mb-3 text-start">
-              <label class="label-pixel">CONFIRMAR</label>
-              <input type="password" class="form-control pokedex-input" name="regConfirmPassword" [(ngModel)]="regConfirmPassword" required />
+              <label class="label-pixel">CONFIRMAR *</label>
+              <div class="password-container">
+                <input [type]="showPasswordRegister ? 'text' : 'password'" 
+                      class="form-control pokedex-input" 
+                      name="regConfirmPassword" 
+                      [(ngModel)]="regConfirmPassword" 
+                      required #confirmPass="ngModel" />
+                </div>
+              
+              <div class="pixel-error-text" *ngIf="confirmPass.touched && regPassword !== regConfirmPassword">
+                <span>¡LAS CONTRASEÑAS NO COINCIDEN!</span>
+              </div>
             </div>
           </div>
 
