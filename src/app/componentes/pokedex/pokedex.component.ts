@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PokemonService } from '../../services/pokemon.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { RouterModule } from '@angular/router';
 import { FavoritoService } from '../../services/favorito.service';
 import Swal from 'sweetalert2';
@@ -24,10 +23,22 @@ export class PokedexComponent implements OnInit {
   idsFavoritos: Set<number> = new Set();
   pokemonLoaded: { [key: number]: boolean } = {};
 
+  listaTiposCompletos = [
+    { esp: 'Acero', eng: 'steel' }, { esp: 'Agua', eng: 'water' }, 
+    { esp: 'Bicho', eng: 'bug' }, { esp: 'Dragón', eng: 'dragon' }, 
+    { esp: 'Eléctrico', eng: 'electric' }, { esp: 'Fantasma', eng: 'ghost' }, 
+    { esp: 'Fuego', eng: 'fire' }, { esp: 'Hada', eng: 'fairy' }, 
+    { esp: 'Hielo', eng: 'ice' }, { esp: 'Lucha', eng: 'fighting' }, 
+    { esp: 'Normal', eng: 'normal' }, { esp: 'Planta', eng: 'grass' }, 
+    { esp: 'Psíquico', eng: 'psychic' }, { esp: 'Roca', eng: 'rock' }, 
+    { esp: 'Siniestro', eng: 'dark' }, { esp: 'Tierra', eng: 'ground' }, 
+    { esp: 'Veneno', eng: 'poison' }, { esp: 'Volador', eng: 'flying' }
+  ];
+
   filtros = {
     nombre: '',
     id: '',
-    tipo: ''
+    tiposSeleccionados: [] as string[] 
   };
 
   paginaActual: number = 1;
@@ -101,6 +112,26 @@ export class PokedexComponent implements OnInit {
     }
   }
 
+  alternarTipo(tipoEng: string): void {
+    const index = this.filtros.tiposSeleccionados.indexOf(tipoEng);
+
+    if (index >= 0) {
+      this.filtros.tiposSeleccionados.splice(index, 1);
+    } else {
+      if (this.filtros.tiposSeleccionados.length < 2) {
+        this.filtros.tiposSeleccionados.push(tipoEng);
+      } else {
+        this.filtros.tiposSeleccionados.shift();
+        this.filtros.tiposSeleccionados.push(tipoEng);
+      }
+    }
+    this.filtrar();
+  }
+
+  estaTipoSeleccionado(tipoEng: string): boolean {
+    return this.filtros.tiposSeleccionados.includes(tipoEng);
+  }
+
   filtrar(): void {
     this.paginaActual = 1;
 
@@ -111,10 +142,10 @@ export class PokedexComponent implements OnInit {
       const searchId = this.filtros.id ? this.filtros.id.toString().trim() : '';
       const cumpleId = !searchId || p.id.toString().includes(searchId);
 
-      const cumpleTipo = !this.filtros.tipo ||
-        p.tipos.some((t: any) =>
-          t.esp.toLowerCase().includes(this.filtros.tipo.toLowerCase().trim()) ||
-          t.eng.toLowerCase().includes(this.filtros.tipo.toLowerCase().trim())
+
+      const cumpleTipo = this.filtros.tiposSeleccionados.length === 0 ||
+        this.filtros.tiposSeleccionados.every((tipoSeguido: string) =>
+          p.tipos.some((t: any) => t.eng.toLowerCase() === tipoSeguido.toLowerCase())
         );
 
       return cumpleNombre && cumpleId && cumpleTipo;
@@ -165,15 +196,38 @@ export class PokedexComponent implements OnInit {
       },
       error: (err) => {
         this.pokemonLoaded[pokemon.id] = false;
-
         Swal.fire({
           icon: 'error',
           title: 'Error del servidor',
           text: 'Intenta nuevamente más tarde'
         });
-
         console.error('Error al guardar', err);
       }
     });
   }
+
+  obtenerIconoTipo(tipoEng: string): string {
+    const iconos: { [key: string]: string } = {
+      fire: 'bi-fire',
+      water: 'bi-droplet-fill',
+      grass: 'bi-tree-fill', // o bi-flower1
+      electric: 'bi-lightning-charge-fill',
+      ice: 'bi-snow',
+      fighting: 'bi-brightness-high-fill', // simula un puño/energía
+      poison: 'bi-capsule',
+      ground: 'bi-hourglass-split',
+      flying: 'bi-wind',
+      psychic: 'bi-eye-fill',
+      bug: 'bi-bug-fill',
+      rock: 'bi-gem',
+      ghost: 'bi-ghost',
+      dragon: 'bi-dragon', // Nota: requiere bootstrap-icons recientes, si no usa bi-shield-fill
+      dark: 'bi-moon-stars-fill',
+      steel: 'bi-nut-fill',
+      fairy: 'bi-magic',
+      normal: 'bi-circle-fill'
+    };
+    return iconos[tipoEng] || 'bi-circle-fill';
+  }
+
 }

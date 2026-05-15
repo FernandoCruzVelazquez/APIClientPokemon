@@ -10,21 +10,37 @@
         <div class="filters-content">
 
           <div class="filter-item">
-            <label>Nombre</label>
+            <label class="filter-label">NOMBRE</label>
             <input type="text" [(ngModel)]="filtros.nombre" (input)="filtrar()" placeholder="Ej: Pikachu">
           </div>
 
           <div class="filter-item">
-            <label>Número (#)</label>
+            <label class="filter-label">NÚMERO (#)</label>
             <input type="number" [(ngModel)]="filtros.id" (input)="filtrar()" placeholder="Ej: 25">
           </div>
 
-          <div class="filter-item">
-            <label>Tipo</label>
-            <input type="text" [(ngModel)]="filtros.tipo" (input)="filtrar()" placeholder="Ej: Fuego">
+          <div class="filter-item filter-types-fullwidth">
+            <label class="filter-label">FILTRAR POR TIPOS (MÁX. 2)</label>
+            <div class="types-selector-grid">
+              <button 
+                type="button"
+                *ngFor="let t of listaTiposCompletos" 
+                class="type-select-btn" 
+                [ngClass]="[t.eng, estaTipoSeleccionado(t.eng) ? 'active' : '']"
+                (click)="alternarTipo(t.eng)">
+                
+                <span class="type-icon-wrapper">
+                  <i class="bi" [ngClass]="obtenerIconoTipo(t.eng)"></i>
+                </span>
+                
+                <span class="type-text">{{ t.esp }}</span>
+              </button>
+            </div>
           </div>
+
         </div>
       </div>
+
     </div>
 
     <div class="pokemon-grid">
