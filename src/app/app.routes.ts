@@ -9,6 +9,7 @@ import { UsuarioPerfilComponent } from './componentes/usuario-perfil/usuario-per
 import { FavoritoComponent } from './componentes/favorito/favorito.component';
 import { UsuarioDetalleComponent } from './componentes/usuario-detalle/usuario-detalle.component';
 import { ActivacionExitosaComponent } from './componentes/activacion-exitosa/activacion-exitosa.component';
+import { RankingComponent } from './componentes/ranking/ranking.component';
 
 
 export const routes: Routes = [
@@ -29,7 +30,8 @@ export const routes: Routes = [
       { path: 'perfil/:id', component: UsuarioPerfilComponent },
       { path: 'favoritos', component: FavoritoComponent },
       { path: 'perfil-detalle/:id', component: UsuarioDetalleComponent },
-      { path: 'pokemon/:id', component: DetallePokemonComponent }
+      { path: 'pokemon/:id', component: DetallePokemonComponent },
+      { path: 'ranking', component: RankingComponent }
     ]
   },
 

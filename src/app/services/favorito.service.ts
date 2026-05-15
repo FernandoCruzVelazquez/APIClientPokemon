@@ -8,11 +8,7 @@ import { ResultModel } from '../models/ResultModel';
 })
 export class FavoritoService {
 
-<<<<<<< HEAD
   private readonly IP = 'localhost';
-=======
-  private readonly IP = '192.167.0.79';
->>>>>>> 8c8652a93206bda8b05eae678a7d9af0554f0e5b
   private readonly PORT = '8081';
 
   private get apiUrl(): string {
@@ -32,5 +28,9 @@ export class FavoritoService {
 
   eliminarFavorito(idUsuario: number, idPokemon: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}?idUsuario=${idUsuario}&idPokemon=${idPokemon}`);
+  }
+
+  getRankingPokemon(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/ranking`);
   }
 }

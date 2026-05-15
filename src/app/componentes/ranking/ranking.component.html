@@ -1,0 +1,72 @@
+<div class="ranking-container">
+
+  <div class="ranking-bg"></div>
+
+  <div class="container contenido">
+
+    <h1 class="ranking-title">La fama Pokémon <i class="bi bi-trophy"></i></h1>
+    <p class="ranking-subtitle">Los más capturados y queridos por la comunidad</p>
+
+    <div *ngIf="loading" class="loader-container">
+      <div class="spinner"></div>
+      <p>Consultando la base de datos de los entrenadores...</p>
+    </div>
+
+    <div *ngIf="errorMsg" class="error-container">
+      {{ errorMsg }}
+    </div>
+
+    <div *ngIf="!loading && !errorMsg && rankingCompleto.length > 0">
+
+      <div class="podium-container">
+
+        <div class="podium-card silver" *ngIf="podio[1]">
+          <div class="medal">🥈</div>
+          <img [src]="podio[1].pokemon.imagen" [alt]="podio[1].pokemon.nombrepokemon" class="poke-img">
+          <h3>{{ podio[1].pokemon.nombrepokemon | uppercase }}</h3>
+          <span class="votes-badge">{{ podio[1].totalVotos }} Guardados</span>
+          <div class="step">2° Lugar</div>
+        </div>
+
+        <div class="podium-card gold" *ngIf="podio[0]">
+          <div class="crown">👑</div>
+          <div class="medal">🥇</div>
+          <img [src]="podio[0].pokemon.imagen" [alt]="podio[0].pokemon.nombrepokemon" class="poke-img champion">
+          <h2>{{ podio[0].pokemon.nombrepokemon | uppercase }}</h2>
+          <span class="votes-badge champion-badge">{{ podio[0].totalVotos }} Guardados</span>
+          <div class="step champion-step">1° Lugar</div>
+        </div>
+
+        <div class="podium-card bronze" *ngIf="podio[2]">
+          <div class="medal">🥉</div>
+          <img [src]="podio[2].pokemon.imagen" [alt]="podio[2].pokemon.nombrepokemon" class="poke-img">
+          <h3>{{ podio[2].pokemon.nombrepokemon | uppercase }}</h3>
+          <span class="votes-badge">{{ podio[2].totalVotos }} Guardados</span>
+          <div class="step">3° Lugar</div>
+        </div>
+
+      </div>
+
+      <div class="leaderboard-container" *ngIf="listaRestante.length > 0">
+        <h2 class="table-title">Resto de Clasificados</h2>
+
+        <div class="leaderboard-row" *ngFor="let item of listaRestante; let i = index">
+          <div class="position-col">#{{ i + 4 }}</div>
+          <div class="image-col">
+            <img [src]="item.pokemon.imagen" [alt]="item.pokemon.nombrepokemon">
+          </div>
+          <div class="name-col">{{ item.pokemon.nombrepokemon | uppercase }}</div>
+          <div class="votes-col">
+            <strong>{{ item.totalVotos }}</strong> entrenadores
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="!loading && !errorMsg && rankingCompleto.length === 0" class="empty-container">
+      💤 Aún ningún entrenador ha agregado pokémons a su colección.
+    </div>
+  </div>
+</div>
