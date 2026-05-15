@@ -42,10 +42,6 @@ export class UsuarioService {
         return this.http.post<ResultModel<any>>(`${this.baseUrl}/bienvenida/${correo}`, {});
     }
 
-    enviarValidacion(correo: string): Observable<ResultModel<any>> {
-        return this.http.post<ResultModel<any>>(`${this.baseUrl}/enviar-validacion/${correo}`, {});
-    }
-
     enviarValidacionPASS(correo: string): Observable<ResultModel<any>> {
         return this.http.post<ResultModel<any>>(`${this.baseUrl}/enviar-validacionPASS/${correo}`, {});
     }
@@ -69,4 +65,9 @@ export class UsuarioService {
     resetPassword(correo: string, nuevaPass: string): Observable<ResultModel<any>> {
         return this.http.put<ResultModel<any>>(`${this.baseUrl}/reset-password`, { correo, password: nuevaPass });
     }
+
+    enviarValidacion(correo: string): Observable<ResultModel<any>> {
+        return this.http.post<ResultModel<any>>(`${this.baseUrl}/enviar-enlace-validacion/${correo}`, {});
+    }
+
 }

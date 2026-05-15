@@ -40,6 +40,13 @@ export class PokedexComponent implements OnInit {
 
   ngOnInit(): void {
       this.pokemons = this.pokemonService.obtenerPokemons();
+
+      if (!this.pokemons || this.pokemons.length === 0) {
+        console.log('Pokedex vacía, redirigiendo al loader...');
+        this.router.navigate(['/']); 
+        return;
+      }
+
       this.pokemonsFiltrados = [...this.pokemons];
 
       const id = localStorage.getItem('idusuario');
