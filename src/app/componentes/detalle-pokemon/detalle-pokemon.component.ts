@@ -12,13 +12,13 @@ import { FavoritoService } from '../../services/favorito.service';
   templateUrl: './detalle-pokemon.component.html',
   styleUrls: ['./detalle-pokemon.component.css']
 })
+
 export class DetallePokemonComponent implements OnInit {
   pokemon: any;
-
   pokemons: any[] = [];
-
   idUsuario: number = 0;
   loading: boolean = false;
+  esFavorito: boolean = false;
 
   audioGrito: HTMLAudioElement | null = null;
 
@@ -30,7 +30,6 @@ export class DetallePokemonComponent implements OnInit {
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-
     const todos = this.pokemonService.obtenerPokemons();
     this.pokemon = todos.find((p: any) => p.id === id);
 
@@ -43,8 +42,24 @@ export class DetallePokemonComponent implements OnInit {
     this.pokemons = this.pokemonService.obtenerPokemons();
 
     const idu = localStorage.getItem('idusuario');
+    const userStored = localStorage.getItem('username');
+
     this.idUsuario = idu ? Number(idu) : 0;
 
+    if (userStored && this.pokemon) {
+      this.verificarEstadoFavorito(userStored);
+    }
+  }
+
+  verificarEstadoFavorito(username: string): void {
+    this.favoritoService.getMisFavoritos(username).subscribe({
+      next: (res) => {
+        if (res.correct && res.objects) {
+          this.esFavorito = res.objects.some((fav: any) => fav.pokemon && fav.pokemon.idpokemon === this.pokemon.id);
+        }
+      },
+      error: (err) => console.error('Error al verificar favoritos', err)
+    });
   }
 
   reproducirGrito(): void {
@@ -78,7 +93,7 @@ export class DetallePokemonComponent implements OnInit {
   }
 
   onGuardar(pokemon: any) {
-    if (this.loading) return;
+    if (this.loading || this.esFavorito) return;
 
     if (!this.idUsuario) {
       Swal.fire({
@@ -103,6 +118,7 @@ export class DetallePokemonComponent implements OnInit {
         this.loading = false;
 
         if (res.correct) {
+          this.esFavorito = true;
           Swal.fire({
             icon: 'success',
             title: '¡Guardado!',

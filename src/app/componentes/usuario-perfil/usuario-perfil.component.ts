@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import Swal from 'sweetalert2'; 
 import Swal from 'sweetalert2';
 
 @Component({

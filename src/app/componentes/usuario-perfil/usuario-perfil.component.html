@@ -88,7 +88,8 @@
 
               <!-- BOTÓN INTERRUPTOR PARA CONTRASEÑA -->
               <div class="mt-4 mb-3">
-                <button type="button" (click)="togglePasswordSection()" class="btn btn-outline-secondary btn-sm shadow-sm">
+                <button type="button" (click)="togglePasswordSection()"
+                  class="btn btn-outline-secondary btn-sm shadow-sm">
                   <i class="bi" [ngClass]="showPasswordSection ? 'bi-x-lg' : 'bi-shield-lock-fill'"></i>
                   {{ showPasswordSection ? ' CANCELAR CAMBIO DE CONTRASEÑA' : ' CAMBIAR CONTRASEÑA' }}
                 </button>
@@ -97,23 +98,23 @@
               <!-- SECCIÓN DESPLEGABLE DE CONTRASEÑA -->
               <div *ngIf="showPasswordSection" class="p-3 mb-4 rounded-3 border border-warning bg-light shadow-sm">
                 <h6 class="label-pokedex text-warning mb-3">ACTUALIZAR CREDENCIALES</h6>
-                
+
                 <div class="mb-3">
                   <label class="label-pokedex">CONTRASEÑA ACTUAL</label>
-                  <input type="password" class="form-control input-pokedex" 
-                        [(ngModel)]="currentPassword" name="currentPassword" placeholder="Tu clave actual">
+                  <input type="password" class="form-control input-pokedex" [(ngModel)]="currentPassword"
+                    name="currentPassword" placeholder="Tu clave actual">
                 </div>
 
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label class="label-pokedex">NUEVA CONTRASEÑA</label>
-                    <input type="password" class="form-control input-pokedex" 
-                          [(ngModel)]="newPassword" name="newPassword" placeholder="Mínimo 6 caracteres">
+                    <input type="password" class="form-control input-pokedex" [(ngModel)]="newPassword"
+                      name="newPassword" placeholder="Mínimo 6 caracteres">
                   </div>
                   <div class="col-md-6 mb-3">
                     <label class="label-pokedex">REPETIR NUEVA</label>
-                    <input type="password" class="form-control input-pokedex" 
-                          [(ngModel)]="confirmNewPassword" name="confirmNewPassword" placeholder="Confirma clave">
+                    <input type="password" class="form-control input-pokedex" [(ngModel)]="confirmNewPassword"
+                      name="confirmNewPassword" placeholder="Confirma clave">
                   </div>
                 </div>
               </div>
@@ -128,7 +129,7 @@
                   CANCELAR
                 </button>
               </div>
-              
+
             </form>
           </div>
         </div>

@@ -491,10 +491,52 @@
   font-weight: bold;
   font-family: 'Exo 2', sans-serif;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 0.8rem;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  outline: none;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #2a448a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.save-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.save-btn.btn-saved{
+  background: #28a745;
+  color: #ffffff;
+  border-color: #ffffff;
+  cursor: default;
+  box-shadow: none;
+  transform: none;
+}
+
+.save-btn.btn-loading {
+  background: #6c757d;
+  color: #e9ecef;
+  border-color: #adb5bd;
+  cursor: wait;
+  opacity: 0.8;
+}
+
+.btn-loading .btn-icon {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.save-btn:disabled {
+  filter: grayscale(0.2);
+  pointer-events: none;
 }

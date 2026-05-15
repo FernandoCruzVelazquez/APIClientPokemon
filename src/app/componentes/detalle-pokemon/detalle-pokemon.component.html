@@ -42,9 +42,16 @@
         </div>
 
         <div class="action-container">
-          <button class="save-btn" (click)="onGuardar(pokemon)">
-            <span class="btn-icon">🔘</span>
-            GUARDAR
+          <button class="save-btn" [class.btn-saved]="esFavorito" [class.btn-loading]="loading"
+            [disabled]="loading || esFavorito" (click)="onGuardar(pokemon)">
+
+            <span class="btn-icon">
+              {{ esFavorito ? '✅' : (loading ? '⏳' : '🔘') }}
+            </span>
+
+            <span>
+              {{ esFavorito ? 'EN TU COLECCIÓN' : (loading ? 'GUARDANDO...' : 'GUARDAR') }}
+            </span>
           </button>
         </div>
 
