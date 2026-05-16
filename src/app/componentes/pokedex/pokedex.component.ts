@@ -210,10 +210,10 @@ export class PokedexComponent implements OnInit {
     const iconos: { [key: string]: string } = {
       fire: 'bi-fire',
       water: 'bi-droplet-fill',
-      grass: 'bi-tree-fill', // o bi-flower1
+      grass: 'bi-tree-fill', 
       electric: 'bi-lightning-charge-fill',
       ice: 'bi-snow',
-      fighting: 'bi-brightness-high-fill', // simula un puño/energía
+      fighting: 'bi-brightness-high-fill', 
       poison: 'bi-capsule',
       ground: 'bi-hourglass-split',
       flying: 'bi-wind',
@@ -221,7 +221,7 @@ export class PokedexComponent implements OnInit {
       bug: 'bi-bug-fill',
       rock: 'bi-gem',
       ghost: 'bi-ghost',
-      dragon: 'bi-dragon', // Nota: requiere bootstrap-icons recientes, si no usa bi-shield-fill
+      dragon: 'bi-dragon', 
       dark: 'bi-moon-stars-fill',
       steel: 'bi-nut-fill',
       fairy: 'bi-magic',
