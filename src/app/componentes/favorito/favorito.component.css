@@ -600,7 +600,6 @@
 .action-container {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
 }
 
 .save-btn {
@@ -720,7 +719,7 @@
 .action-container {
   display: flex;
   gap: 12px;
-  margin-top: 15px;
+  margin-top: 10px;
   padding: 0 10px;
   justify-content: space-between;
   align-items: center;

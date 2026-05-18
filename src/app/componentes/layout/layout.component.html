@@ -13,7 +13,7 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
+                    <li class="nav-item" id="nav-favoritos">
 
                         <a class="nav-link" routerLink="/favoritos" routerLinkActive="active">
                             <i class="bi bi-house"></i> Favoritos
@@ -24,7 +24,7 @@
                             <i class="bi bi-gear"></i> Usuarios
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="nav-perfil">
                         <a class="nav-link" [routerLink]="['/perfil', idUsuarioLogueado]">
                             <i class="bi bi-person-circle"></i> Mi Perfil
                         </a>
@@ -39,7 +39,7 @@
 
                 <div class="d-flex align-items-center gap-3">
 
-                    <div class="user-badge">
+                    <div class="user-badge" id="nav-user">
                         <i class="bi bi-person-badge"></i>
                         <span class="ms-2">Entrenador: <strong>{{ username }}</strong></span>
                     </div>
@@ -66,3 +66,52 @@
         <p>© 2026 POKÉDEX <strong>F&F</strong> — SISTEMA DE GESTIÓN DE ENTRENADORES</p>
     </div>
 </footer>
+
+<div class="tutorial-overlay" *ngIf="tutorialActivo">
+
+  <div class="tutorial-hole"
+    [style.top.px]="highlight.top"
+    [style.left.px]="highlight.left"
+    [style.width.px]="highlight.width"
+    [style.height.px]="highlight.height">
+  </div>
+
+  <div class="tutorial-tooltip"
+    [style.top.px]="tooltipTop"
+    [style.left.px]="tooltipLeft">
+
+    <button class="tutorial-close" (click)="tutorialActivo = false">✖</button>
+
+    <h3>{{ pasoActual.titulo }}</h3>
+    <p>{{ pasoActual.descripcion }}</p>
+
+    <div class="tutorial-progress">
+      Paso {{ indicePaso + 1 }} de {{ pasosTutorial.length }}
+    </div>
+
+    <div class="tutorial-buttons">
+      <button 
+        class="tutorial-btn prev" 
+        (click)="anteriorPaso()" 
+        [disabled]="indicePaso === 0">
+        ◀ ANTERIOR
+      </button>
+      
+      <button 
+        class="tutorial-btn next" 
+        (click)="siguientePaso()">
+        {{ indicePaso === pasosTutorial.length - 1 ? 'FINALIZAR' : 'SIGUIENTE ▶' }}
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<div class="fixed-help-container" *ngIf="!tutorialActivo">
+  <button class="btn-help-poke" (click)="abrirTutorial()" title="Abrir Guía de Entrenamiento">
+    <div class="pokeball-pulse"></div>
+    <div class="pokeball-core">
+      <i class="bi bi-question-lg"></i>
+    </div>
+  </button>
+</div>
