@@ -9,6 +9,12 @@ import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
 
+interface PasoTutorial {
+  selector: string;
+  titulo: string;
+  descripcion: string;
+}
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -34,6 +40,52 @@ export class LoginComponent implements OnDestroy {
 
   intervaloVerificacion: any;
   cuentaActivadaExitosamente = false;
+
+  tutorialActivo: boolean = false;
+  indicePaso: number = 0;
+
+  highlight = {
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0
+  };
+
+  tooltipTop: number = 0;
+  tooltipLeft: number = 0;
+
+  pasosTutorial: PasoTutorial[] = [
+    {
+      selector: '#tutorial-logo',
+      titulo: 'Bienvenido Entrenador',
+      descripcion: 'Esta es la pantalla principal de acceso a la Pokédex.'
+    },
+    {
+      selector: '#tutorial-usuario',
+      titulo: 'Usuario',
+      descripcion: 'Ingresa tu nombre de entrenador registrado.'
+    },
+    {
+      selector: '#tutorial-password',
+      titulo: 'Contraseña',
+      descripcion: 'Escribe tu contraseña secreta para acceder.'
+    },
+    {
+      selector: '#tutorial-login-btn',
+      titulo: 'Botón Login',
+      descripcion: 'Presiona aquí para iniciar sesión.'
+    },
+    {
+      selector: '#tutorial-register',
+      titulo: 'Registro',
+      descripcion: 'Si eres nuevo puedes crear una cuenta de entrenador.'
+    },
+    {
+      selector: '#tutorial-recover',
+      titulo: 'Recuperación',
+      descripcion: 'Recupera tu contraseña mediante correo electrónico.'
+    }
+  ];
 
   constructor(
     private authService: AuthService,
@@ -88,6 +140,87 @@ export class LoginComponent implements OnDestroy {
         this.errorMessage = 'Credenciales incorrectas.';
       }
     });
+  }
+
+  get pasoActual(): PasoTutorial {
+    return this.pasosTutorial[this.indicePaso];
+  }
+
+  abrirTutorialLogin(): void {
+
+    this.indicePaso = 0;
+    this.tutorialActivo = true;
+
+    setTimeout(() => {
+      this.actualizarHighlight();
+    }, 150);
+  }
+
+  actualizarHighlight(): void {
+
+    const elemento = document.querySelector(
+      this.pasoActual.selector
+    ) as HTMLElement;
+
+    if (!elemento) return;
+
+    const rect = elemento.getBoundingClientRect();
+
+    this.highlight = {
+      top: rect.top - 12,
+      left: rect.left - 12,
+      width: rect.width + 24,
+      height: rect.height + 24
+    };
+
+    const viewportHeight = window.innerHeight;
+
+    if (rect.bottom > viewportHeight - 140) {
+
+      this.tooltipTop = rect.top - 180;
+      this.tooltipLeft = rect.left + (rect.width / 2) - 220;
+
+    } else {
+
+      this.tooltipTop = rect.bottom + 25;
+      this.tooltipLeft = rect.left + (rect.width / 2) - 220;
+    }
+
+    if (this.tooltipLeft < 20) {
+      this.tooltipLeft = 20;
+    }
+
+    if (this.tooltipLeft + 440 > window.innerWidth) {
+      this.tooltipLeft = window.innerWidth - 460;
+    }
+  }
+
+  siguientePaso(): void {
+
+    if (this.indicePaso < this.pasosTutorial.length - 1) {
+
+      this.indicePaso++;
+
+      setTimeout(() => {
+        this.actualizarHighlight();
+      }, 150);
+
+    } else {
+
+      this.tutorialActivo = false;
+    }
+  }
+
+  anteriorPaso(): void {
+
+    if (this.indicePaso > 0) {
+
+      this.indicePaso--;
+
+      setTimeout(() => {
+        this.actualizarHighlight();
+      }, 150);
+    }
   }
 
   completarLogin(res: any) {

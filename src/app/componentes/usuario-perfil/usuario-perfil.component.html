@@ -1,7 +1,8 @@
 <div class="perfil-container">
   <div class="usuarios-bg"></div>
 
-  <div class="container contenido pt-5">
+  <!-- CAMBIO AQUÍ: La ficha de entrenador ahora solo se renderiza si NO está cargando (*ngIf="!isLoading") -->
+  <div class="container contenido pt-5" *ngIf="!isLoading">
     <div class="card pokedex-card shadow-lg mx-auto" style="max-width: 800px;">
       <div class="card-header text-center">
         <h2 class="title-perfil">FICHA DE ENTRENADOR</h2>
@@ -25,7 +26,6 @@
             <button type="button" (click)="desactivar()" class="btn btn-danger btn-poke">
               Desactivar cuenta
             </button>
-
           </div>
 
           <div class="col-md-8">
@@ -128,4 +128,13 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="loader-container" *ngIf="isLoading">
+  <div class="pokeball-loader">
+    <div class="pokeball-top"></div>
+    <div class="pokeball-center"></div>
+    <div class="pokeball-bottom"></div>
+  </div>
+  <p class="loading-text">CARGANDO PERFIL...</p>
 </div>
