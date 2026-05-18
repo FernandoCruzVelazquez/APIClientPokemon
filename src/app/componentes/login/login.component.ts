@@ -64,7 +64,6 @@ export class LoginComponent implements OnDestroy {
 
               this.usuarioService.enviarValidacion(usuario.correo).subscribe({
                 next: () => {
-                  console.log("Enlace de activación enviado");
                   this.mostrarModalEsperaVerificacion(usuario.idusuario, usuario.correo, res);
                 },
                 error: (err) => {

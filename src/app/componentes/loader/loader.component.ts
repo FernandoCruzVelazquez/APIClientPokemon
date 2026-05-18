@@ -37,9 +37,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
     
     if (urlActual === '/' || urlActual === '/loader') {
       this.router.navigate(['/login']);
-    } else {
-      console.log('Loader finalizado en ruta secundaria, no se requiere redirección.');
-    }
+    } 
   }
 
   ngOnDestroy() {

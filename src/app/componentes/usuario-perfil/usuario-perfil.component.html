@@ -9,7 +9,6 @@
 
       <div class="card-body p-4">
         <div class="row">
-          <!-- Lado Izquierdo: Foto de Perfil -->
           <div class="col-md-4 text-center border-end border-secondary">
             <div class="image-preview-container mb-3">
               <img
@@ -29,11 +28,9 @@
 
           </div>
 
-          <!-- Lado Derecho: Datos del Formulario -->
           <div class="col-md-8">
             <form (ngSubmit)="updateUsuario()" #perfilForm="ngForm">
 
-              <!-- Fila 1: Nombre y Apellido Paterno -->
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label class="label-pokedex">NOMBRE</label>
@@ -55,7 +52,6 @@
                 </div>
               </div>
 
-              <!-- Fila 2: Apellido Materno y Username -->
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label class="label-pokedex">APELLIDO MATERNO</label>
@@ -76,7 +72,6 @@
                 </div>
               </div>
 
-              <!-- Fila 3: Correo -->
               <div class="mb-3">
                 <label class="label-pokedex">CORREO ELECTRÓNICO</label>
                 <input type="email" class="form-control input-pokedex" [(ngModel)]="usuario.correo" name="correo"
@@ -86,7 +81,6 @@
                 </div>
               </div>
 
-              <!-- BOTÓN INTERRUPTOR PARA CONTRASEÑA -->
               <div class="mt-4 mb-3">
                 <button type="button" (click)="togglePasswordSection()"
                   class="btn btn-outline-secondary btn-sm shadow-sm">
@@ -95,7 +89,6 @@
                 </button>
               </div>
 
-              <!-- SECCIÓN DESPLEGABLE DE CONTRASEÑA -->
               <div *ngIf="showPasswordSection" class="p-3 mb-4 rounded-3 border border-warning bg-light shadow-sm">
                 <h6 class="label-pokedex text-warning mb-3">ACTUALIZAR CREDENCIALES</h6>
 
@@ -119,7 +112,6 @@
                 </div>
               </div>
 
-              <!-- ACCIONES FINALES -->
               <div class="d-flex gap-2 mt-4">
                 <button type="submit" class="btn btn-success btn-poke flex-grow-1"
                   [disabled]="perfilForm.invalid || isLoading">
