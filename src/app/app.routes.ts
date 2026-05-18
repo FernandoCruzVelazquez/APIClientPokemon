@@ -10,7 +10,7 @@ import { FavoritoComponent } from './componentes/favorito/favorito.component';
 import { UsuarioDetalleComponent } from './componentes/usuario-detalle/usuario-detalle.component';
 import { ActivacionExitosaComponent } from './componentes/activacion-exitosa/activacion-exitosa.component';
 import { RankingComponent } from './componentes/ranking/ranking.component';
-
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
 
@@ -24,8 +24,8 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'pokedex', component: PokedexComponent },
-      { path: 'usuarios', component: UsuarioGetAllComponent },
+      { path: 'pokedex', component: PokedexComponent},
+      { path: 'usuarios', component: UsuarioGetAllComponent, canActivate: [roleGuard] },
       { path: 'perfil', component: UsuarioPerfilComponent },
       { path: 'perfil/:id', component: UsuarioPerfilComponent },
       { path: 'favoritos', component: FavoritoComponent },
