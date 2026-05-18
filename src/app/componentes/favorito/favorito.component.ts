@@ -17,6 +17,8 @@ export class FavoritoComponent implements OnInit {
   favoritos: any[] = [];
   username: string = '';
   idUsuario: number = 0;
+  
+  isLoadingFavoritos: boolean = false;
 
   constructor(
     private favoritoService: FavoritoService,
@@ -24,9 +26,7 @@ export class FavoritoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.username = this.authService.getUsername();
-
     this.cargarFavoritos();
 
     const id = localStorage.getItem('idusuario');
@@ -34,16 +34,16 @@ export class FavoritoComponent implements OnInit {
   }
 
   cargarFavoritos() {
+    this.isLoadingFavoritos = true;
+
     this.favoritoService.getMisFavoritos(this.username).subscribe({
       next: (res: any) => {
-
-        console.log('FAVORITOS:', res);
-
         this.favoritos = res.objects || [];
-
+        this.isLoadingFavoritos = false;
       },
       error: (err) => {
         console.error(err);
+        this.isLoadingFavoritos = false;
       }
     });
   }
@@ -52,7 +52,6 @@ export class FavoritoComponent implements OnInit {
     this.favoritoService.eliminarFavorito(this.idUsuario, idPokemon).subscribe({
       next: (res: any) => {
         if (res.correct) {
-
           this.cargarFavoritos();
 
           Swal.fire({
@@ -72,7 +71,6 @@ export class FavoritoComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al eliminar', err);
-
         Swal.fire({
           icon: 'error',
           title: 'Error del servidor',
@@ -81,5 +79,4 @@ export class FavoritoComponent implements OnInit {
       }
     });
   }
-
 }

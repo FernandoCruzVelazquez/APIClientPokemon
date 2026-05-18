@@ -6,11 +6,19 @@
       <h1 class="title">MIS FAVORITOS</h1>
     </div>
 
-    <div class="pokemon-grid">
+    <div *ngIf="isLoadingFavoritos" class="loader-container">
+      <div class="pokeball-loader">
+        <div class="pokeball-top"></div>
+        <div class="pokeball-center"></div>
+        <div class="pokeball-bottom"></div>
+      </div>
+      <p class="loading-text">CARGANDO FAVORITOS...</p>
+    </div>
+
+    <div class="pokemon-grid" *ngIf="!isLoadingFavoritos">
       <div class="pokemon-card" *ngFor="let fav of favoritos">
         
         <div class="card-inner">
-          
           <div class="card-top-bar">
             <div class="name-id">
               <span class="card-rarity">FAVORITO</span>
@@ -41,17 +49,17 @@
               <div class="btn-glow"></div>
               <i class="bi bi-graph-up"></i>
             </button>
-            
           </div>
 
           <div class="card-footer-tcg">
             <div class="footer-decor"></div>
           </div>
         </div>
+
       </div>
     </div>
 
-    <div *ngIf="favoritos.length === 0" class="pagination-info" style="margin: 50px auto; width: fit-content;">
+    <div *ngIf="favoritos.length === 0 && !isLoadingFavoritos" class="pagination-info" style="margin: 50px auto; width: fit-content;">
       <span>AÚN NO TIENES POKÉMON FAVORITOS</span>
     </div>
 
