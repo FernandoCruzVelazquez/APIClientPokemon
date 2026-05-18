@@ -163,7 +163,10 @@ export class LayoutComponent implements OnInit {
 
   onLogout() {
     console.log("Cerrando sesión...");
-    localStorage.clear(); 
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('idusuario');
+    localStorage.removeItem('rol'); 
     this.router.navigate(['/login']);
   }
 }
