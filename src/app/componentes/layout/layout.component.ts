@@ -41,6 +41,11 @@ export class LayoutComponent implements OnInit {
       descripcion: 'Aquí puedes revisar tus datos, estadísticas de combate y personalizar tu avatar.'
     },
     {
+      selector: '#nav-ranking',
+      titulo: 'Ranking de pokemon',
+      descripcion: 'Aquí se muestran los pokemon que han entrado entre los primeros 10 más favoritos para los entrenadores.'
+    },
+    {
       selector: '#nav-user',
       titulo: 'Sesión Activa',
       descripcion: 'Muestra tu nombre clave de entrenador registrado actualmente en el sistema.'
@@ -186,8 +191,10 @@ export class LayoutComponent implements OnInit {
   }
 
   onLogout() {
-    console.log("Cerrando sesión...");
-    localStorage.clear(); 
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('idusuario');
+    localStorage.removeItem('rol'); 
     this.router.navigate(['/login']);
   }
 }

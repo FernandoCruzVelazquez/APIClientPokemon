@@ -18,6 +18,8 @@ export class UsuarioGetAllComponent implements OnInit {
 
   public usuarios: UsuarioModel[] = [];
   public usuariosFiltrados: UsuarioModel[] = [];
+  
+  public isLoading: boolean = false;
 
   public filtros = {
     id: '',
@@ -43,7 +45,11 @@ export class UsuarioGetAllComponent implements OnInit {
     });
   }
 
-  GetAll() {
+  GetAll(mostrarLoader: boolean = true) {
+    if (mostrarLoader) {
+      this.isLoading = true;
+    }
+
     this.usuarioService.getAll().subscribe({
       next: (data: ResultModel<UsuarioModel>) => {
         if (data.correct) {
@@ -53,9 +59,11 @@ export class UsuarioGetAllComponent implements OnInit {
           this.usuarios = [];
           this.usuariosFiltrados = [];
         }
+        this.isLoading = false; 
       },
       error: () => {
         Swal.fire('Error', 'No se pudieron cargar los usuarios', 'error');
+        this.isLoading = false; 
       }
     });
   }
@@ -83,7 +91,7 @@ export class UsuarioGetAllComponent implements OnInit {
         },
         error: () => {
           Swal.fire('Error', 'No se pudo sincronizar con la Pokédex', 'error');
-          this.GetAll();
+          this.GetAll(false);
         }
       });
   }
@@ -103,7 +111,7 @@ export class UsuarioGetAllComponent implements OnInit {
         this.usuarioService.usuarioDelete(idusuario).subscribe({
           next: (res) => {
             Swal.fire('Eliminado', 'El registro ha sido borrado.', 'success');
-            this.GetAll(); 
+            this.GetAll(false);
           },
           error: () => {
             Swal.fire('Error', 'No se pudo completar la eliminación', 'error');
