@@ -1027,3 +1027,317 @@
     grid-template-columns: repeat(3, 1fr); 
   }
 }
+
+
+.tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 9999999;
+  pointer-events: auto;
+
+  -webkit-mask-image: radial-gradient(
+    rgba(0, 0, 0, 0) 0%, 
+    rgba(0, 0, 0, 0) 100%
+  );
+  
+  mask-image: paint(something); 
+  
+  -webkit-mask-image: linear-gradient(to right, #000, #000), linear-gradient(to right, #000, #000), linear-gradient(to right, #000, #000), linear-gradient(to right, #000, #000);
+  
+  mask-image: 
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-clip: content-box, border-box;
+  
+  -webkit-mask-image: radial-gradient(
+    circle at calc(var(--mask-x) + (var(--mask-w) / 2)) calc(var(--mask-y) + (var(--mask-h) / 2)), 
+    transparent calc(var(--mask-w) / 2), 
+    black calc(calc(var(--mask-w) / 2) + 1px)
+  );
+  mask-image: radial-gradient(
+    circle at calc(var(--mask-x) + (var(--mask-w) / 2)) calc(var(--mask-y) + (var(--mask-h) / 2)), 
+    transparent calc(var(--mask-w) / 2), 
+    black calc(calc(var(--mask-w) / 2) + 1px)
+  );
+}
+
+.tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 9999999;
+  pointer-events: auto;
+
+  -webkit-mask-image: paint(at);
+  mask-image: paint(at);
+  
+  -webkit-mask-image: 
+    linear-gradient(#fff, #fff), 
+    linear-gradient(#fff, #fff);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  
+  -webkit-mask-image: linear-gradient(#000 0 0);
+}
+
+.tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  pointer-events: auto;
+  background: transparent; 
+}
+
+.tutorial-hole {
+  position: fixed;
+  border-radius: 22px;
+  
+  box-shadow: 
+    0 0 0 9999px rgba(0, 0, 0, 0.82), 
+    0 0 25px #ffd900, 
+    0 0 60px #ffd900;
+    
+  border: 3px solid #ffd900;
+  transition: all .35s ease;
+  z-index: 10000000;
+  pointer-events: none;
+}
+
+.tutorial-tooltip {
+  position: fixed;
+  width: 440px;
+  background: linear-gradient(145deg, rgba(20, 20, 20, 0.98), rgba(5, 5, 5, 0.98));
+  border: 2px solid #ffd900;
+  border-radius: 22px;
+  padding: 25px;
+  color: white;
+  z-index: 10000001;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: fadeTutorial .3s ease;
+  transition: all .35s ease;
+}
+
+.tutorial-tooltip h3 {
+  color: #ffd900;
+  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.tutorial-tooltip p {
+  line-height: 1.6;
+  font-size: 16px;
+  opacity: .92;
+  margin-bottom: 15px;
+}
+
+.tutorial-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #ffd900;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+
+.tutorial-close:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.tutorial-progress {
+  font-size: 13px;
+  color: #ffd900;
+  opacity: 0.8;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tutorial-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.tutorial-buttons button {
+  border: none;
+  background: #ffd900;
+  color: black;
+  font-weight: 900;
+  padding: 10px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.tutorial-buttons button:disabled {
+  background: #555;
+  color: #aaa;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.tutorial-buttons button:hover:not(:disabled) {
+  transform: scale(1.05);
+  background: #fff;
+  box-shadow: 0 0 15px #fff;
+}
+
+.btn-help-poke {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #ffd900;
+  color: black;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 
+    0 0 15px #ffd900,
+    0 0 35px #ffd900;
+  transition: .3s;
+}
+
+.btn-help-poke:hover {
+  transform: scale(1.1) rotate(10deg);
+  background: #fff;
+  box-shadow: 0 0 20px #fff;
+}
+
+@keyframes fadeTutorial {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fixed-help-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 99999; 
+}
+
+.btn-help-poke {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 4px solid #1a1a1a;
+  background: linear-gradient(to bottom, #ff1c1c 48%, #1a1a1a 48%, #1a1a1a 52%, #ffffff 52%);
+  color: #1a1a1a;
+  cursor: pointer;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(255, 217, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: visible;
+}
+
+.pokeball-core {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  border: 3px solid #1a1a1a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.pokeball-core i {
+  font-size: 16px;
+  font-weight: 900;
+  color: #1a1a1a;
+  transition: all 0.3s ease;
+}
+
+.pokeball-pulse {
+  position: absolute;
+  inset: -8px;
+  border: 2px solid #ffd900;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.btn-help-poke:hover {
+  transform: scale(1.15) rotate(360deg); 
+  border-color: #ffd900;
+  box-shadow: 
+    0 0 25px #ffd900,
+    0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.btn-help-poke:hover .pokeball-core {
+  background: #ffd900;
+  border-color: #1a1a1a;
+  box-shadow: 0 0 12px #ffd900;
+}
+
+.btn-help-poke:hover .pokeball-core i {
+  color: #1a1a1a;
+  transform: scale(1.1);
+}
+
+.btn-help-poke:hover .pokeball-pulse {
+  animation: pokemonGlowPulse 1.5s infinite ease-out;
+}
+
+.btn-help-poke:active {
+  transform: scale(0.95);
+}
+
+@keyframes pokemonGlowPulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+    border-color: #ffd900;
+  }
+  50% {
+    border-color: #ff1c1c;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .fixed-help-container {
+    bottom: 20px;
+    right: 20px;
+  }
+  .btn-help-poke {
+    width: 50px;
+    height: 50px;
+  }
+  .pokeball-core {
+    width: 20px;
+    height: 20px;
+  }
+  .pokeball-core i {
+    font-size: 13px;
+  }
+}

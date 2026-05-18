@@ -6,7 +6,16 @@
     <div class="pokedex-header">
       <h1 class="title">POKÉDEX</h1>
 
-      <div class="filters-bar">
+      <div class="fixed-help-container">
+        <button class="btn-help-poke" (click)="abrirTutorial()" title="Abrir Tutorial de Entrenador">
+          <div class="pokeball-pulse"></div>
+          <div class="pokeball-core">
+            <i class="bi bi-question-lg"></i>
+          </div>
+        </button>
+      </div>
+
+      <div class="filters-bar" id="tutorial-filtros">
         <div class="filters-content">
 
           <div class="filter-item">
@@ -43,7 +52,7 @@
 
     </div>
 
-    <div class="pokemon-grid">
+    <div class="pokemon-grid" id="tutorial-cards">
       <div class="pokemon-card" *ngFor="let poke of pokemonsPaginados" [ngClass]="poke.tipos[0].eng">
         <div class="card-inner" [ngClass]="'type-' + poke.tipos[0].eng">
 
@@ -76,7 +85,7 @@
               </p>
             </div>
 
-            <div class="action-container">
+            <div class="action-container" id="tutorial-actions">
               <button class="save-btn" [class.btn-saved]="esFavorito(poke.id)" [class.btn-loading]="isLoading(poke.id)"
                 [disabled]="isLoading(poke.id) || esFavorito(poke.id)" (click)="onGuardar(poke)">
 
@@ -126,6 +135,76 @@
         ▶
       </button>
     </div>
+  </div>
+
+  <div class="tutorial-overlay" *ngIf="tutorialActivo"
+       [style.--mask-x.px]="highlight.left"
+       [style.--mask-y.px]="highlight.top"
+       [style.--mask-w.px]="highlight.width"
+       [style.--mask-h.px]="highlight.height">
+
+    <div
+      class="tutorial-hole"
+      [style.top.px]="highlight.top"
+      [style.left.px]="highlight.left"
+      [style.width.px]="highlight.width"
+      [style.height.px]="highlight.height">
+    </div>
+
+    <div
+      class="tutorial-tooltip"
+      [style.top.px]="tooltipTop"
+      [style.left.px]="tooltipLeft">
+         
+
+      <button
+        class="tutorial-close"
+        (click)="tutorialActivo = false">
+
+        ✖
+
+      </button>
+
+      <h3>
+        {{ pasoActual.titulo }}
+      </h3>
+
+      <p>
+        {{ pasoActual.descripcion }}
+      </p>
+
+      <div class="tutorial-progress">
+        Paso {{ indicePaso + 1 }} de {{ pasosTutorial.length }}
+      </div>
+
+      <div class="tutorial-buttons">
+
+        <button
+          class="tutorial-btn prev"
+          (click)="anteriorPaso()"
+          [disabled]="indicePaso === 0">
+
+          ◀ ANTERIOR
+
+        </button>
+
+        <button
+          class="tutorial-btn next"
+          (click)="siguientePaso()">
+
+          {{
+            indicePaso === pasosTutorial.length - 1
+              ? 'FINALIZAR'
+              : 'SIGUIENTE ▶'
+          }}
+
+        </button>
+
+      </div>
+
+    </div>
 
   </div>
+
+
 </div>

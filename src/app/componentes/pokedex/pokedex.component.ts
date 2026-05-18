@@ -44,6 +44,41 @@ export class PokedexComponent implements OnInit {
   paginaActual: number = 1;
   pokemonPorPagina: number = 12;
 
+  tutorialActivo = false;
+  indicePaso = 0;
+
+  highlight = {
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0
+  };
+
+  tooltipTop = 0;
+  tooltipLeft = 0;
+
+  pasosTutorial = [
+    {
+      selector: '#tutorial-filtros',
+      titulo: 'Filtros',
+      descripcion: 'Busca tus Pokémon favoritos por nombre, número o combinando hasta 2 tipos elementales.'
+    },
+    {
+      selector: '#tutorial-cards .pokemon-card:first-child', 
+      titulo: 'Lista de Pokémon',
+      descripcion: 'Aquí se muestran los Pokémon disponibles en formato de cartas coleccionables TCG.'
+    },
+    {
+      selector: '#tutorial-cards .pokemon-card:first-child #tutorial-actions',
+      titulo: 'Acciones de Carta',
+      descripcion: 'Puedes añadir un Pokémon a tu lista de favoritos o inspeccionar sus estadísticas detalladas.'
+    },
+  
+  ];
+
+  private scrollHandler = () => this.handleResizeOrScroll();
+  private resizeHandler = () => this.handleResizeOrScroll();
+
   constructor(
     private pokemonService: PokemonService,
     private favoritoService: FavoritoService,
@@ -68,6 +103,20 @@ export class PokedexComponent implements OnInit {
 
     if (userStored) {
       this.cargarFavoritos(userStored);
+    }
+
+    window.addEventListener('scroll', this.scrollHandler);
+    window.addEventListener('resize', this.resizeHandler);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('scroll', this.scrollHandler);
+    window.removeEventListener('resize', this.resizeHandler);
+  }
+
+  private handleResizeOrScroll() {
+    if (this.tutorialActivo) {
+      this.actualizarHighlight();
     }
   }
 
@@ -228,6 +277,75 @@ export class PokedexComponent implements OnInit {
       normal: 'bi-circle-fill'
     };
     return iconos[tipoEng] || 'bi-circle-fill';
+  }
+
+  get pasoActual() {
+    return this.pasosTutorial[this.indicePaso];
+  }
+
+  abrirTutorial() {
+    this.tutorialActivo = true;
+    this.indicePaso = 0;
+    setTimeout(() => {
+      this.actualizarHighlight();
+    }, 100);
+  }
+
+  actualizarHighlight() {
+    const elemento = document.querySelector(this.pasoActual.selector) as HTMLElement;
+    if (!elemento) return;
+
+    const rect = elemento.getBoundingClientRect();
+
+    this.highlight = {
+      top: rect.top - 12,
+      left: rect.left - 12,
+      width: rect.width + 24,
+      height: rect.height + 24
+    };
+
+    const viewportHeight = window.innerHeight;
+    
+    if (rect.bottom > viewportHeight - 120) {
+      this.tooltipTop = rect.top + 20;
+      this.tooltipLeft = rect.right + 30;
+    } else {
+      this.tooltipTop = rect.bottom + 25;
+      this.tooltipLeft = rect.left + (rect.width / 2) - 220;
+    }
+
+    if (this.tooltipLeft < 20) {
+      this.tooltipLeft = 20;
+    }
+    if (this.tooltipLeft + 440 > window.innerWidth) {
+      this.tooltipLeft = window.innerWidth - 460;
+    }
+  }
+
+  siguientePaso() {
+    if (this.indicePaso < this.pasosTutorial.length - 1) {
+      this.indicePaso++;
+      
+      setTimeout(() => {
+        const proximoElemento = document.querySelector(this.pasoActual.selector);
+        if (proximoElemento) {
+          proximoElemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        setTimeout(() => this.actualizarHighlight(), 200);
+      }, 50);
+    } else {
+      this.tutorialActivo = false;
+    }
+  }
+
+  anteriorPaso() {
+    if (this.indicePaso > 0) {
+      this.indicePaso--;
+      setTimeout(() => {
+        this.actualizarHighlight();
+      }, 50);
+    }
   }
 
 }
