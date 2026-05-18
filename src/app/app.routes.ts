@@ -11,18 +11,18 @@ import { UsuarioDetalleComponent } from './componentes/usuario-detalle/usuario-d
 import { ActivacionExitosaComponent } from './componentes/activacion-exitosa/activacion-exitosa.component';
 import { RankingComponent } from './componentes/ranking/ranking.component';
 import { roleGuard } from './guards/role.guard';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
 
   { path: 'activacion-exitosa', component: ActivacionExitosaComponent },
-
   { path: '', component: LoaderComponent, pathMatch: 'full' },
-  
   { path: 'login', component: LoginComponent },
 
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [authGuard], 
     children: [
       { path: 'pokedex', component: PokedexComponent},
       { path: 'usuarios', component: UsuarioGetAllComponent, canActivate: [roleGuard] },

@@ -187,7 +187,7 @@ export class LayoutComponent implements OnInit {
 
   onLogout() {
     console.log("Cerrando sesión...");
-    localStorage.clear();
+    localStorage.clear(); 
     this.router.navigate(['/login']);
   }
 }

@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private readonly IP = 'localhost';
+  private readonly IP = '192.167.0.206';
   private readonly PORT = '8081';
 
   private get apiUrl(): string {
